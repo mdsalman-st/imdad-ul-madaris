@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madarsa Dashboard - Imdad ul Madaris</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body { background: #f0fdf4; font-family: 'Segoe UI', sans-serif; }
+        .sidebar { background: #064e3b; height: 100vh; color: white; }
+        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body class="flex">
+
+    <div class="sidebar w-64 p-6 hidden md:block">
+        <h2 class="text-2xl font-bold mb-10">Admin Room</h2>
+        <nav class="space-y-4">
+            <a href="#" class="block py-2 px-4 bg-green-700 rounded">📊 Dashboard</a>
+            <a href="#" class="block py-2 px-4 hover:bg-green-700 rounded">📝 Update Needs</a>
+            <a href="#" class="block py-2 px-4 hover:bg-green-700 rounded">💰 Donations</a>
+            <button onclick="logout()" class="w-full text-left py-2 px-4 hover:bg-red-600 rounded mt-20">🚪 Logout</button>
+        </nav>
+    </div>
+
+    <div class="flex-1 p-8">
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-green-900">Mubarak! Aapka Dashboard Live Hai</h1>
+            <span class="bg-yellow-100 text-yellow-800 px-4 py-1 rounded-full font-bold text-sm">Status: Pending Verification ⏳</span>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="card">
+                <p class="text-gray-500">Kul Chanda (Total Donation)</p>
+                <h2 class="text-3xl font-bold text-green-700">₹0.00</h2>
+            </div>
+            <div class="card">
+                <p class="text-gray-500">Zaroorat (Needs)</p>
+                <h2 class="text-xl font-bold">Kambal, Kitabein...</h2>
+            </div>
+            <div class="card">
+                <p class="text-gray-500">Aane wale Madarsa</p>
+                <h2 class="text-xl font-bold">Begusarai List</h2>
+            </div>
+        </div>
+
+        <div class="mt-10 card">
+            <h3 class="text-xl font-bold mb-4">📢 Madarsa ki Zaroorat Batayein</h3>
+            <textarea id="needMsg" class="w-full p-4 border rounded-lg" placeholder="Jaise: Humein 50 bacchon ke liye thandi ke kapde chahiye..."></textarea>
+            <button class="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-700">Update Profile</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+        const auth = getAuth();
+        window.logout = () => {
+            signOut(auth).then(() => { window.location.href = "login.html"; });
+        };
+    </script>
+</body>
+</html>

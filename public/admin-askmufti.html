@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel - Answer Ask Mufti Questions</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+    h2 { color: #333; }
+    .question-box {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    textarea {
+      width: 100%;
+      height: 60px;
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 4px;
+    }
+    button {
+      padding: 8px 16px;
+      margin-top: 6px;
+      background: #165a29;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>Admin Panel - Answer Ask Mufti Questions</h2>
+  <div id="questionsContainer">Loading...</div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCZTzeqYz_KSzxUsZtYsxYeXS00FkGZKA0",
+      authDomain: "tableeg-ba0e5.firebaseapp.com",
+      projectId: "tableeg-ba0e5",
+      storageBucket: "tableeg-ba0e5.firebasestorage.app",
+      messagingSenderId: "201862792828",
+      appId: "1:201862792828:web:b598a523833d5a6f1a2bf9",
+      measurementId: "G-70GG7KGFX7"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const container = document.getElementById("questionsContainer");
+
+    // Show all questions
+    db.collection("askMufti").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+      container.innerHTML = "";
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const box = document.createElement("div");
+        box.className = "question-box";
+        box.innerHTML = `
+          <strong>Name:</strong> ${data.name}<br>
+          <strong>Question:</strong> ${data.question}<br><br>
+          <strong>Current Answer:</strong><br>
+          <textarea id="answer-${doc.id}">${data.answer || ""}</textarea><br>
+          <button onclick="updateAnswer('${doc.id}')">Submit Answer</button>
+        `;
+        container.appendChild(box);
+      });
+    });
+
+    function updateAnswer(docId) {
+      const answer = document.getElementById(`answer-${docId}`).value.trim();
+      db.collection("askMufti").doc(docId).update({ answer }).then(() => {
+        alert("Answer submitted!");
+      });
+    }
+  </script>
+</body>
+</html>

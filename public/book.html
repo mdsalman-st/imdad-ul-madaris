@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Islamic Books Library</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      background-color: #006400;
+      color: white;
+      padding: 15px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-title {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .menu-toggle {
+      display: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background: white;
+      transition: all 0.3s ease;
+    }
+
+    /* Side Menu */
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 300px;
+      height: 100%;
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px;
+      transition: all 0.3s ease;
+      z-index: 1001;
+      overflow-y: auto;
+    }
+
+    .side-menu.show {
+      left: 0;
+    }
+
+    .side-menu h3 {
+      color: #f1c40f;
+      margin: 20px 0 10px;
+      border-bottom: 1px solid #34495e;
+      padding-bottom: 5px;
+    }
+
+    .side-menu a {
+      display: block;
+      color: #ecf0f1;
+      text-decoration: none;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .side-menu a:hover {
+      background-color: #34495e;
+      color: #f1c40f;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin: 20px 0 40px;
+    }
+
+    h1 {
+      color: #006400;
+      margin-bottom: 10px;
+      font-size: 2.2rem;
+    }
+
+    .subtitle {
+      color: #7f8c8d;
+      font-size: 1.1rem;
+    }
+
+    /* Book Categories */
+    .category {
+      margin-bottom: 40px;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .category-title {
+      color: #006400;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #eee;
+      display: flex;
+      align-items: center;
+    }
+
+    .category-title i {
+      margin-right: 10px;
+      font-size: 1.5rem;
+    }
+
+    .book-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 15px;
+    }
+
+    .book-item {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+      border-left: 4px solid #006400;
+    }
+
+    .book-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .book-title {
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .download-btn {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .download-btn:hover {
+      background-color: #218838;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #006400;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+      }
+
+      .book-list {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-title">Islamic Books Library</div>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <!-- Side Menu -->
+  <div class="side-menu" id="menu">
+    <h3>Main Menu</h3>
+    <a href="index.html">🏠 Home</a>
+    <a href="tablig.html">👥 Tableegi jamat</a>
+    <a href="book.html">📖 Books</a>
+    <a href="#contact">📧 Contact Us</a>
+    
+    <h3>You Can Find Here</h3>
+     <a href="#quran">📖 Quran & Tafseer</a>
+    <a href="#hadith">💬 Hadith Collections</a>
+    <a href="#fiqh">⚖️ Fiqh & Jurisprudence</a>
+    <a href="#seerah">🕌 Seerah & History</a>
+    <a href="#dua">🤲 Dua & Supplications</a>
+    <a href="#lectures">🎤 Islamic Lectures</a>
+    <a href="#articles">📝 Articles</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <header>
+      <h1>📚 Free Islamic PDF Books</h1>
+      <p class="subtitle">Download authentic Islamic books in various categories</p>
+    </header>
+
+    <!-- Arabic Grammar Section -->
+    <section class="category" id="arabic">
+      <h2 class="category-title">📖 Arabic Learning</h2>
+      <ul class="book-list">
+        <li class="book-item">
+          <span class="book-title">Asan Arabic Grammar Book 1</span>
+          <a href="ISLAMIC BOOKS/BO-07-Asan-Arbi-Grammar-p1.pdf" class="download-btn" download>Download</a>
+        </li>
+        <li class="book-item">
+          <span class="book-title">Asan Arabic Grammar Book 2</span>
+          <a href="ISLAMIC BOOKS/BO-08-Asan-Arbi-Grammar-p2.pdf" class="download-btn" download>Download</a>
+        </li>
+        <!-- Add more books here -->
+      </ul>
+    </section>
+
+    <!-- Quran Section -->
+    <section class="category" id="quran">
+      <h2 class="category-title">📜 Quran & Tafseer</h2>
+      <ul class="book-list">
+        <li class="book-item">
+          <span class="book-title">Tafseer Ibn Kathir (English)</span>
+          <a href="#" class="download-btn" download>Download</a>
+        </li>
+        <li class="book-item">
+          <span class="book-title">Tafseer As-Sa'di (Arabic)</span>
+          <a href="#" class="download-btn" download>Download</a>
+        </li>
+        <!-- Add more books here -->
+      </ul>
+    </section>
+
+    <!-- Hadith Section -->
+    <section class="category" id="hadith">
+      <h2 class="category-title">💬 Hadith Collections</h2>
+      <ul class="book-list">
+        <li class="book-item">
+          <span class="book-title">Sahih Al-Bukhari (English)</span>
+          <a href="#" class="download-btn" download>Download</a>
+        </li>
+        <li class="book-item">
+          <span class="book-title">Riyad us-Saliheen</span>
+          <a href="#" class="download-btn" download>Download</a>
+        </li>
+        <!-- Add more books here -->
+      </ul>
+    </section>
+  </div>
+
+  <footer>
+    <p>© 2025 Islamic Books Library. All rights reserved.</p>
+    <p>For any questions, please contact: mdshakilakhtar952@gmail.com</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.classList.toggle("show");
+
+      // Toggle menu button animation
+      const spans = document.querySelectorAll('.menu-toggle span');
+      if (menu.classList.contains("show")) {
+        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+        document.addEventListener("click", closeMenuOutside);
+      } else {
+        spans[0].style.transform = '';
+        spans[1].style.opacity = '';
+        spans[2].style.transform = '';
+        document.removeEventListener("click", closeMenuOutside);
+      }
+    }
+
+    function closeMenuOutside(event) {
+      const menu = document.getElementById("menu");
+      const toggle = document.querySelector(".menu-toggle");
+
+      if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+        toggleMenu(); // This will close the menu and reset the button
+      }
+    }
+  </script>
+  <script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="kcagZ9B8w549INxDGCN9o";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+</script>
+</body>
+</html>

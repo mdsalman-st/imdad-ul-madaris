@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Imdad ul Madaris - Home</title>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCZTzeqYz_KSzxUsZtYsxYeXS00FkGZKA0",
+      authDomain: "tableeg-ba0e5.firebaseapp.com",
+      projectId: "tableeg-ba0e5",
+      storageBucket: "tableeg-ba0e5.firebasestorage.app",
+      messagingSenderId: "201862792828",
+      appId: "1:201862792828:web:b598a523833d5a6f1a2bf9",
+      measurementId: "G-70GG7KGFX7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Ye check karega ki user login hai ya nahi
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Agar login hai, toh website dikhao
+        document.getElementById("main-content").style.display = "block";
+      } else {
+        // Agar login nahi hai, toh login page par bhej do
+        window.location.href = "login.html";
+      }
+    });
+
+    // Logout karne ka function
+    window.logoutUser = function() {
+      signOut(auth).then(() => {
+        window.location.href = "login.html";
+      });
+    }
+  </script>
+
+  <style>
+    /* Aapka poora CSS wahi rakha hai jo aapne banaya tha */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background-color: #f9f9f9; }
+    .navbar { background-color: #006400; color: white; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; position: sticky; top: 0; z-index: 1000; }
+    .navbar-title { font-size: 22px; font-weight: bold; }
+    .logout-btn { background: #f39c12; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-right: 15px; }
+    .side-menu { position: fixed; top: 0; left: -300px; width: 300px; height: 100%; background-color: #2c3e50; color: white; padding: 30px 20px; transition: 0.3s; z-index: 1001; }
+    .side-menu.show { left: 0; }
+    .side-menu a { display: block; color: white; text-decoration: none; padding: 12px; border-radius: 5px; }
+    .hero { position: relative; height: 60vh; overflow: hidden; }
+    .slide { position: absolute; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; transition: 1s; }
+    .slide.active { opacity: 1; }
+    .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5); text-align: center; }
+    .overlay h1 { color: white; font-size: 2.5rem; padding: 20px; }
+    .marquee { background-color: #f39c12; color: white; padding: 12px; overflow: hidden; white-space: nowrap; }
+    .marquee span { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+    .district-list { list-style: none; max-width: 800px; margin: 30px auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; padding: 0 20px; }
+    .district-list li { background: white; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+    .district-list a { display: block; padding: 15px; text-decoration: none; color: #333; border-left: 4px solid #f39c12; }
+    footer { background: #006400; color: white; text-align: center; padding: 30px; margin-top: 50px; }
+  </style>
+</head>
+<body>
+
+<div id="main-content" style="display: none;">
+  
+  <div class="navbar">
+    <div class="navbar-title">IMDAD UL MADARIS</div>
+    <div>
+      <button class="logout-btn" onclick="logoutUser()">Logout</button>
+      <button onclick="toggleMenu()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">☰</button>
+    </div>
+  </div>
+
+  <div class="side-menu" id="menu">
+    <a href="#home">🏠 Home</a>
+    <a href="tablig.html">👥 Tableegi Jamat</a>
+    <a href="book.html">📖 Islamic Books</a>
+    <a href="askmufti.html">🗣️ Ask Mufti</a>
+  </div>
+
+  <div class="hero">
+    <div class="slide active" style="background-image: url('image/heroharam.jpg');">
+      <div class="overlay"><h1>الصَّدَقَةُ تُطْفِئُ الْخَطِيئَةَ كَمَا يُطْفِئُ الْمَاءُ النَّارَ</h1></div>
+    </div>
+    <div class="slide" style="background-image: url('image/heronawabi.jpg');">
+      <div class="overlay"><h1>صدقہ گناہوں کو اس طرح مٹا دیتا ہے جیسے پانی آگ کو بجھا دیتا ہے۔</h1></div>
+    </div>
+    <div class="slide" style="background-image: url('image/hero aqsa.jpg');">
+      <div class="overlay"><h1>"Charity extinguishes sins just as water extinguishes fire."</h1></div>
+    </div>
+  </div>
+
+  <div class="marquee">
+    <span>100% Secure and Transparent Giving, Your Donation Goes Straight to the Madarsa. &nbsp;&nbsp;&nbsp;&nbsp;</span>
+  </div>
+
+  <h1 style="text-align:center; color:#006400; margin-top:20px;">Bihar Districts</h1>
+  <ul class="district-list">
+    <li><a href="begusarai.html">👉 Begusarai</a></li>
+    <li><a href="patna.html">👉 Patna</a></li>
+    <li><a href="gaya.html">👉 Gaya</a></li>
+    <li><a href="darbhanga.html">👉 Darbhanga</a></li>
+    <li><a href="muzaffarpur.html">👉 Muzaffarpur</a></li>
+    <li><a href="bhagalpur.html">👉 Bhagalpur</a></li>
+    <li><a href="siwan.html">👉 Siwan</a></li>
+    <li><a href="samastipur.html">👉 Samastipur</a></li>
+    </ul>
+
+  <footer>
+    <p>© 2025 Imdad ul Madaris. Contact: mdshakilakhtar952@gmail.com</p>
+  </footer>
+
+</div> <script>
+  function toggleMenu() {
+    document.getElementById("menu").classList.toggle("show");
+  }
+
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  setInterval(() => {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+  }, 5000);
+</script>
+<script>
+  (function(){
+    if(!window.chatbase || window.chatbase("getState") !== "initialized"){
+      window.chatbase = (...arguments) => {
+        if(!window.chatbase.q){window.chatbase.q=[]}
+        window.chatbase.q.push(arguments)
+      };
+      window.chatbase = new Proxy(window.chatbase, {
+        get(target, prop){
+          if(prop === "q"){return target.q}
+          return (...args) => target(prop, ...args)
+        }
+      })
+    }
+    const onLoad = function(){
+      const script = document.createElement("script");
+      script.src = "https://www.chatbase.co/embed.min.js";
+      script.id = "kcagZ9B8w549INxDGCN9o";
+      script.domain = "www.chatbase.co";
+      document.body.appendChild(script)
+    };
+    if(document.readyState === "complete"){
+      onLoad()
+    } else {
+      window.addEventListener("load", onLoad)
+    }
+  })();
+</script>
+
+</body>
+</html>

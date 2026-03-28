@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naya Account - Imdad ul Madaris</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { color: #006400; text-align: center; margin-bottom: 20px; }
+        .radio-group { background: #f9f9f9; padding: 10px; border-radius: 8px; margin-bottom: 15px; }
+        label { font-weight: bold; cursor: pointer; display: block; margin-bottom: 8px; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #006400; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        button:hover { background: #f39c12; color: #000; }
+        .link { text-align: center; margin-top: 15px; font-size: 14px; }
+        .link a { color: #006400; font-weight: bold; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Naya Account Banayein</h2>
+
+    <div class="radio-group">
+        <label><input type="radio" name="userType" value="normal" checked onchange="toggleForm()"> 👤 Normal User (Aadmi)</label>
+        <label><input type="radio" name="userType" value="madarsa" onchange="toggleForm()"> 🕌 Madarsa (Verification Zaroori)</label>
+    </div>
+
+    <input type="email" id="email" placeholder="Email Address" required>
+    <input type="password" id="password" placeholder="Password (Min 6 characters)" required>
+
+    <div id="normalForm">
+        <input type="text" id="normalName" placeholder="Aapka Pura Naam">
+        <input type="number" id="normalPhone" placeholder="Mobile Number">
+    </div>
+
+    <div id="madarsaForm" style="display: none;">
+        <input type="text" id="madarsaName" placeholder="Madarsa ka Naam">
+        <input type="text" id="madarsaReg" placeholder="Registration Number (Agar hai)">
+        <p style="color: red; font-size: 12px; margin-top: -5px; margin-bottom: 15px;">*Document verification aur approval admin dwara hoga.</p>
+    </div>
+
+    <button id="signup-btn">Account Banayein</button>
+    
+    <div class="link">
+        Pehle se account hai? <a href="login.html">Login Karein</a>
+    </div>
+</div>
+
+<script>
+    // Madarsa aur Normal user ke form ko badalne ka logic
+    function toggleForm() {
+        const type = document.querySelector('input[name="userType"]:checked').value;
+        document.getElementById('normalForm').style.display = (type === "normal") ? "block" : "none";
+        document.getElementById('madarsaForm').style.display = (type === "madarsa") ? "block" : "none";
+    }
+</script>
+
+<script type="module" src="signup-logic.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Control - Imdad ul Madaris</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8fafc; font-family: 'Segoe UI', sans-serif; }
+        .admin-header { background: #1e293b; color: white; padding: 20px; text-align: center; }
+        .table-container { max-width: 1000px; margin: 40px auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+    <div class="admin-header">
+        <h1 class="text-3xl font-bold">Imdad ul Madaris - Admin Panel</h1>
+        <p>Sirf Md Salman ke liye (Restricted Access)</p>
+    </div>
+
+    <div class="table-container p-6">
+        <h2 class="text-xl font-bold mb-6 text-gray-700">Pending Madarsa Approvals</h2>
+        
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="p-4 border-b">Madarsa Name</th>
+                    <th class="p-4 border-b">Email</th>
+                    <th class="p-4 border-b">Registration</th>
+                    <th class="p-4 border-b">Action</th>
+                </tr>
+            </thead>
+            <tbody id="madarsa-list">
+                <tr>
+                    <td colspan="4" class="p-10 text-center text-gray-500">Loading list...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+        // Tumhara Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCZTzeqYz_KSzxUsZtYsxYeXS00FkGZKA0",
+            authDomain: "tableeg-ba0e5.firebaseapp.com",
+            projectId: "tableeg-ba0e5",
+            storageBucket: "tableeg-ba0e5.firebasestorage.app",
+            messagingSenderId: "201862792828",
+            appId: "1:201862792828:web:b598a523833d5a6f1a2bf9"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 1. Database se Pending Madarsa nikalna
+        async function loadPendingMadarsas() {
+            const listElement = document.getElementById('madarsa-list');
+            const q = query(collection(db, "users"), where("role", "==", "madarsa"), where("status", "==", "pending_kyc"));
+            
+            const querySnapshot = await getDocs(q);
+            listElement.innerHTML = ""; // Purana clear karo
+
+            if (querySnapshot.empty) {
+                listElement.innerHTML = "<tr><td colspan='4' class='p-10 text-center'>Sab kuch verified hai! Koi pending nahi hai.</td></tr>";
+                return;
+            }
+
+            querySnapshot.forEach((documentSnap) => {
+                const data = documentSnap.data();
+                const id = documentSnap.id;
+
+                const row = `
+                    <tr class="hover:bg-gray-50">
+                        <td class="p-4 border-b font-bold">${data.madarsaName}</td>
+                        <td class="p-4 border-b text-gray-600">${data.email}</td>
+                        <td class="p-4 border-b">${data.registrationNumber || 'N/A'}</td>
+                        <td class="p-4 border-b">
+                            <button onclick="approveMadarsa('${id}')" class="bg-green-600 text-white px-4 py-2 rounded font-bold hover:bg-green-700">✅ Approve</button>
+                        </td>
+                    </tr>
+                `;
+                listElement.innerHTML += row;
+            });
+        }
+
+        // 2. Button dabane par Status "active" karna
+        window.approveMadarsa = async (userId) => {
+            try {
+                const userRef = doc(db, "users", userId);
+                await updateDoc(userRef, {
+                    status: "active"
+                });
+                alert("Madarsa successfully verified ho gaya!");
+                loadPendingMadarsas(); // List refresh karo
+            } catch (error) {
+                alert("Galti hui: " + error.message);
+            }
+        };
+
+        // Shuru mein load karo
+        loadPendingMadarsas();
+    </script>
+</body>
+</html>
