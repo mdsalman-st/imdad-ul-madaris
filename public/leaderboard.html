@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Donation Leaderboard | Imdad ul Madaris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            line-height: 1.5;
+        }
+
+        .navbar {
+            background: #0a5c2e;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            background: rgba(255,255,255,0.15);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .logo-text span {
+            font-size: 0.7rem;
+            background: #fbbf24;
+            color: #0a5c2e;
+            padding: 2px 8px;
+            border-radius: 30px;
+            margin-left: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .donate-btn-nav {
+            background: #fbbf24;
+            color: #0a5c2e !important;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            opacity: 1 !important;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #0a5c2e 0%, #064e1f 100%);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .page-header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .stat-card i {
+            font-size: 2rem;
+            color: #0a5c2e;
+            margin-bottom: 12px;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0a5c2e;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tab-btn.active {
+            background: #0a5c2e;
+            color: white;
+            border-color: #0a5c2e;
+        }
+
+        /* Leaderboard Table */
+        .leaderboard-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+
+        .leaderboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .leaderboard-header h2 {
+            font-size: 1.2rem;
+            color: #0a5c2e;
+        }
+
+        .date-filter {
+            display: flex;
+            gap: 8px;
+        }
+
+        .date-filter button {
+            background: #f1f5f9;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        .date-filter button.active {
+            background: #0a5c2e;
+            color: white;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaderboard-table th {
+            text-align: left;
+            padding: 14px 8px;
+            background: #f8fafc;
+            color: #475569;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .leaderboard-table td {
+            padding: 14px 8px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        .rank {
+            font-weight: 700;
+            width: 50px;
+        }
+
+        .rank-1 {
+            color: #fbbf24;
+            font-size: 1.2rem;
+        }
+
+        .rank-2 {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        .rank-3 {
+            color: #cd7f32;
+            font-size: 1rem;
+        }
+
+        .donor-name {
+            font-weight: 600;
+        }
+
+        .donor-avatar {
+            width: 32px;
+            height: 32px;
+            background: #e8f5e9;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 0.7rem;
+            color: #0a5c2e;
+        }
+
+        .amount {
+            font-weight: 700;
+            color: #0a5c2e;
+        }
+
+        .badge {
+            background: #fef3c7;
+            color: #b45309;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+
+        footer {
+            background: #064e1f;
+            color: #a7f3d0;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+            .container {
+                padding: 40px 20px;
+            }
+            .leaderboard-table th, .leaderboard-table td {
+                font-size: 0.75rem;
+                padding: 10px 4px;
+            }
+            .donor-avatar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo">
+        <div class="logo-icon">IUM</div>
+        <div class="logo-text">Imdad ul Madaris <span>Direct</span></div>
+    </div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="all-madrasas.html">Madrasas</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="donation-form.html" class="donate-btn-nav">Donate Now</a>
+    </div>
+</div>
+
+<div class="page-header">
+    <h1>🏆 Donation Leaderboard</h1>
+    <p>Inspiring generosity - See who's making a difference</p>
+</div>
+
+<div class="container">
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <i class="fas fa-users"></i>
+            <div class="stat-number" id="totalDonors">0</div>
+            <div class="stat-label">Total Donors</div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-rupee-sign"></i>
+            <div class="stat-number" id="totalAmount">₹0</div>
+            <div class="stat-label">Total Donations</div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-hand-holding-heart"></i>
+            <div class="stat-number" id="totalDonations">0</div>
+            <div class="stat-label">Donations Made</div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-mosque"></i>
+            <div class="stat-number" id="totalMadrasas">0</div>
+            <div class="stat-label">Madrasas Supported</div>
+        </div>
+    </div>
+
+    <!-- Tabs & Filter -->
+    <div class="tabs">
+        <button class="tab-btn active" data-period="all">🏆 All Time</button>
+        <button class="tab-btn" data-period="month">📅 This Month</button>
+        <button class="tab-btn" data-period="week">📆 This Week</button>
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="leaderboard-card">
+        <div class="leaderboard-header">
+            <h2><i class="fas fa-trophy" style="color:#fbbf24;"></i> Top Donors</h2>
+            <div class="date-filter" id="dateFilter">
+                <button data-days="30" class="active">Last 30 Days</button>
+                <button data-days="90">Last 90 Days</button>
+                <button data-days="365">Last Year</button>
+            </div>
+        </div>
+
+        <table class="leaderboard-table">
+            <thead>
+                <tr><th>Rank</th><th>Donor Name</th><th>Amount</th><th>Donations</th><th>Badge</th></tr>
+            </thead>
+            <tbody id="leaderboardBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 Imdad ul Madaris • Direct Donation Platform • 0% Charges • 100% Transparent</p>
+    <p style="margin-top: 12px; font-size:0.75rem;">"The example of those who spend their wealth in the way of Allah is like a seed..." - Quran 2:261</p>
+</footer>
+
+<script>
+    // Sample Donation Data (will be replaced with real data from backend)
+    const allDonations = [
+        { donor: "Muhammad Ali", amount: 15000, date: "2026-04-10", madrasa: "Jamia Islamia" },
+        { donor: "Fatima Khan", amount: 12000, date: "2026-04-09", madrasa: "Madrasa Taleem" },
+        { donor: "Ahmed Raza", amount: 10000, date: "2026-04-08", madrasa: "Madrasa Al-Falah" },
+        { donor: "Ayesha Begum", amount: 8500, date: "2026-04-07", madrasa: "Darul Uloom" },
+        { donor: "Omar Farooq", amount: 7500, date: "2026-04-06", madrasa: "Madrasa Noor" },
+        { donor: "Zainab Siddiqui", amount: 6000, date: "2026-04-05", madrasa: "Madrasa Rahmat" },
+        { donor: "Bilal Ahmed", amount: 5500, date: "2026-04-04", madrasa: "Jamia Masjid" },
+        { donor: "Khadija Hasan", amount: 5000, date: "2026-04-03", madrasa: "Madrasa Islah" },
+        { donor: "Usman Ghani", amount: 4500, date: "2026-04-02", madrasa: "Madrasa Huda" },
+        { donor: "Amina Tariq", amount: 4000, date: "2026-04-01", madrasa: "Madrasa Falah" },
+        { donor: "Yusuf Khan", amount: 3500, date: "2026-03-30", madrasa: "Madrasa Noorani" },
+        { donor: "Maryam Ahmed", amount: 3000, date: "2026-03-29", madrasa: "Madrasa Islamia" },
+        { donor: "Ibrahim Ali", amount: 2800, date: "2026-03-28", madrasa: "Madrasa Siddiqui" },
+        { donor: "Safiya Begum", amount: 2500, date: "2026-03-27", madrasa: "Madrasa Farooqi" },
+        { donor: "Hamza Raza", amount: 2200, date: "2026-03-26", madrasa: "Madrasa Usmania" }
+    ];
+
+    // Helper functions
+    function getDateRange(days) {
+        const date = new Date();
+        date.setDate(date.getDate() - days);
+        return date;
+    }
+
+    function getLeaderboardData(days = 30) {
+        const cutoffDate = getDateRange(days);
+        const filtered = allDonations.filter(d => new Date(d.date) >= cutoffDate);
+        
+        // Aggregate by donor
+        const donorMap = new Map();
+        filtered.forEach(d => {
+            if (donorMap.has(d.donor)) {
+                donorMap.get(d.donor).amount += d.amount;
+                donorMap.get(d.donor).count += 1;
+            } else {
+                donorMap.set(d.donor, { name: d.donor, amount: d.amount, count: 1 });
+            }
+        });
+        
+        // Convert to array and sort
+        let donors = Array.from(donorMap.values());
+        donors.sort((a,b) => b.amount - a.amount);
+        return donors.slice(0, 10);
+    }
+
+    function getBadge(rank) {
+        if (rank === 1) return '<span class="badge">👑 Top Donor</span>';
+        if (rank === 2) return '<span class="badge">🥈 Silver Star</span>';
+        if (rank === 3) return '<span class="badge">🥉 Bronze Heart</span>';
+        if (rank <= 5) return '<span class="badge">⭐ Generous Heart</span>';
+        return '';
+    }
+
+    function getRankIcon(rank) {
+        if (rank === 1) return '<i class="fas fa-crown" style="color:#fbbf24;"></i>';
+        if (rank === 2) return '<i class="fas fa-medal" style="color:#94a3b8;"></i>';
+        if (rank === 3) return '<i class="fas fa-medal" style="color:#cd7f32;"></i>';
+        return rank;
+    }
+
+    function updateStats(days) {
+        const cutoffDate = getDateRange(days);
+        const filtered = allDonations.filter(d => new Date(d.date) >= cutoffDate);
+        
+        const uniqueDonors = new Set(filtered.map(d => d.donor)).size;
+        const totalAmount = filtered.reduce((sum, d) => sum + d.amount, 0);
+        const totalDonations = filtered.length;
+        const uniqueMadrasas = new Set(filtered.map(d => d.madrasa)).size;
+        
+        document.getElementById('totalDonors').innerText = uniqueDonors;
+        document.getElementById('totalAmount').innerHTML = `₹${totalAmount.toLocaleString()}`;
+        document.getElementById('totalDonations').innerText = totalDonations;
+        document.getElementById('totalMadrasas').innerText = uniqueMadrasas;
+    }
+
+    function renderLeaderboard(days) {
+        const data = getLeaderboardData(days);
+        const tbody = document.getElementById('leaderboardBody');
+        
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:40px;">No donations yet. Be the first to donate!</td></tr>';
+            return;
+        }
+        
+        tbody.innerHTML = data.map((donor, index) => `
+            <tr>
+                <td class="rank rank-${index + 1}">${getRankIcon(index + 1)}</td>
+                <td><span class="donor-avatar">${donor.name.charAt(0)}</span><span class="donor-name">${donor.name}</span></td>
+                <td class="amount">₹${donor.amount.toLocaleString()}</td>
+                <td>${donor.count} donation${donor.count > 1 ? 's' : ''}</td>
+                <td>${getBadge(index + 1)}</td>
+            </tr>
+        `).join('');
+    }
+
+    // Event listeners
+    let currentDays = 30;
+
+    document.querySelectorAll('.date-filter button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.date-filter button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentDays = parseInt(btn.dataset.days);
+            renderLeaderboard(currentDays);
+            updateStats(currentDays);
+        });
+    });
+
+    // Tab clicks (All Time, Month, Week)
+    document.querySelectorAll('.tab-btn').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            let days = 365;
+            if (tab.dataset.period === 'month') days = 30;
+            if (tab.dataset.period === 'week') days = 7;
+            if (tab.dataset.period === 'all') days = 3650;
+            
+            currentDays = days;
+            renderLeaderboard(currentDays);
+            updateStats(currentDays);
+        });
+    });
+
+    // Initial load
+    renderLeaderboard(30);
+    updateStats(30);
+</script>
+</body>
+</html>

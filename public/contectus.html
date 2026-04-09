@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Contact Us | Imdad ul Madaris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            line-height: 1.5;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #0a5c2e;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            background: rgba(255,255,255,0.15);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .logo-text span {
+            font-size: 0.7rem;
+            background: #fbbf24;
+            color: #0a5c2e;
+            padding: 2px 8px;
+            border-radius: 30px;
+            margin-left: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .donate-btn-nav {
+            background: #fbbf24;
+            color: #0a5c2e !important;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            opacity: 1 !important;
+        }
+
+        /* Hero */
+        .hero-contact {
+            background: linear-gradient(135deg, #0a5c2e 0%, #064e1f 100%);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .hero-contact h1 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+        }
+
+        .hero-contact p {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+
+        /* Contact Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        /* Info Cards */
+        .info-section h2 {
+            font-size: 1.5rem;
+            color: #0a5c2e;
+            margin-bottom: 24px;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .info-icon {
+            width: 55px;
+            height: 55px;
+            background: #e8f5e9;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-icon i {
+            font-size: 1.5rem;
+            color: #0a5c2e;
+        }
+
+        .info-text h3 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .info-text p, .info-text a {
+            color: #475569;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .info-text a:hover {
+            color: #0a5c2e;
+        }
+
+        /* Social Links */
+        .social-links {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .social-links h3 {
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-icons a {
+            width: 45px;
+            height: 45px;
+            background: #e8f5e9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0a5c2e;
+            font-size: 1.2rem;
+            transition: 0.2s;
+        }
+
+        .social-icons a:hover {
+            background: #0a5c2e;
+            color: white;
+        }
+
+        /* Form Section */
+        .form-section h2 {
+            font-size: 1.5rem;
+            color: #0a5c2e;
+            margin-bottom: 24px;
+        }
+
+        .contact-form {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #475569;
+            margin-bottom: 6px;
+        }
+
+        .form-group label .required {
+            color: #dc2626;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #0a5c2e;
+            box-shadow: 0 0 0 2px rgba(10,92,46,0.1);
+        }
+
+        .submit-btn {
+            background: #0a5c2e;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #064e1f;
+        }
+
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 14px;
+            border-radius: 12px;
+            margin-top: 16px;
+            text-align: center;
+            display: none;
+        }
+
+        /* Map Section */
+        .map-section {
+            margin-top: 60px;
+        }
+
+        .map-section h2 {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #0a5c2e;
+            margin-bottom: 24px;
+        }
+
+        .map-container {
+            background: #e2e8f0;
+            border-radius: 24px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            overflow: hidden;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: #064e1f;
+            color: #a7f3d0;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-contact h1 {
+                font-size: 1.6rem;
+            }
+            .container {
+                padding: 40px 20px;
+            }
+            .contact-form {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="logo">
+        <div class="logo-icon">IUM</div>
+        <div class="logo-text">Imdad ul Madaris <span>Direct</span></div>
+    </div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="all-madrasas.html">Madrasas</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="donation-form.html" class="donate-btn-nav">Donate Now</a>
+    </div>
+</div>
+
+<!-- Hero -->
+<div class="hero-contact">
+    <h1>Get in Touch</h1>
+    <p>Have questions? We'd love to hear from you.</p>
+</div>
+
+<div class="container">
+    <div class="contact-grid">
+        <!-- Left Side - Info -->
+        <div class="info-section">
+            <h2>Contact Information</h2>
+            
+            <div class="info-card">
+                <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="info-text">
+                    <h3>Our Address</h3>
+                    <p>Imdad ul Madaris Foundation<br>Bihar, India - 800001</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                <div class="info-text">
+                    <h3>Email Us</h3>
+                    <p><a href="mailto:support@imdad.com">support@imdad.com</a></p>
+                    <p><a href="mailto:madrasa@imdad.com">madrasa@imdad.com</a></p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+                <div class="info-text">
+                    <h3>Call Us</h3>
+                    <p><a href="tel:+911234567890">+91 12345 67890</a></p>
+                    <p>Mon - Sat, 10 AM - 6 PM</p>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side - Form -->
+        <div class="form-section">
+            <h2>Send us a Message</h2>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label>Your Name <span class="required">*</span></label>
+                    <input type="text" id="contactName" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address <span class="required">*</span></label>
+                    <input type="email" id="contactEmail" required placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="contactPhone" placeholder="+91 9876543210">
+                </div>
+
+                <div class="form-group">
+                    <label>I am a <span class="required">*</span></label>
+                    <select id="contactType" required>
+                        <option value="">Select</option>
+                        <option value="donor">Donor</option>
+                        <option value="madrasa">Madrasa Representative</option>
+                        <option value="volunteer">Volunteer</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Subject <span class="required">*</span></label>
+                    <input type="text" id="contactSubject" required placeholder="What is this regarding?">
+                </div>
+
+                <div class="form-group">
+                    <label>Message <span class="required">*</span></label>
+                    <textarea id="contactMessage" rows="5" required placeholder="Write your message here..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Message <i class="fas fa-paper-plane"></i></button>
+                <div class="success-message" id="successMessage">
+                    ✅ Message sent successfully! We'll get back to you soon.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="map-section">
+        <h2><i class="fas fa-map"></i> Our Location</h2>
+        <div class="map-container">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d227822.56231570224!2d85.03172135!3d25.5940947!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f29937c52fb6f9%3A0x3c4b7d2f9f7d5e6a!2sPatna%2C%20Bihar!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>© 2026 Imdad ul Madaris • Direct Donation Platform • 0% Charges • 100% Transparent</p>
+    <p style="margin-top: 12px; font-size:0.75rem;">Serving madrasas and donors across India</p>
+</footer>
+
+<script>
+    const contactForm = document.getElementById('contactForm');
+    const successMessage = document.getElementById('successMessage');
+
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Get values
+        const name = document.getElementById('contactName').value.trim();
+        const email = document.getElementById('contactEmail').value.trim();
+        const subject = document.getElementById('contactSubject').value.trim();
+        const message = document.getElementById('contactMessage').value.trim();
+
+        if (!name || !email || !subject || !message) {
+            alert('Please fill all required fields');
+            return;
+        }
+
+        // Save to localStorage (demo - baad mein email bhejna backend se hoga)
+        const contactData = {
+            name: name,
+            email: email,
+            phone: document.getElementById('contactPhone').value,
+            type: document.getElementById('contactType').value,
+            subject: subject,
+            message: message,
+            date: new Date().toISOString()
+        };
+
+        // Store in localStorage
+        let contacts = JSON.parse(localStorage.getItem('imdad_contacts') || '[]');
+        contacts.push(contactData);
+        localStorage.setItem('imdad_contacts', JSON.stringify(contacts));
+
+        // Show success
+        successMessage.style.display = 'block';
+        
+        // Reset form
+        contactForm.reset();
+
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+            successMessage.style.display = 'none';
+        }, 5000);
+    });
+</script>
+</body>
+</html>

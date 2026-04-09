@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Site Map | Imdad ul Madaris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: #0a5c2e;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            background: rgba(255,255,255,0.15);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .logo-text span {
+            font-size: 0.7rem;
+            background: #fbbf24;
+            color: #0a5c2e;
+            padding: 2px 8px;
+            border-radius: 30px;
+            margin-left: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .donate-btn-nav {
+            background: #fbbf24;
+            color: #0a5c2e !important;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            opacity: 1 !important;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #0a5c2e 0%, #064e1f 100%);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .page-header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+
+        .sitemap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+
+        .sitemap-category {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .sitemap-category h2 {
+            font-size: 1.2rem;
+            color: #0a5c2e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sitemap-links {
+            list-style: none;
+        }
+
+        .sitemap-links li {
+            margin-bottom: 12px;
+        }
+
+        .sitemap-links a {
+            color: #475569;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+
+        .sitemap-links a:hover {
+            color: #0a5c2e;
+            transform: translateX(5px);
+        }
+
+        .sitemap-links a i {
+            width: 24px;
+            color: #0a5c2e;
+        }
+
+        .sitemap-footer {
+            margin-top: 48px;
+            text-align: center;
+            padding-top: 32px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .sitemap-footer p {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        footer {
+            background: #064e1f;
+            color: #a7f3d0;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+            .container {
+                padding: 40px 20px;
+            }
+            .sitemap-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo">
+        <div class="logo-icon">IUM</div>
+        <div class="logo-text">Imdad ul Madaris <span>Direct</span></div>
+    </div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="all-madrasas.html">Madrasas</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="donation-form.html" class="donate-btn-nav">Donate Now</a>
+    </div>
+</div>
+
+<div class="page-header">
+    <h1>Site Map</h1>
+    <p>Navigate through all pages of Imdad ul Madaris</p>
+</div>
+
+<div class="container">
+    <div class="sitemap-grid">
+        
+        <!-- Main Pages -->
+        <div class="sitemap-category">
+            <h2><i class="fas fa-home"></i> Main Pages</h2>
+            <ul class="sitemap-links">
+                <li><a href="index.html"><i class="fas fa-angle-right"></i> Home</a></li>
+                <li><a href="all-madrasas.html"><i class="fas fa-angle-right"></i> All Madrasas</a></li>
+                <li><a href="donation-form.html"><i class="fas fa-angle-right"></i> Donation Form</a></li>
+                <li><a href="about.html"><i class="fas fa-angle-right"></i> About Us</a></li>
+                <li><a href="contact.html"><i class="fas fa-angle-right"></i> Contact Us</a></li>
+                <li><a href="faq.html"><i class="fas fa-angle-right"></i> FAQ</a></li>
+            </ul>
+        </div>
+
+        <!-- User Pages -->
+        <div class="sitemap-category">
+            <h2><i class="fas fa-user"></i> User Pages</h2>
+            <ul class="sitemap-links">
+                <li><a href="profile.html"><i class="fas fa-angle-right"></i> Donor Profile</a></li>
+                <li><a href="madrasa-register.html"><i class="fas fa-angle-right"></i> Madrasa Registration</a></li>
+                <li><a href="madrasa-dashboard.html"><i class="fas fa-angle-right"></i> Madrasa Dashboard</a></li>
+                <li><a href="thank-you.html"><i class="fas fa-angle-right"></i> Thank You Page</a></li>
+            </ul>
+        </div>
+
+        <!-- Legal Pages -->
+        <div class="sitemap-category">
+            <h2><i class="fas fa-gavel"></i> Legal</h2>
+            <ul class="sitemap-links">
+                <li><a href="terms.html"><i class="fas fa-angle-right"></i> Terms & Conditions</a></li>
+                <li><a href="privacy.html"><i class="fas fa-angle-right"></i> Privacy Policy</a></li>
+                <li><a href="404.html"><i class="fas fa-angle-right"></i> 404 Error Page</a></li>
+                <li><a href="sitemap.html"><i class="fas fa-angle-right"></i> Site Map</a></li>
+            </ul>
+        </div>
+
+        <!-- Admin Pages -->
+        <div class="sitemap-category">
+            <h2><i class="fas fa-shield-alt"></i> Admin</h2>
+            <ul class="sitemap-links">
+                <li><a href="admin.html"><i class="fas fa-angle-right"></i> Admin Panel</a></li>
+                <li><a href="#"><i class="fas fa-angle-right"></i> Madrasa Approvals</a></li>
+                <li><a href="#"><i class="fas fa-angle-right"></i> Donation Reports</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="sitemap-footer">
+        <p><i class="fas fa-mosque"></i> Imdad ul Madaris - Connecting donors with madrasas across India</p>
+        <p style="margin-top: 12px;">Total Pages: 14+ | 0% Platform Fees | 100% Transparent</p>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 Imdad ul Madaris • Direct Donation Platform • 0% Charges • 100% Transparent</p>
+    <p style="margin-top: 12px; font-size:0.75rem;">
+        <a href="terms.html" style="color:#a7f3d0;">Terms</a> | 
+        <a href="privacy.html" style="color:#a7f3d0;">Privacy</a> | 
+        <a href="sitemap.html" style="color:#a7f3d0;">Sitemap</a>
+    </p>
+</footer>
+
+</body>
+</html>

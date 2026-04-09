@@ -20,7 +20,7 @@
     /* Navbar */
     .navbar {
       background: #0a5c2e;
-      padding: 12px 20px;
+      padding: 8px 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -30,13 +30,13 @@
     }
     .logo {
       background: rgba(255,255,255,0.12);
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       font-weight: 700;
       color: white;
     }
@@ -44,7 +44,7 @@
       background: none;
       border: none;
       color: white;
-      font-size: 26px;
+      font-size: 24px;
       cursor: pointer;
     }
 
@@ -52,7 +52,8 @@
     .hero-slider {
       position: relative;
       height: 35vh;
-      min-height: 260px;
+      min-height: 240px;
+      max-height: 320px;
       overflow: hidden;
     }
     .slide {
@@ -78,8 +79,9 @@
     }
     .slide-overlay h1 {
       color: white;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      max-width: 90%;
     }
 
     /* Marquee Notice */
@@ -90,6 +92,7 @@
       font-weight: 600;
       white-space: nowrap;
       overflow: hidden;
+      font-size: 0.85rem;
     }
     .marquee span {
       display: inline-block;
@@ -104,10 +107,10 @@
     /* Location Status */
     .location-status {
       background: white;
-      margin: 16px 20px;
-      padding: 12px 20px;
+      margin: 16px 16px;
+      padding: 10px 16px;
       border-radius: 50px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: #0a5c2e;
       text-align: center;
       box-shadow: 0 1px 3px rgba(0,0,0,0.08);
@@ -115,9 +118,9 @@
 
     /* Container */
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 16px;
     }
 
     /* Section Header */
@@ -125,10 +128,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 28px 0 16px;
+      margin: 24px 0 16px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
     .section-header h2 {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       color: #0a5c2e;
       font-weight: 600;
     }
@@ -137,53 +142,85 @@
       border: none;
       color: #0a5c2e;
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       cursor: pointer;
     }
 
-    /* Madrasa Grid */
+    /* Madrasa Grid - Fully Responsive */
     .madrasa-grid {
       display: grid;
-      grid-template-columns: 1fr;
       gap: 16px;
+      grid-template-columns: 1fr;
     }
 
-    /* Madrasa Card */
+    @media (min-width: 480px) {
+      .madrasa-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .madrasa-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 992px) {
+      .madrasa-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .madrasa-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /* Madrasa Card - Clean, No Numbering */
     .madrasa-card {
       background: white;
-      border-radius: 20px;
+      border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       transition: 0.2s;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
     .madrasa-card:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
     .card-img {
-      height: 140px;
+      height: 130px;
       background-size: cover;
       background-position: center;
+      flex-shrink: 0;
     }
     .card-content {
-      padding: 16px;
+      padding: 12px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
     .madrasa-name {
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #0a5c2e;
+      line-height: 1.3;
     }
     .district {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: #64748b;
-      margin: 6px 0;
+      margin: 4px 0;
     }
     .need-reason {
       background: #fef3c7;
       color: #b45309;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.7rem;
+      padding: 4px 10px;
+      border-radius: 16px;
+      font-size: 0.65rem;
       font-weight: 500;
       display: inline-block;
       margin: 8px 0;
@@ -191,49 +228,68 @@
     .donate-btn {
       background: #fbbf24;
       border: none;
-      padding: 10px;
+      padding: 8px;
       border-radius: 40px;
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       width: 100%;
-      margin-top: 10px;
+      margin-top: auto;
       cursor: pointer;
     }
 
-    /* Books Section */
+    /* Books Grid */
     .books-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
       gap: 12px;
       margin-bottom: 40px;
+      grid-template-columns: 1fr;
     }
+
+    @media (min-width: 480px) {
+      .books-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .books-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 992px) {
+      .books-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
     .book-card {
       background: white;
-      border-radius: 16px;
-      padding: 16px;
+      border-radius: 14px;
+      padding: 14px;
       text-align: center;
       box-shadow: 0 1px 4px rgba(0,0,0,0.05);
     }
     .book-emoji {
-      font-size: 2rem;
+      font-size: 1.8rem;
     }
     .book-title {
       font-weight: 600;
       font-size: 0.85rem;
-      margin: 8px 0 4px;
+      margin: 6px 0 4px;
     }
     .book-author {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: #64748b;
     }
     .read-btn {
       background: #0a5c2e;
       color: white;
       border: none;
-      padding: 6px 16px;
+      padding: 5px 14px;
       border-radius: 30px;
-      font-size: 0.7rem;
-      margin-top: 10px;
+      font-size: 0.65rem;
+      margin-top: 8px;
       cursor: pointer;
     }
 
@@ -251,32 +307,35 @@
       background: white;
       width: 90%;
       max-width: 380px;
-      border-radius: 28px;
-      padding: 24px;
+      border-radius: 24px;
+      padding: 20px;
+      max-height: 85vh;
+      overflow-y: auto;
     }
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
     .close-modal {
-      font-size: 28px;
+      font-size: 26px;
       cursor: pointer;
       color: #64748b;
     }
     .amount-options {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin: 20px 0;
+      gap: 8px;
+      margin: 16px 0;
     }
     .amount-opt {
-      padding: 12px;
+      padding: 10px;
       border: 1px solid #e2e8f0;
-      border-radius: 14px;
+      border-radius: 12px;
       text-align: center;
       font-weight: 600;
+      font-size: 0.9rem;
       cursor: pointer;
     }
     .amount-opt.active {
@@ -285,27 +344,28 @@
     }
     #customAmount {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       border: 1px solid #e2e8f0;
-      border-radius: 14px;
+      border-radius: 12px;
+      font-size: 0.9rem;
     }
 
     footer {
       background: #064e1f;
       color: #a7f3d0;
       text-align: center;
-      padding: 30px 20px;
-      font-size: 0.75rem;
+      padding: 24px 16px;
+      font-size: 0.7rem;
       margin-top: 20px;
     }
 
-    @media (min-width: 550px) {
-      .madrasa-grid { grid-template-columns: repeat(2, 1fr); }
-      .books-grid { grid-template-columns: repeat(4, 1fr); }
-    }
-
-    @media (min-width: 900px) {
-      .madrasa-grid { grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 380px) {
+      .madrasa-name {
+        font-size: 0.85rem;
+      }
+      .card-img {
+        height: 110px;
+      }
     }
   </style>
 </head>
@@ -325,7 +385,7 @@
     <div class="slide-overlay"><h1>صدقہ گناہوں کو مٹاتا ہے</h1></div>
   </div>
   <div class="slide" style="background-image: url('https://images.pexels.com/photos/258114/pexels-photo-258114.jpeg?auto=compress&cs=tinysrgb&w=1200');">
-    <div class="slide-overlay"><h1>Charity extinguishes sins as water extinguishes fire</h1></div>
+    <div class="slide-overlay"><h1>Charity extinguishes sins</h1></div>
   </div>
 </div>
 
@@ -335,17 +395,17 @@
 </div>
 
 <div class="location-status" id="locationStatus">
-  📍 Detecting your location...
+  📍 Detecting your <location class=""></location>
 </div>
 
 <div class="container">
   <div class="section-header">
-    <h2>📌 Madrasas</h2>
+    <h2> Madrasas</h2>
     <button class="view-all-btn" id="viewAllBtn">View All →</button>
   </div>
   <div id="madrasaGrid" class="madrasa-grid"></div>
 
-  <div class="section-header" style="margin-top: 40px;">
+  <div class="section-header" style="margin-top: 32px;">
     <h2>📚 Islamic Books</h2>
     <button class="view-all-btn" id="viewAllBooksBtn">View All →</button>
   </div>
@@ -354,7 +414,7 @@
 
 <footer>
   <p>© 2026 Imdad ul Madaris • Direct Donation • 0% Charges</p>
-  <p style="margin-top: 6px; font-size: 0.7rem;">Support local madrasas directly via UPI</p>
+  <p style="margin-top: 6px;">Support local madrasas directly via UPI</p>
 </footer>
 
 <!-- Donation Modal -->
@@ -364,11 +424,11 @@
       <h3 id="modalName">Madrasa Name</h3>
       <span class="close-modal" id="closeModalBtn">×</span>
     </div>
-    <p id="modalUpi" style="background:#f1f5f9; padding:10px; border-radius:12px; font-size:0.8rem;"></p>
+    <p id="modalUpi" style="background:#f1f5f9; padding:8px; border-radius:10px; font-size:0.75rem;"></p>
     <div class="amount-options" id="amountOptions"></div>
     <input type="number" id="customAmount" placeholder="Enter custom amount (₹)">
-    <button class="donate-btn" id="proceedDonateBtn" style="margin-top: 16px;">💝 Pay via UPI</button>
-    <div id="qrContainer" style="text-align: center; margin-top: 16px;"></div>
+    <button class="donate-btn" id="proceedDonateBtn" style="margin-top: 14px;">💝 Pay via UPI</button>
+    <div id="qrContainer" style="text-align: center; margin-top: 14px;"></div>
   </div>
 </div>
 
@@ -396,7 +456,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
-  // Madrasa Data
+  // Madrasa Data - No numbering, just clean cards
   const madrasasData = [
     { id: 1, name: "Jamia Islamia Darul Uloom", district: "Patna", state: "Bihar", upiId: "jamiapatna@okhdfcbank", needReason: "Food shortage for 50 children", needScore: 98, lat: 25.5941, lng: 85.1376 },
     { id: 2, name: "Madrasa Taleem-ul-Quran", district: "Muzaffarpur", state: "Bihar", upiId: "taleem@okhdfcbank", needReason: "Winter clothes needed for orphans", needScore: 92, lat: 26.1209, lng: 85.3645 },
@@ -483,7 +543,6 @@
     });
   }
 
-  // Auto Location on Load
   function autoDetectLocation() {
     const statusDiv = document.getElementById('locationStatus');
     if ("geolocation" in navigator) {
@@ -507,7 +566,6 @@
     }
   }
 
-  // View All Madrasas
   function showAllMadrasas() {
     const modal = document.getElementById('allMadrasasModal');
     const listDiv = document.getElementById('allMadrasasList');
@@ -518,11 +576,11 @@
       sorted = sorted.sort((a,b) => b.needScore - a.needScore);
     }
     listDiv.innerHTML = sorted.map(m => `
-      <div style="border-bottom: 1px solid #e2e8f0; padding: 14px;">
+      <div style="border-bottom: 1px solid #e2e8f0; padding: 12px;">
         <div style="font-weight: 700; color: #0a5c2e;">${m.name}</div>
-        <div style="font-size: 0.75rem; color: #64748b; margin: 4px 0;">📍 ${m.district}, ${m.state}</div>
-        <div style="font-size: 0.7rem; background: #fef3c7; display: inline-block; padding: 2px 10px; border-radius: 20px;">⚠️ ${m.needReason}</div>
-        <button class="donate-btn-list" data-upi="${m.upiId}" data-name="${m.name}" style="margin-top: 10px; background: #fbbf24; border: none; padding: 6px 16px; border-radius: 30px; font-weight: 600;">Donate</button>
+        <div style="font-size: 0.7rem; color: #64748b; margin: 4px 0;">📍 ${m.district}, ${m.state}</div>
+        <div style="font-size: 0.65rem; background: #fef3c7; display: inline-block; padding: 2px 8px; border-radius: 16px;">⚠️ ${m.needReason}</div>
+        <button class="donate-btn-list" data-upi="${m.upiId}" data-name="${m.name}" style="margin-top: 8px; background: #fbbf24; border: none; padding: 5px 14px; border-radius: 30px; font-weight: 600; font-size: 0.7rem;">Donate</button>
       </div>
     `).join('');
     modal.style.display = 'flex';
@@ -538,9 +596,9 @@
     const modal = document.getElementById('allBooksModal');
     const listDiv = document.getElementById('allBooksList');
     listDiv.innerHTML = booksData.map(book => `
-      <div style="border-bottom: 1px solid #e2e8f0; padding: 14px; display: flex; justify-content: space-between; align-items: center;">
-        <div><span style="font-size: 1.5rem;">${book.emoji}</span> <strong>${book.title}</strong><br><span style="font-size: 0.7rem;">${book.author}</span></div>
-        <button class="read-btn-list" data-title="${book.title}" style="background: #0a5c2e; color: white; border: none; padding: 5px 16px; border-radius: 30px;">Read</button>
+      <div style="border-bottom: 1px solid #e2e8f0; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+        <div><span style="font-size: 1.3rem;">${book.emoji}</span> <strong style="font-size: 0.85rem;">${book.title}</strong><br><span style="font-size: 0.6rem;">${book.author}</span></div>
+        <button class="read-btn-list" data-title="${book.title}" style="background: #0a5c2e; color: white; border: none; padding: 4px 12px; border-radius: 30px; font-size: 0.65rem;">Read</button>
       </div>
     `).join('');
     modal.style.display = 'flex';
@@ -590,10 +648,10 @@
     }
     const upiLink = `upi://pay?pa=${encodeURIComponent(currentUpi)}&pn=${encodeURIComponent(currentName)}&am=${selectedAmount}&cu=INR`;
     const qrDiv = document.getElementById('qrContainer');
-    qrDiv.innerHTML = `<div id="qrcode"></div><p style="margin-top: 8px;"><a href="${upiLink}" style="color: #0a5c2e;">Click here to pay ₹${selectedAmount}</a></p>`;
+    qrDiv.innerHTML = `<div id="qrcode"></div><p style="margin-top: 6px;"><a href="${upiLink}" style="color: #0a5c2e; font-size: 0.8rem;">Click here to pay ₹${selectedAmount}</a></p>`;
     setTimeout(() => {
       if (typeof QRCode !== 'undefined') {
-        new QRCode(document.getElementById("qrcode"), { text: upiLink, width: 160, height: 160 });
+        new QRCode(document.getElementById("qrcode"), { text: upiLink, width: 140, height: 140 });
       }
     }, 100);
   });

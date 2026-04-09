@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Donation | Imdad ul Madaris</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+      color: #1e293b;
+      min-height: 100vh;
+    }
+
+    /* Navbar - Modern */
+    .navbar {
+      background: #0a5c2e;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .back-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .logo {
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 700;
+      flex: 1;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    /* Madrasa Info - Premium Card */
+    .madrasa-info {
+      background: white;
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border-top: 6px solid #0a5c2e;
+    }
+    .madrasa-info h3 {
+      font-size: 1.4rem;
+      color: #0a5c2e;
+      margin-bottom: 10px;
+    }
+    .madrasa-info p {
+      color: #475569;
+      font-size: 1rem;
+      margin: 6px 0;
+    }
+
+    /* Form Card */
+    .form-card {
+      background: white;
+      border-radius: 28px;
+      padding: 32px 28px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+      margin-bottom: 26px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 9px;
+      color: #334155;
+    }
+    .form-group .required { color: #ef4444; }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 16px 18px;
+      border: 2px solid #e2e8f0;
+      border-radius: 18px;
+      font-size: 1.05rem;
+      background: #fff;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #0a5c2e;
+      box-shadow: 0 0 0 4px rgba(10, 92, 46, 0.15);
+      outline: none;
+    }
+
+    /* Radio */
+    .radio-group {
+      display: flex;
+      gap: 28px;
+      margin-top: 10px;
+    }
+    .radio-group label {
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    /* Amount Buttons */
+    .amount-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 14px;
+      margin: 16px 0 20px;
+    }
+    .amount-btn {
+      padding: 18px 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 20px;
+      text-align: center;
+      font-size: 1.15rem;
+      font-weight: 700;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    }
+    .amount-btn:hover {
+      border-color: #86efac;
+    }
+    .amount-btn.active {
+      background: #0a5c2e;
+      color: white;
+      border-color: #0a5c2e;
+      transform: scale(1.05);
+    }
+
+    .custom-amount input {
+      padding: 16px 18px;
+      font-size: 1.05rem;
+    }
+
+    /* Submit Button - Big & Attractive */
+    .submit-btn {
+      background: linear-gradient(135deg, #0a5c2e, #15803d);
+      color: white;
+      border: none;
+      padding: 20px;
+      border-radius: 50px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      width: 100%;
+      margin-top: 20px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(10, 92, 46, 0.35);
+      transition: all 0.3s ease;
+    }
+    .submit-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 4px 12px rgba(10, 92, 46, 0.3);
+    }
+
+    .success-message {
+      background: #ecfdf5;
+      color: #065f46;
+      padding: 20px;
+      border-radius: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+      margin-bottom: 24px;
+      display: none;
+      border: 1px solid #a7f3d0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: #64748b;
+      font-size: 0.85rem;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 480px) {
+      .form-card {
+        padding: 24px 20px;
+      }
+      .amount-buttons {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .submit-btn {
+        padding: 18px;
+        font-size: 1.15rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <button class="back-btn" onclick="history.back()">← Back</button>
+  <div class="logo">Imdad ul Madaris</div>
+</div>
+
+<div class="container">
+  <div class="madrasa-info" id="madrasaInfo">
+    <h3 id="madrasaName">Madrasa Name</h3>
+    <p id="madrasaUpi">UPI ID: loading...</p>
+    <p id="madrasaNeed">Need: loading...</p>
+  </div>
+
+  <div class="form-card">
+    <div class="success-message" id="successMessage">
+      🎉 <strong>Jazakallah Khair!</strong><br>
+      Your donation has been initiated successfully.<br>
+      May Allah accept it and bless you.
+    </div>
+
+    <form id="donationForm">
+      <div class="form-group">
+        <label>Your Full Name <span class="required">*</span></label>
+        <input type="text" id="donorName" required placeholder="Muhammad Ali">
+      </div>
+
+      <div class="form-group">
+        <label>Email (optional)</label>
+        <input type="email" id="donorEmail" placeholder="your@email.com">
+      </div>
+
+      <div class="form-group">
+        <label>Phone Number (optional)</label>
+        <input type="tel" id="donorPhone" placeholder="+91 98765 43210">
+      </div>
+
+      <div class="form-group">
+        <label>Donating On Behalf Of</label>
+        <div class="radio-group">
+          <label><input type="radio" name="behalf" value="self" checked> Myself</label>
+          <label><input type="radio" name="behalf" value="other"> Someone else</label>
+        </div>
+        <div class="other-name-field" id="otherNameField" style="margin-top:12px; display:none;">
+          <input type="text" id="otherName" placeholder="Person's name">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Type of Donation <span class="required">*</span></label>
+        <select id="donationType" required>
+          <option value="">Select donation type</option>
+          <option value="Sadqa">💝 Sadqa</option>
+          <option value="Zakat">🤲 Zakat</option>
+          <option value="Fitrana">🌙 Fitrana</option>
+          <option value="Sadaqah Jariyah">🕌 Sadaqah Jariyah</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Intention / Reason (optional)</label>
+        <textarea id="reason" rows="3" placeholder="For students food, books, or building..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Amount <span class="required">*</span></label>
+        <div class="amount-buttons" id="amountButtons">
+          <div class="amount-btn" data-amount="101">₹101</div>
+          <div class="amount-btn" data-amount="501">₹501</div>
+          <div class="amount-btn" data-amount="1001">₹1,001</div>
+          <div class="amount-btn" data-amount="5000">₹5,000</div>
+        </div>
+        <div class="custom-amount">
+          <input type="number" id="customAmount" placeholder="Enter custom amount ₹" min="1">
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">💝 Proceed to Pay via UPI</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Imdad ul Madaris • Direct to Madrasa • 0% Platform Charges</p>
+</footer>
+
+<script>
+  // JavaScript same rakh raha hoon, sirf chhota sa update
+  const urlParams = new URLSearchParams(window.location.search);
+  document.getElementById('madrasaName').innerText = urlParams.get('name') || 'Madrasa';
+  document.getElementById('madrasaUpi').innerHTML = `UPI ID: ${urlParams.get('upi') || 'madrasa@okhdfcbank'}`;
+  document.getElementById('madrasaNeed').innerHTML = `Need: ${urlParams.get('need') || 'General Support'}`;
+
+  let selectedAmount = null;
+  const amountBtns = document.querySelectorAll('.amount-btn');
+  const customAmountInput = document.getElementById('customAmount');
+
+  amountBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      amountBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedAmount = parseInt(btn.dataset.amount);
+      customAmountInput.value = '';
+    });
+  });
+
+  customAmountInput.addEventListener('input', () => {
+    amountBtns.forEach(b => b.classList.remove('active'));
+    selectedAmount = null;
+  });
+
+  // Behalf of logic
+  document.querySelectorAll('input[name="behalf"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.getElementById('otherNameField').style.display = 
+        radio.value === 'other' ? 'block' : 'none';
+    });
+  });
+
+  // Form submit (tera purana logic simplified)
+  document.getElementById('donationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const amount = selectedAmount || parseFloat(customAmountInput.value);
+    if (!amount) {
+      alert("Please select or enter amount");
+      return;
+    }
+
+    const successMsg = document.getElementById('successMessage');
+    successMsg.style.display = 'block';
+    successMsg.scrollIntoView({ behavior: 'smooth' });
+
+    setTimeout(() => {
+      alert("Redirecting to UPI app...");
+      // Yahan tera UPI link wala code daal sakta hai
+    }, 1200);
+  });
+</script>
+</body>
+</html>
