@@ -17,7 +17,7 @@
       color: #1e293b;
     }
 
-    /* Navbar - Clean */
+    /* Navbar */
     .navbar {
       background: #0a5c2e;
       padding: 14px 20px;
@@ -38,12 +38,19 @@
       cursor: pointer;
     }
     .logo {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 600;
       color: white;
     }
+    .menu-icon {
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-left: auto;
+      padding: 4px;
+    }
 
-    /* Search Bar - Simple */
+    /* Search Bar */
     .search-container {
       max-width: 600px;
       margin: 20px auto;
@@ -52,17 +59,18 @@
     .search-box {
       width: 100%;
       padding: 14px 18px;
-      border: 1px solid #e2e8f0;
+      border: 2px solid #e2e8f0;
       border-radius: 50px;
       font-size: 0.9rem;
       background: white;
       outline: none;
+      transition: border 0.2s;
     }
     .search-box:focus {
       border-color: #0a5c2e;
     }
 
-    /* State Filter - Simple Dropdown */
+    /* State Filter */
     .filter-container {
       max-width: 600px;
       margin: 12px auto;
@@ -71,11 +79,12 @@
     .state-filter {
       width: 100%;
       padding: 12px 16px;
-      border: 1px solid #e2e8f0;
+      border: 2px solid #e2e8f0;
       border-radius: 50px;
       background: white;
       font-size: 0.85rem;
       cursor: pointer;
+      outline: none;
     }
 
     /* Results Count */
@@ -83,7 +92,7 @@
       max-width: 1200px;
       margin: 16px auto 0;
       padding: 0 16px;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: #64748b;
     }
 
@@ -94,7 +103,7 @@
       padding: 0 16px;
     }
 
-    /* Madrasa Grid - Clean Cards */
+    /* Madrasa Grid */
     .madrasa-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -103,24 +112,21 @@
     }
 
     @media (min-width: 550px) {
-      .madrasa-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .madrasa-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (min-width: 900px) {
-      .madrasa-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
+      .madrasa-grid { grid-template-columns: repeat(3, 1fr); }
     }
 
-    /* Card - Simple, No Extra Badges */
+    /* Card */
     .madrasa-card {
       background: white;
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 1px 4px rgba(0,0,0,0.06);
       transition: 0.2s;
+      cursor: pointer;
     }
     .madrasa-card:hover {
       transform: translateY(-2px);
@@ -165,23 +171,7 @@
       cursor: pointer;
     }
 
-    /* Empty State */
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: #94a3b8;
-    }
-
-    footer {
-      background: #064e1f;
-      color: #a7f3d0;
-      text-align: center;
-      padding: 24px;
-      font-size: 0.7rem;
-      margin-top: 20px;
-    }
-
-    /* Modal - Clean */
+    /* Modal */
     .modal {
       display: none;
       position: fixed;
@@ -233,26 +223,62 @@
       border: 1px solid #e2e8f0;
       border-radius: 12px;
     }
+
+    /* Footer */
+    footer {
+      background: #064e1f;
+      color: #a7f3d0;
+      text-align: center;
+      padding: 24px;
+      font-size: 0.75rem;
+      margin-top: 20px;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0a5c2e;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      z-index: 2000;
+      display: none;
+    }
+    .toast.error {
+      background: #dc2626;
+    }
   </style>
 </head>
 <body>
 
 <div class="navbar">
   <button class="back-btn" onclick="window.location.href='index.html'">← Back</button>
-  <div class="logo">Imdad ul Madaris</div>
+  <div class="logo">All Madrasas</div>
+  <button class="menu-icon" id="menuBtn">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
 </div>
 
 <div class="search-container">
-  <input type="text" id="searchInput" class="search-box" placeholder="🔍 Search madrasa or district...">
+  <input type="text" id="searchInput" class="search-box" placeholder="Search madrasa or district...">
 </div>
 
 <div class="filter-container">
   <select id="stateFilter" class="state-filter">
     <option value="">All States</option>
     <option value="Bihar">Bihar</option>
-    <option value="UP">Uttar Pradesh</option>
-    <option value="WB">West Bengal</option>
-    <option value="MH">Maharashtra</option>
+    <option value="Uttar Pradesh">Uttar Pradesh</option>
+    <option value="West Bengal">West Bengal</option>
+    <option value="Maharashtra">Maharashtra</option>
+    <option value="Delhi">Delhi</option>
   </select>
 </div>
 
@@ -276,148 +302,18 @@
     <p id="modalUpi" style="background:#f1f5f9; padding:8px; border-radius:10px; font-size:0.75rem;"></p>
     <div class="amount-options" id="amountOptions"></div>
     <input type="number" id="customAmount" placeholder="Custom amount (₹)">
-    <button class="donate-btn" id="proceedDonateBtn" style="margin-top: 14px;">💝 Pay via UPI</button>
+    <button class="donate-btn" id="proceedDonateBtn" style="margin-top: 14px;">Proceed to Pay</button>
     <div id="qrContainer" style="text-align: center; margin-top: 14px;"></div>
   </div>
 </div>
 
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-<script>
-  const madrasasData = [
-    { id: 1, name: "Jamia Islamia Darul Uloom", district: "Patna", state: "Bihar", upiId: "jamiapatna@okhdfcbank", needReason: "Food shortage for 50 children", needScore: 98, lat: 25.5941, lng: 85.1376 },
-    { id: 2, name: "Madrasa Taleem-ul-Quran", district: "Muzaffarpur", state: "Bihar", upiId: "taleem@okhdfcbank", needReason: "Winter clothes needed", needScore: 92, lat: 26.1209, lng: 85.3645 },
-    { id: 3, name: "Madrasa Al-Falah", district: "Araria", state: "Bihar", upiId: "alfalah@okhdfcbank", needReason: "Flood relief - immediate", needScore: 99, lat: 26.1482, lng: 87.5132 },
-    { id: 4, name: "Darul Uloom Nadwa", district: "Lucknow", state: "UP", upiId: "nadwa@okhdfcbank", needReason: "Monthly expenses", needScore: 75, lat: 26.8467, lng: 80.9462 },
-    { id: 5, name: "Madrasa Noorul Huda", district: "Sitamarhi", state: "Bihar", upiId: "noorul@okhdfcbank", needReason: "Books & stationery", needScore: 88, lat: 26.5931, lng: 85.4838 },
-    { id: 6, name: "Madrasa Rahmatul Lil Alameen", district: "Kolkata", state: "WB", upiId: "rahmat@okhdfcbank", needReason: "Building maintenance", needScore: 68, lat: 22.5726, lng: 88.3639 },
-    { id: 7, name: "Jamia Masjid Madrasa", district: "Mumbai", state: "MH", upiId: "jamiamb@okhdfcbank", needReason: "Evening classes", needScore: 62, lat: 19.076, lng: 72.8777 },
-    { id: 8, name: "Madrasa Islahul Muslimeen", district: "Kishanganj", state: "Bihar", upiId: "islah@okhdfcbank", needReason: "Building repair", needScore: 94, lat: 26.1025, lng: 87.9496 }
-  ];
+<script src="index.js"></script>
+<script src="mlist.js"></script>
 
-  let currentSearch = "";
-  let currentState = "";
-
-  function filterMadrasas() {
-    let filtered = [...madrasasData];
-
-    if (currentSearch) {
-      const search = currentSearch.toLowerCase();
-      filtered = filtered.filter(m => 
-        m.name.toLowerCase().includes(search) || 
-        m.district.toLowerCase().includes(search)
-      );
-    }
-
-    if (currentState) {
-      filtered = filtered.filter(m => m.state === currentState);
-    }
-
-    filtered.sort((a,b) => b.needScore - a.needScore);
-    return filtered;
-  }
-
-  function renderCard(m) {
-    return `
-      <div class="madrasa-card">
-        <div class="card-img" style="background-image: url('https://source.unsplash.com/featured/400x140?mosque,${encodeURIComponent(m.district)}')"></div>
-        <div class="card-content">
-          <div class="madrasa-name">${m.name}</div>
-          <div class="district">📍 ${m.district}, ${m.state}</div>
-          <div class="need-reason">⚠️ ${m.needReason}</div>
-          <button class="donate-btn" data-upi="${m.upiId}" data-name="${m.name}">💝 Donate Now</button>
-        </div>
-      </div>
-    `;
-  }
-
-  function renderMadrasas() {
-    const filtered = filterMadrasas();
-    const grid = document.getElementById('madrasaGrid');
-    const resultsCount = document.getElementById('resultsCount');
-
-    resultsCount.innerHTML = `${filtered.length} madrasas found`;
-
-    if (filtered.length === 0) {
-      grid.innerHTML = `<div class="empty-state">🤲 No madrasas found</div>`;
-      return;
-    }
-
-    grid.innerHTML = filtered.map(renderCard).join('');
-    attachDonateEvents();
-  }
-
-  function attachDonateEvents() {
-    document.querySelectorAll('.donate-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        openDonationModal(btn.dataset.upi, btn.dataset.name);
-      });
-    });
-  }
-
-  // Donation Modal
-  let currentUpi = "", currentName = "", selectedAmount = 101;
-  const modal = document.getElementById('donationModal');
-
-  function openDonationModal(upi, name) {
-    currentUpi = upi;
-    currentName = name;
-    selectedAmount = 101;
-    document.getElementById('modalName').innerText = name;
-    document.getElementById('modalUpi').innerHTML = `UPI: ${upi}`;
-    document.getElementById('customAmount').value = '';
-    document.getElementById('qrContainer').innerHTML = '';
-    renderAmountOptions();
-    modal.style.display = 'flex';
-  }
-
-  function renderAmountOptions() {
-    const amounts = [51, 101, 501, 1001];
-    const container = document.getElementById('amountOptions');
-    container.innerHTML = amounts.map(am => `
-      <div class="amount-opt ${am === selectedAmount ? 'active' : ''}" data-amount="${am}">₹${am}</div>
-    `).join('');
-    document.querySelectorAll('.amount-opt').forEach(opt => {
-      opt.addEventListener('click', () => {
-        document.querySelectorAll('.amount-opt').forEach(o => o.classList.remove('active'));
-        opt.classList.add('active');
-        selectedAmount = parseInt(opt.dataset.amount);
-        document.getElementById('customAmount').value = '';
-      });
-    });
-  }
-
-  document.getElementById('proceedDonateBtn')?.addEventListener('click', () => {
-    let amount = document.getElementById('customAmount').value;
-    if (amount && parseFloat(amount) > 0) selectedAmount = parseFloat(amount);
-    if (!selectedAmount || selectedAmount <= 0) {
-      alert("Please select or enter amount");
-      return;
-    }
-    const upiLink = `upi://pay?pa=${encodeURIComponent(currentUpi)}&pn=${encodeURIComponent(currentName)}&am=${selectedAmount}&cu=INR`;
-    const qrDiv = document.getElementById('qrContainer');
-    qrDiv.innerHTML = `<div id="qrcode"></div><p><a href="${upiLink}" style="color:#0a5c2e;">Pay ₹${selectedAmount}</a></p>`;
-    setTimeout(() => {
-      if (typeof QRCode !== 'undefined') {
-        new QRCode(document.getElementById("qrcode"), { text: upiLink, width: 140, height: 140 });
-      }
-    }, 100);
-  });
-
-  document.getElementById('closeModalBtn')?.addEventListener('click', () => modal.style.display = 'none');
-  window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
-
-  // Event Listeners
-  document.getElementById('searchInput')?.addEventListener('input', (e) => {
-    currentSearch = e.target.value;
-    renderMadrasas();
-  });
-  document.getElementById('stateFilter')?.addEventListener('change', (e) => {
-    currentState = e.target.value;
-    renderMadrasas();
-  });
-
-  renderMadrasas();
-</script>
 </body>
 </html>

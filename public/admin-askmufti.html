@@ -1,82 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Admin Panel - Answer Ask Mufti Questions</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
-    h2 { color: #333; }
-    .question-box {
-      background: #fff;
-      padding: 15px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    textarea {
-      width: 100%;
-      height: 60px;
-      margin-top: 10px;
-      padding: 8px;
-      border-radius: 4px;
-    }
-    button {
-      padding: 8px 16px;
-      margin-top: 6px;
-      background: #165a29;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Mufti Panel | Imdad ul Madaris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f0fdf4; color: #1e293b; }
+
+        .navbar { background: #0a5c2e; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .navbar h2 { color: white; font-size: 1.1rem; }
+        .navbar a { color: white; text-decoration: none; font-size: 0.85rem; }
+        .badge { background: #fbbf24; color: #0a5c2e; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 0.8rem; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 28px 20px; }
+
+        .stats-bar { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+        .stat-card { background: white; padding: 16px 20px; border-radius: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); flex: 1; min-width: 130px; text-align: center; }
+        .stat-card .num { font-size: 1.6rem; font-weight: 700; color: #0a5c2e; }
+        .stat-card .lbl { font-size: 0.7rem; color: #64748b; }
+
+        .question-card { background: white; border-radius: 16px; padding: 18px; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); border-left: 4px solid #0a5c2e; }
+        .question-card.answered { border-left-color: #22c55e; }
+        .question-card .q-header { display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+        .question-card .q-name { font-weight: 600; color: #0f172a; }
+        .question-card .q-meta { font-size: 0.7rem; color: #94a3b8; }
+        .question-card .q-text { color: #334155; margin-bottom: 12px; font-size: 0.9rem; }
+        .question-card .q-category { display: inline-block; background: #f1f5f9; padding: 2px 8px; border-radius: 12px; font-size: 0.65rem; color: #64748b; }
+        .question-card textarea { width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 0.85rem; resize: vertical; min-height: 70px; outline: none; }
+        .question-card textarea:focus { border-color: #0a5c2e; }
+        .question-card .btn-row { display: flex; gap: 8px; margin-top: 10px; }
+        .question-card button { padding: 8px 18px; border-radius: 8px; border: none; font-weight: 600; font-size: 0.8rem; cursor: pointer; transition: 0.2s; }
+        .btn-save { background: #0a5c2e; color: white; }
+        .btn-save:hover { background: #064e1f; }
+        .btn-clear { background: #fee2e2; color: #dc2626; }
+        .btn-clear:hover { background: #fecaca; }
+
+        .empty { text-align: center; padding: 40px; color: #94a3b8; }
+
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 2000; padding: 12px 24px; border-radius: 30px; font-weight: 600; color: white; display: none; }
+
+        @media (max-width: 600px) {
+            .container { padding: 20px 14px; }
+            .question-card { padding: 14px; }
+        }
+    </style>
 </head>
 <body>
-  <h2>Admin Panel - Answer Ask Mufti Questions</h2>
-  <div id="questionsContainer">Loading...</div>
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+<div class="navbar">
+    <h2>Mufti Admin Panel</h2>
+    <div style="display:flex;align-items:center;gap:16px;">
+        <span class="badge" id="questionCount">0 Questions</span>
+        <a href="index.html">← Home</a>
+    </div>
+</div>
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyCZTzeqYz_KSzxUsZtYsxYeXS00FkGZKA0",
-      authDomain: "tableeg-ba0e5.firebaseapp.com",
-      projectId: "tableeg-ba0e5",
-      storageBucket: "tableeg-ba0e5.firebasestorage.app",
-      messagingSenderId: "201862792828",
-      appId: "1:201862792828:web:b598a523833d5a6f1a2bf9",
-      measurementId: "G-70GG7KGFX7"
-    };
+<div class="container">
+    <div class="stats-bar">
+        <div class="stat-card"><div class="num" id="totalQuestions">0</div><div class="lbl">Total Questions</div></div>
+        <div class="stat-card"><div class="num" id="pendingQuestions">0</div><div class="lbl">Pending</div></div>
+        <div class="stat-card"><div class="num" id="answeredQuestions">0</div><div class="lbl">Answered</div></div>
+    </div>
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const container = document.getElementById("questionsContainer");
+    <div id="questionsContainer">
+        <div class="empty">Loading questions...</div>
+    </div>
+</div>
 
-    // Show all questions
-    db.collection("askMufti").orderBy("timestamp", "desc").onSnapshot(snapshot => {
-      container.innerHTML = "";
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const box = document.createElement("div");
-        box.className = "question-box";
-        box.innerHTML = `
-          <strong>Name:</strong> ${data.name}<br>
-          <strong>Question:</strong> ${data.question}<br><br>
-          <strong>Current Answer:</strong><br>
-          <textarea id="answer-${doc.id}">${data.answer || ""}</textarea><br>
-          <button onclick="updateAnswer('${doc.id}')">Submit Answer</button>
-        `;
-        container.appendChild(box);
-      });
-    });
+<div class="toast" id="toast"></div>
 
-    function updateAnswer(docId) {
-      const answer = document.getElementById(`answer-${docId}`).value.trim();
-      db.collection("askMufti").doc(docId).update({ answer }).then(() => {
-        alert("Answer submitted!");
-      });
-    }
-  </script>
+<script src="index.js"></script>
+<script src="admin-askmufti.js"></script>
+
 </body>
 </html>

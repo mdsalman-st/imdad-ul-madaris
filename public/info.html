@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info | Imdad ul Madaris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; }
+
+        .navbar { background: #0a5c2e; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-icon { background: rgba(255,255,255,0.15); width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; color: white; }
+        .logo-text { font-size: 1.1rem; font-weight: 700; color: white; }
+        .menu-btn { background: none; border: none; cursor: pointer; padding: 4px; }
+
+        .tabs { display: flex; gap: 4px; background: white; padding: 6px; border-radius: 14px; margin: 20px auto; max-width: 600px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+        .tab { flex: 1; text-align: center; padding: 10px; border-radius: 10px; cursor: pointer; font-size: 0.8rem; font-weight: 500; border: none; background: transparent; color: #64748b; transition: 0.2s; }
+        .tab.active { background: #0a5c2e; color: white; }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .content { background: white; border-radius: 20px; padding: 28px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); min-height: 400px; }
+        .content h2 { color: #0a5c2e; margin-bottom: 20px; font-size: 1.3rem; }
+        .content h3 { color: #0f172a; margin: 16px 0 8px; font-size: 1rem; }
+        .content p, .content li { color: #475569; font-size: 0.9rem; line-height: 1.7; margin-bottom: 8px; }
+        .content ul { padding-left: 20px; }
+        .faq-item { border-bottom: 1px solid #e2e8f0; padding: 14px 0; }
+        .faq-q { font-weight: 600; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-a { color: #475569; margin-top: 8px; display: none; font-size: 0.85rem; }
+        .faq-a.open { display: block; }
+
+        footer { background: #064e1f; color: #a7f3d0; text-align: center; padding: 24px; margin-top: 40px; font-size: 0.7rem; }
+
+        @media (max-width: 480px) {
+            .tab { font-size: 0.7rem; padding: 8px 4px; }
+            .content { padding: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="index.html" class="logo">
+        <div class="logo-icon">IUM</div>
+        <div class="logo-text">Imdad ul Madaris</div>
+    </a>
+    <button class="menu-btn" id="menuBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+</div>
+
+<div class="tabs">
+    <button class="tab active" data-page="faq">FAQ</button>
+    <button class="tab" data-page="about">About</button>
+    <button class="tab" data-page="privacy">Privacy</button>
+    <button class="tab" data-page="terms">Terms</button>
+</div>
+
+<div class="container">
+    <div class="content" id="content"></div>
+</div>
+
+<footer>
+    <p>&copy; 2026 Imdad ul Madaris &bull; Sadaqah Jariyah</p>
+</footer>
+
+<script src="index.js"></script>
+<script>
+// ==================== INFO PAGE CONTENT ====================
+
+const pages = {
+    faq: {
+        title: "Frequently Asked Questions",
+        content: `
+            <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">How do I donate? <span>+</span></div><div class="faq-a">Click on any madrasa, select an amount, and pay directly via UPI. 100% of your donation goes to the madrasa.</div></div>
+            <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">Is my donation secure? <span>+</span></div><div class="faq-a">Yes! We use UPI which is RBI-approved. We don't store any payment details.</div></div>
+            <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">How to register my madrasa? <span>+</span></div><div class="faq-a">Go to Login → Register as Madrasa, fill the form with KYC documents. Our team verifies within 48 hours.</div></div>
+            <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">Are there any platform charges? <span>+</span></div><div class="faq-a">No! 0% platform charges. Every rupee goes directly to the madrasa's UPI ID.</div></div>
+            <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">How to get donation receipt? <span>+</span></div><div class="faq-a">Receipt is auto-generated after donation. You can download from your Donation History page.</div></div>
+            <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">Can I donate Zakat? <span>+</span></div><div class="faq-a">Yes! Select "Zakat" as donation type. Ensure the madrasa is Zakat-eligible.</div></div>
+        `
+    },
+    about: {
+        title: "About Imdad ul Madaris",
+        content: `
+            <h3>Our Mission</h3>
+            <p>Imdad ul Madaris is a direct donation platform connecting donors with madrasas across India. We believe in 100% transparency — every rupee goes directly to the madrasa.</p>
+            
+            <h3>How It Works</h3>
+            <ul>
+                <li>Madrasas register with KYC verification</li>
+                <li>Donors browse verified madrasas</li>
+                <li>Donate directly via UPI — 0% platform fees</li>
+                <li>Track your donations and impact</li>
+            </ul>
+            
+            <h3>Why Choose Us?</h3>
+            <ul>
+                <li>✅ 100% Direct Transfer (No middleman)</li>
+                <li>✅ Verified Madrasas (KYC checked)</li>
+                <li>✅ Transparent Reporting</li>
+                <li>✅ Multiple Donation Types (Zakat, Sadaqah, Fitrah)</li>
+                <li>✅ Free for both donors and madrasas</li>
+            </ul>
+            
+            <h3>Contact</h3>
+            <p>Email: support@imdad.com<br>Phone: +91 12345 67890<br>Address: Bihar, India</p>
+        `
+    },
+    privacy: {
+        title: "Privacy Policy",
+        content: `
+            <p>Last updated: April 2026</p>
+            <h3>1. Information We Collect</h3>
+            <p>We collect only essential information: name, phone number, email, and donation records. We do NOT store UPI PINs or banking passwords.</p>
+            
+            <h3>2. How We Use Information</h3>
+            <p>Your information is used solely for donation processing, receipts, and communication about our platform.</p>
+            
+            <h3>3. Data Protection</h3>
+            <p>We use industry-standard security measures. Your data is never sold or shared with third parties.</p>
+            
+            <h3>4. Cookies</h3>
+            <p>We use minimal cookies for session management only.</p>
+            
+            <h3>5. Contact</h3>
+            <p>For privacy concerns: privacy@imdad.com</p>
+        `
+    },
+    terms: {
+        title: "Terms & Conditions",
+        content: `
+            <p>Last updated: April 2026</p>
+            <h3>1. Platform Usage</h3>
+            <p>Imdad ul Madaris is a facilitator connecting donors and madrasas. We do not handle funds directly.</p>
+            
+            <h3>2. Donations</h3>
+            <p>All donations are direct UPI transfers. We are not responsible for incorrect UPI IDs entered by madrasas.</p>
+            
+            <h3>3. Madrasa Verification</h3>
+            <p>Madrasas must provide valid KYC documents. We verify but do not guarantee authenticity.</p>
+            
+            <h3>4. Refund Policy</h3>
+            <p>As donations go directly to madrasas, refunds must be coordinated with the madrasa directly.</p>
+            
+            <h3>5. Disputes</h3>
+            <p>Any disputes shall be subject to Bihar, India jurisdiction.</p>
+        `
+    }
+};
+
+// Get page from URL or default
+const urlParams = new URLSearchParams(window.location.search);
+let currentPage = urlParams.get('page') || 'faq';
+
+function loadPage(page) {
+    currentPage = page;
+    const data = pages[page];
+    document.getElementById('content').innerHTML = `<h2>${data.title}</h2>${data.content}`;
+    
+    // Update tabs
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelector(`.tab[data-page="${page}"]`).classList.add('active');
+    
+    // Update URL
+    history.pushState(null, '', `?page=${page}`);
+}
+
+// Tab clicks
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => loadPage(tab.dataset.page));
+});
+
+// FAQ toggle
+window.toggleFAQ = function(el) {
+    const answer = el.nextElementSibling;
+    const icon = el.querySelector('span');
+    if (answer.classList.contains('open')) {
+        answer.classList.remove('open');
+        icon.textContent = '+';
+    } else {
+        answer.classList.add('open');
+        icon.textContent = '−';
+    }
+};
+
+// Load initial page
+loadPage(currentPage);
+</script>
+
+</body>
+</html>

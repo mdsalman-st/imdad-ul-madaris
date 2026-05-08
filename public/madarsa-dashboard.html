@@ -3,60 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Madarsa Dashboard - Imdad ul Madaris</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Dashboard | Imdad ul Madaris</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background: #f0fdf4; font-family: 'Segoe UI', sans-serif; }
-        .sidebar { background: #064e3b; height: 100vh; color: white; }
-        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        body { background: #f0fdf4; font-family: 'Segoe UI', -apple-system, sans-serif; }
+        
+        .navbar { background: #0a5c2e; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .navbar-logo { color: white; font-weight: 700; font-size: 1.1rem; text-decoration: none; }
+        .menu-btn { background: none; border: none; cursor: pointer; padding: 4px; }
+        
+        .sidebar { background: #064e3b; height: 100vh; color: white; position: fixed; left: 0; top: 0; z-index: 50; overflow-y: auto; transition: transform 0.3s ease; }
+        
+        .card { background: white; border-radius: 14px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+        .stat-number { font-size: 1.8rem; font-weight: 700; }
+        
+        .needs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+        
+        .need-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); transition: all 0.2s; border: 2px solid #f1f5f9; }
+        .need-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); border-color: #0a5c2e; }
+        .need-card.critical { border-left: 4px solid #dc2626; }
+        .need-card.high { border-left: 4px solid #f59e0b; }
+        .need-card.normal { border-left: 4px solid #0a5c2e; }
+        
+        .category-icon { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 12px; }
+        .category-icon.Food { background: #fef3c7; }
+        .category-icon.Clothes { background: #e0e7ff; }
+        .category-icon.Books { background: #fce7f3; }
+        .category-icon.Building { background: #fed7aa; }
+        .category-icon.Salary { background: #dbeafe; }
+        .category-icon.Medical { background: #fecaca; }
+        .category-icon.Other { background: #e2e8f0; }
+        
+        .urgency-bar { height: 6px; border-radius: 10px; background: #e2e8f0; margin: 8px 0; overflow: hidden; }
+        .urgency-fill { height: 100%; border-radius: 10px; transition: width 0.3s; }
+        .urgency-fill.critical { background: #dc2626; }
+        .urgency-fill.high { background: #f59e0b; }
+        .urgency-fill.normal { background: #0a5c2e; }
+        
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; border-radius: 20px; padding: 28px; width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto; animation: modalPop 0.3s ease; }
+        @keyframes modalPop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } .needs-grid { grid-template-columns: 1fr; } }
+        
+        .add-need-btn { background: #0a5c2e; color: white; padding: 12px 24px; border-radius: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s; border: none; font-size: 0.95rem; }
+        .add-need-btn:hover { background: #0d7a3e; transform: translateY(-1px); }
+        .empty-state { text-align: center; padding: 60px 20px; color: #94a3b8; }
+        .empty-state-icon { font-size: 4rem; margin-bottom: 16px; }
     </style>
 </head>
-<body class="flex">
+<body class="min-h-screen">
 
-    <div class="sidebar w-64 p-6 hidden md:block">
-        <h2 class="text-2xl font-bold mb-10">Admin Room</h2>
-        <nav class="space-y-4">
-            <a href="#" class="block py-2 px-4 bg-green-700 rounded">📊 Dashboard</a>
-            <a href="#" class="block py-2 px-4 hover:bg-green-700 rounded">📝 Update Needs</a>
-            <a href="#" class="block py-2 px-4 hover:bg-green-700 rounded">💰 Donations</a>
-            <button onclick="logout()" class="w-full text-left py-2 px-4 hover:bg-red-600 rounded mt-20">🚪 Logout</button>
-        </nav>
+    <nav class="navbar md:hidden">
+        <a href="index.html" class="navbar-logo">Imdad ul Madaris</a>
+        <button class="menu-btn" id="mobileMenuBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+    </nav>
+
+    <div class="flex">
+        <aside class="sidebar w-64 p-6 flex flex-col" id="sidebar">
+            <div class="mb-8">
+                <h2 class="text-xl font-bold" id="sidebarName">Dashboard</h2>
+                <p class="text-green-300 text-sm mt-1" id="sidebarRole"></p>
+            </div>
+            <nav class="space-y-2 flex-1" id="sidebarNav"></nav>
+            <button onclick="logoutUser()" class="w-full text-left py-2.5 px-4 bg-red-600 hover:bg-red-700 rounded-lg text-sm font-medium mt-4 transition">🚪 Sign Out</button>
+        </aside>
+
+        <div id="mobileOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:40;" onclick="closeMobileSidebar()"></div>
+
+        <main class="flex-1 p-4 md:p-8 md:ml-64 min-h-screen">
+            <div class="flex justify-between items-center mb-8 flex-wrap gap-4">
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold text-green-900" id="greeting">Welcome!</h1>
+                    <p class="text-gray-500 text-sm mt-1" id="userInfo"></p>
+                </div>
+                <span id="statusBadge" style="display:none;" class="px-4 py-1.5 rounded-full font-bold text-sm"></span>
+            </div>
+
+            <div id="madrasaTabs">
+                <div id="overviewTab" class="tab-content active">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                        <div class="card text-center"><p class="text-gray-500 text-xs mb-1">Total Donations</p><h2 class="stat-number text-green-700" id="totalDonations">₹0</h2></div>
+                        <div class="card text-center"><p class="text-gray-500 text-xs mb-1">Active Needs</p><h2 class="stat-number text-orange-600" id="activeNeedsCount">0</h2></div>
+                        <div class="card text-center"><p class="text-gray-500 text-xs mb-1">Total Students</p><h2 class="stat-number text-blue-700" id="totalStudents">--</h2></div>
+                        <div class="card text-center"><p class="text-gray-500 text-xs mb-1">Teachers</p><h2 class="stat-number text-purple-700" id="totalTeachers">--</h2></div>
+                    </div>
+                    <div class="card"><h3 class="font-bold text-lg mb-3 text-green-900">Recent Needs</h3><div id="needsPreview"></div></div>
+                </div>
+                <div id="needsTab" class="tab-content">
+                    <div class="flex justify-between items-center mb-6">
+                        <div><h3 class="text-xl font-bold text-green-900">My Needs</h3><p class="text-gray-500 text-sm" id="needsCount">0 needs listed</p></div>
+                        <button class="add-need-btn" onclick="openAddNeedModal()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add New Need</button>
+                    </div>
+                    <div class="needs-grid" id="needsGrid"></div>
+                </div>
+                <div id="donationsTab" class="tab-content"><h3 class="text-xl font-bold text-green-900 mb-4">Donations Received</h3><div class="card"><div id="donationsList"></div></div></div>
+                <div id="profileTab" class="tab-content">
+                    <h3 class="text-xl font-bold text-green-900 mb-4">Edit Madrasa Profile</h3>
+                    <form id="profileForm" class="card max-w-2xl space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div><label class="block text-sm font-medium text-gray-600 mb-1">Madrasa Name *</label><input type="text" id="pName" required class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"></div>
+                            <div><label class="block text-sm font-medium text-gray-600 mb-1">Mohtamim Name *</label><input type="text" id="pMohtamim" required class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"></div>
+                            <div><label class="block text-sm font-medium text-gray-600 mb-1">Phone *</label><input type="text" id="pPhone" required class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"></div>
+                            <div><label class="block text-sm font-medium text-gray-600 mb-1">District *</label><input type="text" id="pDistrict" required class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"></div>
+                            <div><label class="block text-sm font-medium text-gray-600 mb-1">State</label><input type="text" id="pState" class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"></div>
+                            <div><label class="block text-sm font-medium text-gray-600 mb-1">UPI ID *</label><input type="text" id="pUpi" required class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"></div>
+                            <div class="md:col-span-2"><label class="block text-sm font-medium text-gray-600 mb-1">Address</label><input type="text" id="pAddress" class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"></div>
+                        </div>
+                        <hr class="my-4"><h4 class="font-bold text-green-900">📊 Madrasa Details</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <div><label class="block text-sm font-medium text-gray-600 mb-1">Total Students</label><input type="number" id="pStudents" class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"></div>
+                            <div><label class="block text-sm font-medium text-gray-600 mb-1">Total Teachers</label><input type="number" id="pTeachers" class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"></div>
+                            <div><label class="block text-sm font-medium text-gray-600 mb-1">Classes</label><input type="number" id="pClasses" class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"></div>
+                            <div><label class="block text-sm font-medium text-gray-600 mb-1">Building Type</label><select id="pBuilding" class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"><option value="">Select</option><option value="Own">Own</option><option value="Rented">Rented</option><option value="Masjid">Masjid Complex</option></select></div>
+                            <div><label class="block text-sm font-medium text-gray-600 mb-1">Monthly Expense (₹)</label><input type="number" id="pMonthlyExpense" class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"></div>
+                        </div>
+                        <div><label class="block text-sm font-medium text-gray-600 mb-2">Facilities</label><div class="flex flex-wrap gap-4"><label class="flex items-center gap-2"><input type="checkbox" id="fLibrary"> Library</label><label class="flex items-center gap-2"><input type="checkbox" id="fHostel"> Hostel</label><label class="flex items-center gap-2"><input type="checkbox" id="fComputer"> Computer Lab</label><label class="flex items-center gap-2"><input type="checkbox" id="fWudu"> Wudu Area</label></div></div>
+                        <div><label class="block text-sm font-medium text-gray-600 mb-1">Description</label><textarea id="pDescription" rows="3" class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none" placeholder="Brief history..."></textarea></div>
+                        <button type="submit" class="bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 transition">💾 Save Profile</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="donorTabs" style="display:none;">
+                <div id="donorOverviewTab" class="tab-content active">
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="card text-center"><p class="text-gray-500 text-xs mb-1">Total Donated</p><h2 class="stat-number text-green-700" id="donorTotalDonated">₹0</h2></div>
+                        <div class="card text-center"><p class="text-gray-500 text-xs mb-1">Donations Made</p><h2 class="stat-number text-blue-700" id="donorDonationCount">0</h2></div>
+                    </div>
+                    <div class="card"><h3 class="font-bold text-lg mb-3 text-green-900">Recent Donations</h3><div id="donorRecentDonations"></div></div>
+                </div>
+                <div id="donorDonationsTab" class="tab-content"><h3 class="text-xl font-bold text-green-900 mb-4">My Donation History</h3><div class="card"><div id="donorDonationsList"></div></div></div>
+                <div id="donorProfileTab" class="tab-content">
+                    <h3 class="text-xl font-bold text-green-900 mb-4">Edit Profile</h3>
+                    <form id="donorProfileForm" class="card max-w-lg space-y-4">
+                        <div><label class="block text-sm font-medium text-gray-600 mb-1">Full Name *</label><input type="text" id="dpName" required class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"></div>
+                        <div><label class="block text-sm font-medium text-gray-600 mb-1">Phone *</label><input type="text" id="dpPhone" required class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"></div>
+                        <div><label class="block text-sm font-medium text-gray-600 mb-1">Email</label><input type="email" id="dpEmail" class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"></div>
+                        <div><label class="block text-sm font-medium text-gray-600 mb-1">City</label><input type="text" id="dpCity" class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"></div>
+                        <button type="submit" class="bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 transition">💾 Save Profile</button>
+                    </form>
+                </div>
+            </div>
+        </main>
     </div>
 
-    <div class="flex-1 p-8">
-        <header class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold text-green-900">Mubarak! Aapka Dashboard Live Hai</h1>
-            <span class="bg-yellow-100 text-yellow-800 px-4 py-1 rounded-full font-bold text-sm">Status: Pending Verification ⏳</span>
-        </header>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="card">
-                <p class="text-gray-500">Kul Chanda (Total Donation)</p>
-                <h2 class="text-3xl font-bold text-green-700">₹0.00</h2>
-            </div>
-            <div class="card">
-                <p class="text-gray-500">Zaroorat (Needs)</p>
-                <h2 class="text-xl font-bold">Kambal, Kitabein...</h2>
-            </div>
-            <div class="card">
-                <p class="text-gray-500">Aane wale Madarsa</p>
-                <h2 class="text-xl font-bold">Begusarai List</h2>
-            </div>
-        </div>
-
-        <div class="mt-10 card">
-            <h3 class="text-xl font-bold mb-4">📢 Madarsa ki Zaroorat Batayein</h3>
-            <textarea id="needMsg" class="w-full p-4 border rounded-lg" placeholder="Jaise: Humein 50 bacchon ke liye thandi ke kapde chahiye..."></textarea>
-            <button class="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-700">Update Profile</button>
+    <div class="modal" id="addNeedModal">
+        <div class="modal-content">
+            <h3 class="text-xl font-bold text-green-900 mb-4" id="modalTitle">Add New Need</h3>
+            <form id="addNeedForm" class="space-y-4">
+                <div><label class="block text-sm font-medium text-gray-600 mb-1">What do you need? *</label><input type="text" id="needTitle" required class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none" placeholder="e.g., Winter clothes for orphans"></div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label class="block text-sm font-medium text-gray-600 mb-1">Category</label><select id="needCategory" class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none"><option value="Food">🍲 Food</option><option value="Clothes">👕 Clothes</option><option value="Books">📚 Books</option><option value="Building">🏗️ Building</option><option value="Salary">💼 Salary</option><option value="Medical">🏥 Medical</option><option value="Other">📦 Other</option></select></div>
+                    <div><label class="block text-sm font-medium text-gray-600 mb-1">Estimated Cost (₹)</label><input type="number" id="needCost" class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none" placeholder="e.g., 15000"></div>
+                </div>
+                <div><label class="block text-sm font-medium text-gray-600 mb-1">Urgency: <span id="urgencyValue" class="font-bold text-green-700">80</span></label><input type="range" id="needUrgency" min="1" max="100" value="80" class="w-full accent-green-600"><div class="flex justify-between text-xs text-gray-400 mt-1"><span>Low</span><span>Medium</span><span>Critical</span></div></div>
+                <div><label class="block text-sm font-medium text-gray-600 mb-1">Description (Optional)</label><textarea id="needDescription" rows="2" class="w-full p-2.5 border-2 border-gray-200 rounded-lg focus:border-green-600 outline-none" placeholder="Any additional details..."></textarea></div>
+                <div class="flex gap-3 pt-2"><button type="button" onclick="closeAddNeedModal()" class="flex-1 bg-gray-200 text-gray-700 py-2.5 rounded-lg font-semibold hover:bg-gray-300 transition">Cancel</button><button type="submit" class="flex-1 bg-green-600 text-white py-2.5 rounded-lg font-semibold hover:bg-green-700 transition" id="saveNeedBtn">✅ Save Need</button></div>
+            </form>
         </div>
     </div>
 
-    <script type="module">
-        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-        const auth = getAuth();
-        window.logout = () => {
-            signOut(auth).then(() => { window.location.href = "login.html"; });
-        };
-    </script>
+    <div id="toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:2000;display:none;"></div>
+
+    <script src="index.js"></script>
+    <script src="dashboard.js"></script>
 </body>
 </html>

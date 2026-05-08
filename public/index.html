@@ -5,628 +5,153 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Imdad ul Madaris | Support Local Madrasas</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif; background: #f8f9fc; color: #1e293b; }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
-      background: #f8f9fc;
-      color: #1e293b;
-    }
+    .navbar { background: #0a5c2e; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .logo { background: rgba(255,255,255,0.12); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 700; color: white; }
+    .menu-icon { background: none; border: none; color: white; font-size: 26px; cursor: pointer; }
 
-    /* Navbar */
-    .navbar {
-      background: #0a5c2e;
-      padding: 12px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .logo {
-      background: rgba(255,255,255,0.12);
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: white;
-    }
-    .menu-icon {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 26px;
-      cursor: pointer;
-    }
+    .stats-bar { display: flex; justify-content: space-around; background: white; margin: 16px 20px; padding: 16px; border-radius: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .stat-item { text-align: center; }
+    .stat-number { font-size: 1.4rem; font-weight: 700; color: #0a5c2e; }
+    .stat-label { font-size: 0.7rem; color: #64748b; }
 
-    /* Hero Slider */
-    .hero-slider {
-      position: relative;
-      height: 35vh;
-      min-height: 260px;
-      overflow: hidden;
-    }
-    .slide {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transition: opacity 0.8s ease;
-    }
-    .slide.active {
-      opacity: 1;
-    }
-    .slide-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 30, 0, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-    }
-    .slide-overlay h1 {
-      color: white;
-      font-size: 1.3rem;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #0a5c2e; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 600; z-index: 2000; display: none; animation: fadeInUp 0.3s ease; }
+    .toast.error { background: #dc2626; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
-    /* Marquee Notice */
-    .marquee {
-      background: #fbbf24;
-      color: #0a5c2e;
-      padding: 10px;
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scrollMarquee 22s linear infinite;
-    }
-    @keyframes scrollMarquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
+    .hero-slider { position: relative; height: 35vh; min-height: 260px; overflow: hidden; }
+    .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 0.8s ease; }
+    .slide.active { opacity: 1; }
+    .slide-overlay { position: absolute; inset: 0; background: rgba(0, 30, 0, 0.6); display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+    .slide-overlay h1 { color: white; font-size: 1.3rem; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
 
-    /* Location Status */
-    .location-status {
-      background: white;
-      margin: 16px 20px;
-      padding: 12px 20px;
-      border-radius: 50px;
-      font-size: 0.85rem;
-      color: #0a5c2e;
-      text-align: center;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    }
+    .marquee { background: #fbbf24; color: #0a5c2e; padding: 10px; font-weight: 600; white-space: nowrap; overflow: hidden; }
+    .marquee span { display: inline-block; padding-left: 100%; animation: scrollMarquee 22s linear infinite; }
+    @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-    /* Container */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+    .location-status { background: white; margin: 16px 20px; padding: 12px 20px; border-radius: 50px; font-size: 0.85rem; color: #0a5c2e; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
 
-    /* Section Header */
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 28px 0 16px;
-    }
-    .section-header h2 {
-      font-size: 1.3rem;
-      color: #0a5c2e;
-      font-weight: 600;
-    }
-    .view-all-btn {
-      background: none;
-      border: none;
-      color: #0a5c2e;
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin: 28px 0 16px; }
+    .section-header h2 { font-size: 1.3rem; color: #0a5c2e; font-weight: 600; }
+    .view-all-btn { background: none; border: none; color: #0a5c2e; font-weight: 600; font-size: 0.85rem; cursor: pointer; }
 
-    /* Madrasa Grid */
-    .madrasa-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
+    .madrasa-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .madrasa-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: 0.2s; }
+    .madrasa-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+    .card-img { height: 140px; background-size: cover; background-position: center; }
+    .card-content { padding: 16px; }
+    .madrasa-name { font-size: 1rem; font-weight: 700; color: #0a5c2e; }
+    .district { font-size: 0.75rem; color: #64748b; margin: 6px 0; }
+    .need-reason { background: #fef3c7; color: #b45309; padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; display: inline-block; margin: 8px 0; }
+    .donate-btn { background: #fbbf24; border: none; padding: 10px; border-radius: 40px; font-weight: 600; font-size: 0.85rem; width: 100%; margin-top: 10px; cursor: pointer; }
 
-    /* Madrasa Card */
-    .madrasa-card {
-      background: white;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      transition: 0.2s;
-    }
-    .madrasa-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    }
-    .card-img {
-      height: 140px;
-      background-size: cover;
-      background-position: center;
-    }
-    .card-content {
-      padding: 16px;
-    }
-    .madrasa-name {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #0a5c2e;
-    }
-    .district {
-      font-size: 0.75rem;
-      color: #64748b;
-      margin: 6px 0;
-    }
-    .need-reason {
-      background: #fef3c7;
-      color: #b45309;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.7rem;
-      font-weight: 500;
-      display: inline-block;
-      margin: 8px 0;
-    }
-    .donate-btn {
-      background: #fbbf24;
-      border: none;
-      padding: 10px;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      width: 100%;
-      margin-top: 10px;
-      cursor: pointer;
-    }
+    .books-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 40px; }
+    .book-card { background: white; border-radius: 16px; padding: 16px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .book-emoji { font-size: 2rem; }
+    .book-title { font-weight: 600; font-size: 0.85rem; margin: 8px 0 4px; }
+    .book-author { font-size: 0.7rem; color: #64748b; }
+    .read-btn { background: #0a5c2e; color: white; border: none; padding: 6px 16px; border-radius: 30px; font-size: 0.7rem; margin-top: 10px; cursor: pointer; }
 
-    /* Books Section */
-    .books-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-bottom: 40px;
-    }
-    .book-card {
-      background: white;
-      border-radius: 16px;
-      padding: 16px;
-      text-align: center;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-    }
-    .book-emoji {
-      font-size: 2rem;
-    }
-    .book-title {
-      font-weight: 600;
-      font-size: 0.85rem;
-      margin: 8px 0 4px;
-    }
-    .book-author {
-      font-size: 0.7rem;
-      color: #64748b;
-    }
-    .read-btn {
-      background: #0a5c2e;
-      color: white;
-      border: none;
-      padding: 6px 16px;
-      border-radius: 30px;
-      font-size: 0.7rem;
-      margin-top: 10px;
-      cursor: pointer;
-    }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
+    .modal-content { background: white; width: 90%; max-width: 380px; border-radius: 28px; padding: 24px; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .close-modal { font-size: 28px; cursor: pointer; color: #64748b; }
+    .amount-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
+    .amount-opt { padding: 12px; border: 1px solid #e2e8f0; border-radius: 14px; text-align: center; font-weight: 600; cursor: pointer; }
+    .amount-opt.active { border-color: #0a5c2e; background: #f0fdf4; }
+    #customAmount { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 14px; }
 
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.8);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-content {
-      background: white;
-      width: 90%;
-      max-width: 380px;
-      border-radius: 28px;
-      padding: 24px;
-    }
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-    .close-modal {
-      font-size: 28px;
-      cursor: pointer;
-      color: #64748b;
-    }
-    .amount-options {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin: 20px 0;
-    }
-    .amount-opt {
-      padding: 12px;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      text-align: center;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .amount-opt.active {
-      border-color: #0a5c2e;
-      background: #f0fdf4;
-    }
-    #customAmount {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-    }
-
-    footer {
-      background: #064e1f;
-      color: #a7f3d0;
-      text-align: center;
-      padding: 30px 20px;
-      font-size: 0.75rem;
-      margin-top: 20px;
-    }
-
-    @media (min-width: 550px) {
-      .madrasa-grid { grid-template-columns: repeat(2, 1fr); }
-      .books-grid { grid-template-columns: repeat(4, 1fr); }
-    }
-
-    @media (min-width: 900px) {
-      .madrasa-grid { grid-template-columns: repeat(4, 1fr); }
-    }
+    @media (min-width: 550px) { .madrasa-grid { grid-template-columns: repeat(2, 1fr); } .books-grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (min-width: 900px) { .madrasa-grid { grid-template-columns: repeat(4, 1fr); } }
   </style>
 </head>
 <body>
 
 <div class="navbar">
   <div class="logo">IUM</div>
-  <button class="menu-icon" id="menuBtn">☰</button>
+  <button class="menu-icon" id="menuBtn">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
 </div>
 
-<!-- Hero Slider -->
 <div class="hero-slider">
-  <div class="slide active" style="background-image: url('https://images.pexels.com/photos/5548049/pexels-photo-5548049.jpeg?auto=compress&cs=tinysrgb&w=1200');">
-    <div class="slide-overlay"><h1>الصَّدَقَةُ تُطْفِئُ الْخَطِيئَةَ</h1></div>
-  </div>
-  <div class="slide" style="background-image: url('https://images.pexels.com/photos/6035989/pexels-photo-6035989.jpeg?auto=compress&cs=tinysrgb&w=1200');">
-    <div class="slide-overlay"><h1>صدقہ گناہوں کو مٹاتا ہے</h1></div>
-  </div>
-  <div class="slide" style="background-image: url('https://images.pexels.com/photos/258114/pexels-photo-258114.jpeg?auto=compress&cs=tinysrgb&w=1200');">
-    <div class="slide-overlay"><h1>Charity extinguishes sins as water extinguishes fire</h1></div>
-  </div>
+  <div class="slide active" style="background-image: url('https://images.pexels.com/photos/5548049/pexels-photo-5548049.jpeg?auto=compress&cs=tinysrgb&w=1200');"><div class="slide-overlay"><h1>الصَّدَقَةُ تُطْفِئُ الْخَطِيئَةَ</h1></div></div>
+  <div class="slide" style="background-image: url('https://images.pexels.com/photos/6035989/pexels-photo-6035989.jpeg?auto=compress&cs=tinysrgb&w=1200');"><div class="slide-overlay"><h1>صدقہ گناہوں کو مٹاتا ہے</h1></div></div>
+  <div class="slide" style="background-image: url('https://images.pexels.com/photos/258114/pexels-photo-258114.jpeg?auto=compress&cs=tinysrgb&w=1200');"><div class="slide-overlay"><h1>Charity extinguishes sins as water extinguishes fire</h1></div></div>
 </div>
 
-<!-- Marquee Notice -->
-<div class="marquee">
-  <span>🕌 Direct UPI Donation • 0% Charges • 100% Transparent • Support Local Madrasas 🤲</span>
+<div class="marquee"><span id="marqueeText">🕌 Direct UPI Donation • 0% Charges • 100% Transparent • Support Local Madrasas 🤲</span></div>
+
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-number" id="statMadrasas">...</div><div class="stat-label">Active Madrasas</div></div>
+  <div class="stat-item"><div class="stat-number" id="statDonations">...</div><div class="stat-label">Donations</div></div>
+  <div class="stat-item"><div class="stat-number" id="statAmount">...</div><div class="stat-label">Total Raised</div></div>
 </div>
 
-<div class="location-status" id="locationStatus">
-  📍 Detecting your location...
-</div>
+<div class="location-status" id="locationStatus">📍 Detecting your location...</div>
 
 <div class="container">
-  <div class="section-header">
-    <h2>📌 Madrasas</h2>
-    <button class="view-all-btn" id="viewAllBtn">View All →</button>
-  </div>
+  <div class="section-header"><h2>Madrasas Near You</h2><button class="view-all-btn" id="viewAllBtn">View All →</button></div>
   <div id="madrasaGrid" class="madrasa-grid"></div>
-
-  <div class="section-header" style="margin-top: 40px;">
-    <h2>📚 Islamic Books</h2>
-    <button class="view-all-btn" id="viewAllBooksBtn">View All →</button>
-  </div>
+  <div class="section-header" style="margin-top: 40px;"><h2>Islamic Books</h2><button class="view-all-btn" id="viewAllBooksBtn">View All →</button></div>
   <div id="booksGrid" class="books-grid"></div>
 </div>
 
-<footer>
-  <p>© 2026 Imdad ul Madaris • Direct Donation • 0% Charges</p>
-  <p style="margin-top: 6px; font-size: 0.7rem;">Support local madrasas directly via UPI</p>
+<!-- Footer -->
+<footer style="background: #064e1f; color: #a7f3d0; text-align: center; padding: 30px 20px 20px; margin-top: 40px;">
+  <div style="max-width: 500px; margin: 0 auto;">
+    <h3 style="color: white; font-size: 1rem; margin-bottom: 12px;">Stay Connected</h3>
+    <div style="display: flex; gap: 8px; margin-bottom: 24px;">
+      <input type="email" id="subscribeEmail" placeholder="Enter your email" style="flex:1; padding: 10px 16px; border: none; border-radius: 30px; font-size: 0.85rem;">
+      <button id="subscribeBtn" style="background: #fbbf24; color: #0a5c2e; border: none; padding: 10px 20px; border-radius: 30px; font-weight: 700; cursor: pointer; white-space: nowrap;">Subscribe</button>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 20px; text-align: left;">
+      <a href="info.html?page=about" style="color: #a7f3d0; text-decoration: none; font-size: 0.8rem;">About Us</a>
+      <a href="info.html?page=faq" style="color: #a7f3d0; text-decoration: none; font-size: 0.8rem;">FAQ</a>
+      <a href="contectus.html" style="color: #a7f3d0; text-decoration: none; font-size: 0.8rem;">Contact Us</a>
+      <a href="info.html?page=privacy" style="color: #a7f3d0; text-decoration: none; font-size: 0.8rem;">Privacy Policy</a>
+      <a href="info.html?page=terms" style="color: #a7f3d0; text-decoration: none; font-size: 0.8rem;">Terms</a>
+      <a href="leaderboard.html" style="color: #a7f3d0; text-decoration: none; font-size: 0.8rem;">Leaderboard</a>
+    </div>
+    <hr style="border-color: rgba(255,255,255,0.1); margin: 16px 0;">
+    <p style="font-size: 0.75rem;">&copy; 2026 Imdad ul Madaris &bull; 100% Direct Donation &bull; 0% Platform Charges</p>
+    <p style="font-size: 0.65rem; margin-top: 4px;">Sadaqah Jariyah for Akhirah</p>
+  </div>
 </footer>
 
 <!-- Donation Modal -->
 <div class="modal" id="donationModal">
   <div class="modal-content">
-    <div class="modal-header">
-      <h3 id="modalName">Madrasa Name</h3>
-      <span class="close-modal" id="closeModalBtn">×</span>
-    </div>
+    <div class="modal-header"><h3 id="modalName">Madrasa Name</h3><span class="close-modal" id="closeModalBtn">&times;</span></div>
     <p id="modalUpi" style="background:#f1f5f9; padding:10px; border-radius:12px; font-size:0.8rem;"></p>
     <div class="amount-options" id="amountOptions"></div>
     <input type="number" id="customAmount" placeholder="Enter custom amount (₹)">
-    <button class="donate-btn" id="proceedDonateBtn" style="margin-top: 16px;">💝 Pay via UPI</button>
+    <button class="donate-btn" id="proceedDonateBtn" style="margin-top: 16px;">Proceed to Pay</button>
     <div id="qrContainer" style="text-align: center; margin-top: 16px;"></div>
   </div>
 </div>
 
-<!-- All Madrasas Modal -->
 <div class="modal" id="allMadrasasModal">
   <div class="modal-content" style="max-width: 500px; max-height: 70vh; overflow-y: auto;">
-    <div class="modal-header">
-      <h3>All Madrasas</h3>
-      <span class="close-modal" id="closeAllModalBtn">×</span>
-    </div>
+    <div class="modal-header"><h3>All Madrasas</h3><span class="close-modal" id="closeAllModalBtn">&times;</span></div>
     <div id="allMadrasasList"></div>
   </div>
 </div>
 
-<!-- All Books Modal -->
 <div class="modal" id="allBooksModal">
   <div class="modal-content" style="max-width: 500px; max-height: 70vh; overflow-y: auto;">
-    <div class="modal-header">
-      <h3>All Islamic Books</h3>
-      <span class="close-modal" id="closeBooksModalBtn">×</span>
-    </div>
+    <div class="modal-header"><h3>All Islamic Books</h3><span class="close-modal" id="closeBooksModalBtn">&times;</span></div>
     <div id="allBooksList"></div>
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-<script>
-  // Madrasa Data
-  const madrasasData = [
-    { id: 1, name: "Jamia Islamia Darul Uloom", district: "Patna", state: "Bihar", upiId: "jamiapatna@okhdfcbank", needReason: "Food shortage for 50 children", needScore: 98, lat: 25.5941, lng: 85.1376 },
-    { id: 2, name: "Madrasa Taleem-ul-Quran", district: "Muzaffarpur", state: "Bihar", upiId: "taleem@okhdfcbank", needReason: "Winter clothes needed for orphans", needScore: 92, lat: 26.1209, lng: 85.3645 },
-    { id: 3, name: "Madrasa Al-Falah", district: "Araria", state: "Bihar", upiId: "alfalah@okhdfcbank", needReason: "Flood relief camp - immediate help", needScore: 99, lat: 26.1482, lng: 87.5132 },
-    { id: 4, name: "Darul Uloom Nadwa", district: "Lucknow", state: "UP", upiId: "nadwa@okhdfcbank", needReason: "Monthly expenses for 500 students", needScore: 75, lat: 26.8467, lng: 80.9462 },
-    { id: 5, name: "Madrasa Noorul Huda", district: "Sitamarhi", state: "Bihar", upiId: "noorul@okhdfcbank", needReason: "Books & stationery needed", needScore: 88, lat: 26.5931, lng: 85.4838 },
-    { id: 6, name: "Madrasa Rahmatul Lil Alameen", district: "Kolkata", state: "WB", upiId: "rahmat@okhdfcbank", needReason: "Building maintenance required", needScore: 68, lat: 22.5726, lng: 88.3639 },
-    { id: 7, name: "Jamia Masjid Madrasa", district: "Mumbai", state: "MH", upiId: "jamiamb@okhdfcbank", needReason: "Evening classes setup", needScore: 62, lat: 19.076, lng: 72.8777 },
-    { id: 8, name: "Madrasa Islahul Muslimeen", district: "Kishanganj", state: "Bihar", upiId: "islah@okhdfcbank", needReason: "Building repair - unsafe", needScore: 94, lat: 26.1025, lng: 87.9496 }
-  ];
+<script src="index.js"></script>
 
-  const booksData = [
-    { title: "The Holy Quran", author: "English Translation", emoji: "📖" },
-    { title: "40 Hadith Nawawi", author: "Imam An-Nawawi", emoji: "📕" },
-    { title: "Stories of the Prophets", author: "Ibn Kathir", emoji: "📘" },
-    { title: "Islamic Manners", author: "Shaykh Abdul Fattah", emoji: "📗" }
-  ];
-
-  let userLat = null, userLng = null;
-  let useNearby = false;
-
-  function getDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371;
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-              Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    return R * c;
-  }
-
-  function getTopMadrasas() {
-    let list = [...madrasasData];
-    if (useNearby && userLat && userLng) {
-      list = list.map(m => ({...m, dist: getDistance(userLat, userLng, m.lat, m.lng)})).sort((a,b) => a.dist - b.dist);
-    } else {
-      list = list.sort((a,b) => b.needScore - a.needScore);
-    }
-    return list.slice(0, 4);
-  }
-
-  function renderCard(m) {
-    return `
-      <div class="madrasa-card">
-        <div class="card-img" style="background-image: url('https://source.unsplash.com/featured/400x140?mosque,islam,${encodeURIComponent(m.district)}')"></div>
-        <div class="card-content">
-          <div class="madrasa-name">${m.name}</div>
-          <div class="district"><span>📍</span> ${m.district}, ${m.state}</div>
-          <div class="need-reason">⚠️ ${m.needReason}</div>
-          <button class="donate-btn" data-upi="${m.upiId}" data-name="${m.name}">💝 Donate Now</button>
-        </div>
-      </div>
-    `;
-  }
-
-  function renderMadrasas() {
-    const top = getTopMadrasas();
-    document.getElementById('madrasaGrid').innerHTML = top.map(renderCard).join('');
-    attachDonateEvents();
-  }
-
-  function renderBooks() {
-    const grid = document.getElementById('booksGrid');
-    grid.innerHTML = booksData.map(book => `
-      <div class="book-card">
-        <div class="book-emoji">${book.emoji}</div>
-        <div class="book-title">${book.title}</div>
-        <div class="book-author">${book.author}</div>
-        <button class="read-btn" data-title="${book.title}">Read →</button>
-      </div>
-    `).join('');
-    document.querySelectorAll('.read-btn').forEach(btn => {
-      btn.addEventListener('click', () => alert(`📖 "${btn.dataset.title}" will be available for reading soon.`));
-    });
-  }
-
-  function attachDonateEvents() {
-    document.querySelectorAll('.donate-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        openDonationModal(btn.dataset.upi, btn.dataset.name);
-      });
-    });
-  }
-
-  // Auto Location on Load
-  function autoDetectLocation() {
-    const statusDiv = document.getElementById('locationStatus');
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          userLat = pos.coords.latitude;
-          userLng = pos.coords.longitude;
-          useNearby = true;
-          statusDiv.innerHTML = "📍 Showing madrasas near your location";
-          renderMadrasas();
-        },
-        () => {
-          statusDiv.innerHTML = "📍 Location access denied. Showing top need madrasas";
-          useNearby = false;
-          renderMadrasas();
-        }
-      );
-    } else {
-      statusDiv.innerHTML = "📍 Location not supported. Showing top need madrasas";
-      renderMadrasas();
-    }
-  }
-
-  // View All Madrasas
-  function showAllMadrasas() {
-    const modal = document.getElementById('allMadrasasModal');
-    const listDiv = document.getElementById('allMadrasasList');
-    let sorted = [...madrasasData];
-    if (useNearby && userLat && userLng) {
-      sorted = sorted.map(m => ({...m, dist: getDistance(userLat, userLng, m.lat, m.lng)})).sort((a,b) => a.dist - b.dist);
-    } else {
-      sorted = sorted.sort((a,b) => b.needScore - a.needScore);
-    }
-    listDiv.innerHTML = sorted.map(m => `
-      <div style="border-bottom: 1px solid #e2e8f0; padding: 14px;">
-        <div style="font-weight: 700; color: #0a5c2e;">${m.name}</div>
-        <div style="font-size: 0.75rem; color: #64748b; margin: 4px 0;">📍 ${m.district}, ${m.state}</div>
-        <div style="font-size: 0.7rem; background: #fef3c7; display: inline-block; padding: 2px 10px; border-radius: 20px;">⚠️ ${m.needReason}</div>
-        <button class="donate-btn-list" data-upi="${m.upiId}" data-name="${m.name}" style="margin-top: 10px; background: #fbbf24; border: none; padding: 6px 16px; border-radius: 30px; font-weight: 600;">Donate</button>
-      </div>
-    `).join('');
-    modal.style.display = 'flex';
-    document.querySelectorAll('.donate-btn-list').forEach(btn => {
-      btn.addEventListener('click', () => {
-        modal.style.display = 'none';
-        openDonationModal(btn.dataset.upi, btn.dataset.name);
-      });
-    });
-  }
-
-  function showAllBooks() {
-    const modal = document.getElementById('allBooksModal');
-    const listDiv = document.getElementById('allBooksList');
-    listDiv.innerHTML = booksData.map(book => `
-      <div style="border-bottom: 1px solid #e2e8f0; padding: 14px; display: flex; justify-content: space-between; align-items: center;">
-        <div><span style="font-size: 1.5rem;">${book.emoji}</span> <strong>${book.title}</strong><br><span style="font-size: 0.7rem;">${book.author}</span></div>
-        <button class="read-btn-list" data-title="${book.title}" style="background: #0a5c2e; color: white; border: none; padding: 5px 16px; border-radius: 30px;">Read</button>
-      </div>
-    `).join('');
-    modal.style.display = 'flex';
-    document.querySelectorAll('.read-btn-list').forEach(btn => {
-      btn.addEventListener('click', () => alert(`📖 "${btn.dataset.title}" will be available soon.`));
-    });
-  }
-
-  // Donation Modal
-  let currentUpi = "", currentName = "", selectedAmount = 101;
-  const modal = document.getElementById('donationModal');
-
-  function openDonationModal(upi, name) {
-    currentUpi = upi;
-    currentName = name;
-    selectedAmount = 101;
-    document.getElementById('modalName').innerText = name;
-    document.getElementById('modalUpi').innerHTML = `💳 UPI: ${upi}`;
-    document.getElementById('customAmount').value = '';
-    document.getElementById('qrContainer').innerHTML = '';
-    renderAmountOptions();
-    modal.style.display = 'flex';
-  }
-
-  function renderAmountOptions() {
-    const amounts = [51, 101, 501, 1001];
-    const container = document.getElementById('amountOptions');
-    container.innerHTML = amounts.map(am => `
-      <div class="amount-opt ${am === selectedAmount ? 'active' : ''}" data-amount="${am}">₹${am}</div>
-    `).join('');
-    document.querySelectorAll('.amount-opt').forEach(opt => {
-      opt.addEventListener('click', () => {
-        document.querySelectorAll('.amount-opt').forEach(o => o.classList.remove('active'));
-        opt.classList.add('active');
-        selectedAmount = parseInt(opt.dataset.amount);
-        document.getElementById('customAmount').value = '';
-      });
-    });
-  }
-
-  document.getElementById('proceedDonateBtn')?.addEventListener('click', () => {
-    let amount = document.getElementById('customAmount').value;
-    if (amount && parseFloat(amount) > 0) selectedAmount = parseFloat(amount);
-    if (!selectedAmount || selectedAmount <= 0) {
-      alert("Please select or enter amount");
-      return;
-    }
-    const upiLink = `upi://pay?pa=${encodeURIComponent(currentUpi)}&pn=${encodeURIComponent(currentName)}&am=${selectedAmount}&cu=INR`;
-    const qrDiv = document.getElementById('qrContainer');
-    qrDiv.innerHTML = `<div id="qrcode"></div><p style="margin-top: 8px;"><a href="${upiLink}" style="color: #0a5c2e;">Click here to pay ₹${selectedAmount}</a></p>`;
-    setTimeout(() => {
-      if (typeof QRCode !== 'undefined') {
-        new QRCode(document.getElementById("qrcode"), { text: upiLink, width: 160, height: 160 });
-      }
-    }, 100);
-  });
-
-  // Hero Slider
-  let slideIndex = 0;
-  const slides = document.querySelectorAll('.slide');
-  if (slides.length > 1) {
-    setInterval(() => {
-      slides[slideIndex].classList.remove('active');
-      slideIndex = (slideIndex + 1) % slides.length;
-      slides[slideIndex].classList.add('active');
-    }, 5000);
-  }
-
-  // Event Listeners
-  document.getElementById('viewAllBtn')?.addEventListener('click', showAllMadrasas);
-  document.getElementById('viewAllBooksBtn')?.addEventListener('click', showAllBooks);
-  document.getElementById('closeModalBtn')?.addEventListener('click', () => modal.style.display = 'none');
-  document.getElementById('closeAllModalBtn')?.addEventListener('click', () => document.getElementById('allMadrasasModal').style.display = 'none');
-  document.getElementById('closeBooksModalBtn')?.addEventListener('click', () => document.getElementById('allBooksModal').style.display = 'none');
-  window.addEventListener('click', (e) => {
-    if (e.target === modal) modal.style.display = 'none';
-    if (e.target === document.getElementById('allMadrasasModal')) document.getElementById('allMadrasasModal').style.display = 'none';
-    if (e.target === document.getElementById('allBooksModal')) document.getElementById('allBooksModal').style.display = 'none';
-  });
-  document.getElementById('menuBtn')?.addEventListener('click', () => {
-    alert("📋 Menu\n\n🏠 Home\n📚 Islamic Books\n📞 Contact: support@imdad.com");
-  });
-
-  // Start
-  renderBooks();
-  autoDetectLocation();
-</script>
 </body>
 </html>

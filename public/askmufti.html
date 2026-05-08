@@ -1,90 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Ask Mufti</title>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
-  <style>
-    body { font-family: serif; background: #f9f9e8; padding: 20px; text-align: center; }
-    h1 { color: #165a29; }
-    form, .qa-box { max-width: 500px; margin: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 0 5px #ccc; }
-    input, textarea, button { width: 100%; margin: 10px 0; padding: 12px; border-radius: 6px; border: 1px solid #ccc; }
-    button { background-color: #165a29; color: white; border: none; }
-    .answer { background: #e2fce2; padding: 10px; margin-top: 8px; border-radius: 8px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask Mufti | Imdad ul Madaris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; }
+
+        .navbar { background: #0a5c2e; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-icon { background: rgba(255,255,255,0.15); width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; color: white; }
+        .logo-text { font-size: 1.1rem; font-weight: 700; color: white; }
+        .menu-btn { background: none; border: none; cursor: pointer; padding: 4px; }
+
+        .container { max-width: 700px; margin: 0 auto; padding: 32px 20px; }
+
+        .page-title { text-align: center; margin-bottom: 8px; }
+        .page-title h1 { font-size: 1.8rem; color: #0a5c2e; }
+        .page-title p { color: #64748b; font-size: 0.9rem; margin-top: 4px; }
+
+        .card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 24px; }
+        .card h2 { font-size: 1.1rem; color: #0a5c2e; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+
+        input, textarea, select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none; transition: border 0.2s; margin-bottom: 12px; }
+        input:focus, textarea:focus, select:focus { border-color: #0a5c2e; }
+        textarea { resize: vertical; min-height: 100px; }
+
+        .submit-btn { background: #0a5c2e; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 600; font-size: 0.95rem; cursor: pointer; width: 100%; transition: 0.2s; }
+        .submit-btn:hover { background: #064e1f; }
+
+        .qa-item { background: #f8fafc; border-left: 4px solid #0a5c2e; padding: 14px 16px; border-radius: 10px; margin-bottom: 12px; }
+        .qa-item .q { font-weight: 600; color: #0f172a; margin-bottom: 6px; }
+        .qa-item .a { background: #f0fdf4; padding: 10px 14px; border-radius: 8px; color: #334155; font-size: 0.9rem; margin-top: 8px; }
+        .qa-item .pending { color: #f59e0b; font-size: 0.8rem; font-style: italic; margin-top: 6px; }
+        .qa-item .meta { font-size: 0.7rem; color: #94a3b8; margin-top: 4px; }
+
+        .info-box { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 14px 16px; border-radius: 10px; margin-bottom: 20px; font-size: 0.85rem; color: #92400e; }
+
+        footer { background: #064e1f; color: #a7f3d0; text-align: center; padding: 28px 20px; margin-top: 40px; font-size: 0.75rem; }
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 2000; padding: 12px 24px; border-radius: 30px; font-weight: 600; color: white; display: none; }
+
+        @media (max-width: 480px) {
+            .card { padding: 16px; }
+            .page-title h1 { font-size: 1.4rem; }
+        }
+    </style>
 </head>
 <body>
 
-  <h1>Ask Mufti</h1>
-  <form id="askForm">
-    <input type="text" id="name" placeholder="Your Name *" required />
-    <textarea id="question" placeholder="Your Question..." required></textarea>
-    <button type="submit">Submit</button>
-  </form>
+<div class="navbar">
+    <a href="index.html" class="logo">
+        <div class="logo-icon">IUM</div>
+        <div class="logo-text">Imdad ul Madaris</div>
+    </a>
+    <button class="menu-btn" id="menuBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+</div>
 
-  <div id="qaList"></div>
+<div class="container">
+    <div class="page-title">
+        <h1>Ask Mufti</h1>
+        <p>Get authentic Islamic guidance from qualified scholars</p>
+    </div>
 
-  <script>
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCZTzeqYz_KSzxUsZtYsxYeXS00FkGZKA0",
-  authDomain: "tableeg-ba0e5.firebaseapp.com",
-  projectId: "tableeg-ba0e5",
-  storageBucket: "tableeg-ba0e5.firebasestorage.app",
-  messagingSenderId: "201862792828",
-  appId: "1:201862792828:web:b598a523833d5a6f1a2bf9",
-  measurementId: "G-70GG7KGFX7"
-};
+    <div class="info-box">
+        <strong>How it works:</strong> Submit your question, and a qualified Mufti will answer it. Answers are sent to your email.
+    </div>
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    <!-- Ask Form -->
+    <div class="card">
+        <h2><i class="fas fa-question-circle"></i> Ask Your Question</h2>
+        <form id="askForm">
+            <input type="text" id="askName" placeholder="Your Name *" required>
+            <input type="email" id="askEmail" placeholder="Your Email *" required>
+            <select id="askCategory">
+                <option value="Fiqh">Fiqh (Islamic Jurisprudence)</option>
+                <option value="Aqeedah">Aqeedah (Beliefs)</option>
+                <option value="Tafseer">Tafseer (Quran Explanation)</option>
+                <option value="Hadith">Hadith</option>
+                <option value="Family">Family & Marriage</option>
+                <option value="Finance">Islamic Finance</option>
+                <option value="General">General Question</option>
+            </select>
+            <textarea id="askQuestion" placeholder="Type your question in detail..." required></textarea>
+            <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> Submit Question</button>
+        </form>
+    </div>
 
-    const form = document.getElementById("askForm");
-    const nameInput = document.getElementById("name");
-    const questionInput = document.getElementById("question");
-    const qaList = document.getElementById("qaList");
+    <!-- Previous Questions -->
+    <div class="card">
+        <h2><i class="fas fa-history"></i> Your Questions</h2>
+        <div id="questionsList">
+            <p style="text-align:center;color:#94a3b8;padding:20px;">Enter your email above and click to see your previous questions.</p>
+        </div>
+    </div>
+</div>
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const name = nameInput.value.trim();
-      const question = questionInput.value.trim();
-      if (!name || !question) return;
+<footer>
+    <p>&copy; 2026 Imdad ul Madaris &bull; Authentic Islamic Guidance</p>
+</footer>
 
-      await db.collection("askMufti").add({
-        name: name,
-        question: question,
-        answer: "",
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      });
+<div class="toast" id="toast"></div>
 
-      questionInput.value = "";
-      loadQuestions(name);
-    });
+<script src="index.js"></script>
+<script src="askmufti.js"></script>
 
-    function loadQuestions(name) {
-      qaList.innerHTML = "";
-      db.collection("askMufti")
-        .where("name", "==", name)
-        .orderBy("timestamp", "desc")
-        .onSnapshot(snapshot => {
-          qaList.innerHTML = "";
-          snapshot.forEach(doc => {
-            const data = doc.data();
-            const div = document.createElement("div");
-            div.className = "qa-box";
-            div.innerHTML = `
-              <p><strong>Q:</strong> ${data.question}</p>
-              ${data.answer ? `<div class="answer"><strong>A:</strong> ${data.answer}</div>` : "<div class='answer'>Waiting for answer...</div>"}
-            `;
-            qaList.appendChild(div);
-          });
-        });
-    }
-
-    nameInput.addEventListener("blur", () => {
-      const name = nameInput.value.trim();
-      if (name) loadQuestions(name);
-    });
-  </script>
 </body>
 </html>

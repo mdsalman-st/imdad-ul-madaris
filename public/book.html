@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Islamic Books Library</title>
+  <title>Islamic Books | Imdad ul Madaris</title>
   <style>
     * {
       margin: 0;
@@ -13,19 +13,19 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f5f5f5;
-      color: #333;
+      background-color: #f8f9fc;
+      color: #1e293b;
       line-height: 1.6;
     }
 
-    /* Navbar Styles */
+    /* Navbar */
     .navbar {
-      background-color: #006400;
+      background-color: #0a5c2e;
       color: white;
-      padding: 15px 20px;
+      padding: 12px 20px;
       position: sticky;
       top: 0;
-      z-index: 1000;
+      z-index: 100;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       display: flex;
       justify-content: space-between;
@@ -33,64 +33,16 @@
     }
 
     .navbar-title {
-      font-size: 22px;
-      font-weight: bold;
+      font-size: 18px;
+      font-weight: 700;
     }
 
-    .menu-toggle {
-      display: none;
-      cursor: pointer;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .menu-toggle span {
-      display: block;
-      width: 25px;
-      height: 3px;
-      background: white;
-      transition: all 0.3s ease;
-    }
-
-    /* Side Menu */
-    .side-menu {
-      position: fixed;
-      top: 0;
-      left: -300px;
-      width: 300px;
-      height: 100%;
-      background-color: #2c3e50;
+    .menu-icon {
+      background: none;
+      border: none;
       color: white;
-      padding: 20px;
-      transition: all 0.3s ease;
-      z-index: 1001;
-      overflow-y: auto;
-    }
-
-    .side-menu.show {
-      left: 0;
-    }
-
-    .side-menu h3 {
-      color: #f1c40f;
-      margin: 20px 0 10px;
-      border-bottom: 1px solid #34495e;
-      padding-bottom: 5px;
-    }
-
-    .side-menu a {
-      display: block;
-      color: #ecf0f1;
-      text-decoration: none;
-      padding: 10px;
-      margin: 5px 0;
-      border-radius: 4px;
-      transition: all 0.3s ease;
-    }
-
-    .side-menu a:hover {
-      background-color: #34495e;
-      color: #f1c40f;
+      cursor: pointer;
+      padding: 4px;
     }
 
     /* Main Content */
@@ -102,104 +54,202 @@
 
     header {
       text-align: center;
-      margin: 20px 0 40px;
+      margin: 20px 0 30px;
     }
 
     h1 {
-      color: #006400;
-      margin-bottom: 10px;
-      font-size: 2.2rem;
+      color: #0a5c2e;
+      margin-bottom: 8px;
+      font-size: 2rem;
+      font-weight: 700;
     }
 
     .subtitle {
-      color: #7f8c8d;
-      font-size: 1.1rem;
+      color: #64748b;
+      font-size: 1rem;
     }
 
-    /* Book Categories */
+    /* Category Pills */
+    .category-pills {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .pill {
+      padding: 6px 14px;
+      background: #f0fdf4;
+      color: #0a5c2e;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .pill:hover {
+      background: #0a5c2e;
+      color: white;
+    }
+
+    /* Search */
+    .search-box {
+      max-width: 500px;
+      margin: 0 auto 30px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 20px;
+      border: 2px solid #e2e8f0;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: #0a5c2e;
+    }
+
+    /* Category Section */
     .category {
-      margin-bottom: 40px;
+      margin-bottom: 32px;
       background: white;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }
 
     .category-title {
-      color: #006400;
+      color: #0a5c2e;
       margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #eee;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #f1f5f9;
       display: flex;
       align-items: center;
+      gap: 10px;
+      font-size: 1.2rem;
+      font-weight: 600;
     }
 
-    .category-title i {
-      margin-right: 10px;
-      font-size: 1.5rem;
+    .book-count {
+      font-size: 0.75rem;
+      color: #64748b;
+      font-weight: 400;
+      margin-left: 8px;
     }
 
     .book-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
     }
 
     .book-item {
-      background: #f9f9f9;
-      padding: 15px;
-      border-radius: 8px;
+      background: #f8fafc;
+      padding: 14px 16px;
+      border-radius: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: all 0.3s ease;
-      border-left: 4px solid #006400;
+      border-left: 4px solid #0a5c2e;
+      transition: all 0.2s;
     }
 
     .book-item:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      background: #f1f5f9;
     }
 
-    .book-title {
+    .book-name {
       font-weight: 500;
+      font-size: 0.9rem;
+      color: #334155;
       flex: 1;
+      margin-right: 12px;
     }
 
     .download-btn {
-      background-color: #28a745;
+      background: #0a5c2e;
       color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 5px;
+      padding: 8px 16px;
+      border-radius: 6px;
       cursor: pointer;
       text-decoration: none;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .download-btn:hover {
-      background-color: #218838;
+      background: #0d7a3e;
+    }
+
+    .coming-soon {
+      background: #e2e8f0;
+      color: #64748b;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      white-space: nowrap;
     }
 
     /* Footer */
     footer {
-      background-color: #006400;
-      color: white;
+      background: #064e1f;
+      color: #a7f3d0;
       text-align: center;
-      padding: 20px;
+      padding: 24px 20px;
       margin-top: 40px;
+      font-size: 0.8rem;
+    }
+
+    footer a {
+      color: #fbbf24;
+      text-decoration: none;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate {
+      animation: fadeIn 0.5s ease;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0a5c2e;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      z-index: 2000;
+      display: none;
     }
 
     /* Responsive */
     @media (max-width: 768px) {
-      .menu-toggle {
-        display: flex;
-      }
-
       .book-list {
         grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 1.5rem;
       }
 
       .container {
@@ -209,126 +259,42 @@
   </style>
 </head>
 <body>
+
   <!-- Navbar -->
   <nav class="navbar">
-    <div class="navbar-title">Islamic Books Library</div>
-    <div class="menu-toggle" onclick="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+    <a href="index.html" style="color:white;text-decoration:none;font-size:0.85rem;">&larr; Back</a>
+    <div class="navbar-title">Islamic Books</div>
+    <button class="menu-icon" id="menuBtn">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
   </nav>
-
-  <!-- Side Menu -->
-  <div class="side-menu" id="menu">
-    <h3>Main Menu</h3>
-    <a href="index.html">🏠 Home</a>
-    <a href="tablig.html">👥 Tableegi jamat</a>
-    <a href="book.html">📖 Books</a>
-    <a href="#contact">📧 Contact Us</a>
-    
-    <h3>You Can Find Here</h3>
-     <a href="#quran">📖 Quran & Tafseer</a>
-    <a href="#hadith">💬 Hadith Collections</a>
-    <a href="#fiqh">⚖️ Fiqh & Jurisprudence</a>
-    <a href="#seerah">🕌 Seerah & History</a>
-    <a href="#dua">🤲 Dua & Supplications</a>
-    <a href="#lectures">🎤 Islamic Lectures</a>
-    <a href="#articles">📝 Articles</a>
-  </div>
 
   <!-- Main Content -->
   <div class="container">
-    <header>
-      <h1>📚 Free Islamic PDF Books</h1>
-      <p class="subtitle">Download authentic Islamic books in various categories</p>
+    <header class="animate">
+      <h1>Islamic Books Library</h1>
+      <p class="subtitle">Download authentic Islamic books in PDF format</p>
     </header>
 
-    <!-- Arabic Grammar Section -->
-    <section class="category" id="arabic">
-      <h2 class="category-title">📖 Arabic Learning</h2>
-      <ul class="book-list">
-        <li class="book-item">
-          <span class="book-title">Asan Arabic Grammar Book 1</span>
-          <a href="ISLAMIC BOOKS/BO-07-Asan-Arbi-Grammar-p1.pdf" class="download-btn" download>Download</a>
-        </li>
-        <li class="book-item">
-          <span class="book-title">Asan Arabic Grammar Book 2</span>
-          <a href="ISLAMIC BOOKS/BO-08-Asan-Arbi-Grammar-p2.pdf" class="download-btn" download>Download</a>
-        </li>
-        <!-- Add more books here -->
-      </ul>
-    </section>
-
-    <!-- Quran Section -->
-    <section class="category" id="quran">
-      <h2 class="category-title">📜 Quran & Tafseer</h2>
-      <ul class="book-list">
-        <li class="book-item">
-          <span class="book-title">Tafseer Ibn Kathir (English)</span>
-          <a href="#" class="download-btn" download>Download</a>
-        </li>
-        <li class="book-item">
-          <span class="book-title">Tafseer As-Sa'di (Arabic)</span>
-          <a href="#" class="download-btn" download>Download</a>
-        </li>
-        <!-- Add more books here -->
-      </ul>
-    </section>
-
-    <!-- Hadith Section -->
-    <section class="category" id="hadith">
-      <h2 class="category-title">💬 Hadith Collections</h2>
-      <ul class="book-list">
-        <li class="book-item">
-          <span class="book-title">Sahih Al-Bukhari (English)</span>
-          <a href="#" class="download-btn" download>Download</a>
-        </li>
-        <li class="book-item">
-          <span class="book-title">Riyad us-Saliheen</span>
-          <a href="#" class="download-btn" download>Download</a>
-        </li>
-        <!-- Add more books here -->
-      </ul>
-    </section>
+    <!-- Dynamic Content Rendered by book.js -->
   </div>
 
+  <!-- Footer -->
   <footer>
-    <p>© 2025 Islamic Books Library. All rights reserved.</p>
-    <p>For any questions, please contact: mdshakilakhtar952@gmail.com</p>
+    <p>&copy; 2026 Imdad ul Madaris &bull; Knowledge is Light</p>
+    <p style="margin-top:4px;">For suggestions: <a href="mailto:mdshakilakhtar952@gmail.com">Contact Us</a></p>
   </footer>
 
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById("menu");
-      menu.classList.toggle("show");
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
 
-      // Toggle menu button animation
-      const spans = document.querySelectorAll('.menu-toggle span');
-      if (menu.classList.contains("show")) {
-        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-        spans[1].style.opacity = '0';
-        spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
-        document.addEventListener("click", closeMenuOutside);
-      } else {
-        spans[0].style.transform = '';
-        spans[1].style.opacity = '';
-        spans[2].style.transform = '';
-        document.removeEventListener("click", closeMenuOutside);
-      }
-    }
+  <!-- Scripts -->
+  <script src="index.js"></script>
+  <script src="book.js"></script>
 
-    function closeMenuOutside(event) {
-      const menu = document.getElementById("menu");
-      const toggle = document.querySelector(".menu-toggle");
-
-      if (!menu.contains(event.target) && !toggle.contains(event.target)) {
-        toggleMenu(); // This will close the menu and reset the button
-      }
-    }
-  </script>
-  <script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="kcagZ9B8w549INxDGCN9o";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-</script>
 </body>
 </html>

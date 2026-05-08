@@ -3,257 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin • Imdad ul Madaris</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Admin Panel | Imdad ul Madaris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <style>
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background: #f8fafc;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f1f5f9; min-height: 100vh; }
 
-        .header {
-            background: linear-gradient(135deg, #1e2937 0%, #334155 100%);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-        }
+        .header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 20px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .header-logo { width: 44px; height: 44px; background: #10b981; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 800; color: white; }
+        .header h1 { color: white; font-size: 1.2rem; }
+        .header p { color: #94a3b8; font-size: 0.75rem; }
+        .logout-btn { background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
 
-        .dashboard-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 28px 20px; }
 
-        table {
-            border-collapse: separate;
-            border-spacing: 0;
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
+        .stat-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .stat-card .num { font-size: 1.8rem; font-weight: 700; color: #0f172a; }
+        .stat-card .lbl { font-size: 0.75rem; color: #64748b; margin-top: 2px; }
 
-        th {
-            background: #f8fafc;
-            font-weight: 600;
-            color: #475569;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-        }
+        .card { background: white; border-radius: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 24px; }
+        .card-header { padding: 16px 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .card-header h3 { font-size: 1rem; color: #0f172a; }
 
-        td {
-            padding: 20px 24px;
-        }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f8fafc; padding: 12px 16px; text-align: left; font-size: 0.75rem; font-weight: 600; color: #64748b; text-transform: uppercase; }
+        td { padding: 14px 16px; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; }
+        tr:hover { background: #f8fafc; }
 
-        tr {
-            transition: all 0.2s ease;
-        }
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
+        .badge-pending { background: #fef3c7; color: #b45309; }
+        .badge-active { background: #d1fae5; color: #065f46; }
+        .badge-rejected { background: #fee2e2; color: #dc2626; }
 
-        tr:hover {
-            background: #f8fafc;
-            transform: scale(1.01);
-        }
+        .btn { padding: 8px 16px; border-radius: 8px; border: none; font-weight: 600; font-size: 0.75rem; cursor: pointer; transition: 0.2s; }
+        .btn-approve { background: #10b981; color: white; }
+        .btn-approve:hover { background: #059669; }
+        .btn-reject { background: #ef4444; color: white; }
+        .btn-reject:hover { background: #dc2626; }
 
-        .approve-btn {
-            padding: 12px 28px;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
+        .empty { text-align: center; padding: 40px; color: #94a3b8; }
 
-        .approve-btn:hover {
-            background: #10b981;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
-        }
+        .modal { display: flex; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-box { background: white; border-radius: 20px; padding: 32px; text-align: center; max-width: 380px; width: 90%; }
+        .modal-box input { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem; text-align: center; outline: none; margin: 16px 0; }
+        .modal-box input:focus { border-color: #0f172a; }
+        .modal-box button { background: #0f172a; color: white; border: none; padding: 12px 28px; border-radius: 10px; font-weight: 600; cursor: pointer; }
+        .error-msg { color: #ef4444; font-size: 0.8rem; margin-top: 8px; display: none; }
 
-        .status-dot {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background: #eab308;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1rem; }
+            th, td { padding: 10px 8px; font-size: 0.7rem; }
         }
     </style>
 </head>
-<body class="min-h-screen">
+<body>
 
-    <!-- Header -->
-    <div class="header py-6">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 bg-emerald-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">
-                        I
-                    </div>
-                    <div>
-                        <h1 class="text-3xl font-bold text-white tracking-tight">Imdad ul Madaris</h1>
-                        <p class="text-emerald-100 text-sm">Admin Dashboard</p>
-                    </div>
-                </div>
-                
-                <div class="flex items-center gap-6 text-white">
-                    <div class="text-right">
-                        <p class="font-medium">Md Salman</p>
-                        <p class="text-xs text-emerald-200">Super Admin</p>
-                    </div>
-                    <div class="w-10 h-10 bg-white/20 rounded-2xl flex items-center justify-center text-xl">
-                        👨‍💼
-                    </div>
-                </div>
-            </div>
+<div class="modal" id="passwordModal">
+    <div class="modal-box">
+        <h2 style="color:#0f172a;">🔐 Admin Login</h2>
+        <p style="color:#64748b;font-size:0.85rem;">Enter password to access panel</p>
+        <input type="password" id="adminPassword" placeholder="Password" autofocus>
+        <button onclick="checkPassword()">Unlock</button>
+        <p class="error-msg" id="errorMsg">Wrong password!</p>
+    </div>
+</div>
+
+<div id="mainPanel" style="display:none;">
+    <div class="header">
+        <div class="header-left">
+            <div class="header-logo">I</div>
+            <div><h1>Imdad ul Madaris</h1><p>Admin Control Panel</p></div>
+        </div>
+        <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+    </div>
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card"><div class="num" id="totalMadrasas">0</div><div class="lbl">Total Madrasas</div></div>
+            <div class="stat-card"><div class="num" id="pendingCount">0</div><div class="lbl">Pending Approval</div></div>
+            <div class="stat-card"><div class="num" id="activeCount">0</div><div class="lbl">Active</div></div>
+            <div class="stat-card"><div class="num" id="contactCount">0</div><div class="lbl">Contact Messages</div></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><h3>⏳ Pending Madrasa Approvals</h3><span class="badge badge-pending" id="pendingBadge">0 Pending</span></div>
+            <div style="overflow-x:auto;"><table><thead><tr><th>Madrasa Name</th><th>Mohtamim</th><th>District</th><th>Phone</th><th>UPI</th><th>Status</th><th>Action</th></tr></thead><tbody id="pendingList"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody></table></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><h3>🕌 All Registered Madrasas</h3></div>
+            <div style="overflow-x:auto;"><table><thead><tr><th>Madrasa</th><th>District</th><th>Phone</th><th>Status</th></tr></thead><tbody id="allMadrasasList"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody></table></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><h3>📧 Contact Messages</h3></div>
+            <div style="overflow-x:auto;"><table><thead><tr><th>Name</th><th>Email</th><th>Subject</th><th>Date</th></tr></thead><tbody id="contactList"><tr><td colspan="4" class="empty">No messages</td></tr></tbody></table></div>
         </div>
     </div>
+</div>
 
-    <div class="max-w-7xl mx-auto px-6 py-10">
-
-        <!-- Title + Stats -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
-            <div>
-                <h2 class="text-3xl font-semibold text-gray-800">Pending Madarsa Approvals</h2>
-                <p class="text-gray-500 mt-1">Review and verify new madarsa registrations</p>
-            </div>
-            
-            <div class="mt-4 md:mt-0 flex items-center gap-3 bg-white px-6 py-3 rounded-2xl shadow-sm">
-                <span class="text-2xl">⏳</span>
-                <div>
-                    <p class="text-sm text-gray-500">Pending Requests</p>
-                    <p id="count" class="text-3xl font-bold text-amber-600">0</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Card -->
-        <div class="dashboard-card">
-            <div class="px-8 py-6 border-b flex items-center justify-between bg-gray-50">
-                <h3 class="font-semibold text-lg text-gray-700 flex items-center gap-2">
-                    <i class="fas fa-list-check"></i>
-                    Pending KYC Approvals
-                </h3>
-                <span class="px-4 py-1.5 bg-amber-100 text-amber-700 text-sm font-medium rounded-xl flex items-center gap-2">
-                    <span class="status-dot"></span>
-                    Awaiting Review
-                </span>
-            </div>
-
-            <div class="table-wrapper">
-                <table class="w-full">
-                    <thead>
-                        <tr class="border-b">
-                            <th class="text-left px-8 py-5">Madarsa Name</th>
-                            <th class="text-left px-8 py-5">Email Address</th>
-                            <th class="text-left px-8 py-5">Registration No.</th>
-                            <th class="text-left px-8 py-5">Registered On</th>
-                            <th class="text-center px-8 py-5">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="madarsa-list" class="text-gray-700">
-                        <!-- Dynamic rows aayenge -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Empty State -->
-            <div id="empty-state" class="hidden py-20 text-center">
-                <div class="text-6xl mb-4">🎉</div>
-                <h3 class="text-2xl font-medium text-gray-700">All Clear!</h3>
-                <p class="text-gray-500 mt-2">Koi pending madarsa approval nahi hai</p>
-            </div>
-        </div>
-    </div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-        import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCZTzeqYz_KSzxUsZtYsxYeXS00FkGZKA0",
-            authDomain: "tableeg-ba0e5.firebaseapp.com",
-            projectId: "tableeg-ba0e5",
-            storageBucket: "tableeg-ba0e5.firebasestorage.app",
-            messagingSenderId: "201862792828",
-            appId: "1:201862792828:web:b598a523833d5a6f1a2bf9"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        async function loadPendingMadarsas() {
-            const listElement = document.getElementById('madarsa-list');
-            const countElement = document.getElementById('count');
-            const emptyState = document.getElementById('empty-state');
-
-            const q = query(
-                collection(db, "users"), 
-                where("role", "==", "madarsa"), 
-                where("status", "==", "pending_kyc")
-            );
-
-            const querySnapshot = await getDocs(q);
-            listElement.innerHTML = "";
-            countElement.textContent = querySnapshot.size;
-
-            if (querySnapshot.empty) {
-                emptyState.classList.remove('hidden');
-                return;
-            }
-
-            emptyState.classList.add('hidden');
-
-            querySnapshot.forEach((documentSnap) => {
-                const data = documentSnap.data();
-                const id = documentSnap.id;
-
-                const rowHTML = `
-                    <tr class="border-b last:border-none hover:bg-emerald-50/50">
-                        <td class="px-8 py-6 font-semibold text-gray-800">${data.madarsaName || 'Unnamed Madarsa'}</td>
-                        <td class="px-8 py-6 text-gray-600">${data.email || 'N/A'}</td>
-                        <td class="px-8 py-6 font-mono text-sm">${data.registrationNumber || 'Not Provided'}</td>
-                        <td class="px-8 py-6 text-gray-500 text-sm">
-                            ${data.createdAt ? new Date(data.createdAt.seconds * 1000).toLocaleDateString('en-IN') : 'N/A'}
-                        </td>
-                        <td class="px-8 py-6 text-center">
-                            <button onclick="approveMadarsa('${id}')" 
-                                    class="approve-btn bg-emerald-600 hover:bg-emerald-700 text-white text-sm flex items-center gap-2 mx-auto">
-                                <i class="fas fa-check"></i>
-                                Approve Madarsa
-                            </button>
-                        </td>
-                    </tr>
-                `;
-                listElement.innerHTML += rowHTML;
-            });
-        }
-
-        window.approveMadarsa = async (userId) => {
-            if (!confirm("Are you sure you want to approve this madarsa?")) return;
-
-            try {
-                const userRef = doc(db, "users", userId);
-                await updateDoc(userRef, { 
-                    status: "active",
-                    approvedAt: new Date()
-                });
-                
-                alert("✅ Madarsa has been successfully approved!");
-                loadPendingMadarsas();
-            } catch (error) {
-                console.error(error);
-                alert("Something went wrong: " + error.message);
-            }
-        };
-
-        // Load data on page load
-        loadPendingMadarsas();
-    </script>
+<script src="admin-panel.js"></script>
 </body>
 </html>

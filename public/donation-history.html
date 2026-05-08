@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation History | Imdad ul Madaris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; }
+        .navbar { background: #0a5c2e; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-icon { background: rgba(255,255,255,0.15); width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; }
+        .logo-text { font-size: 1.1rem; font-weight: 700; color: white; }
+        .menu-btn { background: none; border: none; cursor: pointer; padding: 4px; }
+        .container { max-width: 800px; margin: 0 auto; padding: 28px 20px; }
+        h2 { color: #0a5c2e; margin-bottom: 20px; }
+        .card { background: white; border-radius: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f8fafc; padding: 12px 14px; text-align: left; font-size: 0.75rem; color: #64748b; }
+        td { padding: 12px 14px; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; }
+        .empty { text-align: center; padding: 40px; color: #94a3b8; }
+        footer { background: #064e1f; color: #a7f3d0; text-align: center; padding: 20px; font-size: 0.7rem; margin-top: 40px; }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <a href="index.html" class="logo"><div class="logo-icon">IUM</div><div class="logo-text">Imdad ul Madaris</div></a>
+    <button class="menu-btn" id="menuBtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+</div>
+<div class="container">
+    <h2>Donation History</h2>
+    <div class="card">
+        <table><thead><tr><th>Date</th><th>Madrasa</th><th>Amount</th><th>Type</th></tr></thead>
+        <tbody id="historyList"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody></table>
+    </div>
+</div>
+<footer><p>&copy; 2026 Imdad ul Madaris</p></footer>
+<script src="index.js"></script>
+<script src="donation-history.js"></script>
+</body>
+</html>
