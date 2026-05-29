@@ -52,16 +52,18 @@
 </head>
 <body>
 
-    <!-- Password Modal -->
-    <div id="passwordModal">
-        <div class="password-box">
-            <h2>🔐 Admin Login</h2>
-            <input type="password" id="adminPassword" placeholder="Enter password">
-            <br>
-            <button onclick="checkPassword()">Login</button>
-            <p id="errorMsg" style="color:red; display:none; margin-top:10px;">❌ Wrong password!</p>
-        </div>
-    </div>
+      <!-- Password Modal -->
+      <div id="passwordModal">
+          <div class="password-box">
+              <h2>🛡️ Admin Login</h2>
+              <input type="text" id="adminUsername" placeholder="Enter username" style="margin-top: 20px;">
+              <br>
+              <input type="password" id="adminPassword" placeholder="Enter password">
+              <br>
+              <button onclick="checkPassword()">Login</button>
+              <p id="errorMsg" style="color: red; display: none; margin-top: 10px; font-weight: bold;"></p>
+          </div>
+      </div>
 
     <!-- Main Panel -->
     <div id="mainPanel" style="display:none;">

@@ -1,11 +1,9 @@
 (function () {
-  var host = window.location.hostname;
-  var isLocal = host === 'localhost' || host === '127.0.0.1';
   if (!window.IMDAD_API_BASE) {
-    window.IMDAD_API_BASE = isLocal ? 'http://localhost:5000' : 'https://imdad-backend-1.onrender.com';
+    window.IMDAD_API_BASE = 'https://imdad-backend-1.onrender.com';
   }
   if (!window.IMDAD_AUTH_API_BASE) {
-    window.IMDAD_AUTH_API_BASE = isLocal ? 'http://localhost:5000/api' : 'https://imdad-backend-1.onrender.com/api';
+    window.IMDAD_AUTH_API_BASE = 'https://imdad-backend-1.onrender.com/api';
   }
 
 })();
