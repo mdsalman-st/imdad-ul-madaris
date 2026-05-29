@@ -48,6 +48,11 @@
         .password-box { background: white; padding: 30px; border-radius: 16px; text-align: center; }
         .password-box input { padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; width: 250px; margin: 10px 0; }
         .password-box button { padding: 12px 30px; background: #0a5c2e; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600; }
+        .mt-20 { margin-top: 20px; }
+        .error-msg { color: red; display: none; margin-top: 10px; font-weight: bold; }
+        .d-none { display: none; }
+        .badge-text { font-size: 0.8rem; }
+        .table-responsive { overflow-x: auto; }
     </style>
 </head>
 <body>
@@ -56,17 +61,17 @@
       <div id="passwordModal">
           <div class="password-box">
               <h2>🛡️ Admin Login</h2>
-              <input type="text" id="adminUsername" placeholder="Enter username" style="margin-top: 20px;">
+              <input type="text" id="adminUsername" placeholder="Enter username" class="mt-20">
               <br>
               <input type="password" id="adminPassword" placeholder="Enter password">
               <br>
               <button onclick="checkPassword()">Login</button>
-              <p id="errorMsg" style="color: red; display: none; margin-top: 10px; font-weight: bold;"></p>
+              <p id="errorMsg" class="error-msg"></p>
           </div>
       </div>
 
     <!-- Main Panel -->
-    <div id="mainPanel" style="display:none;">
+    <div id="mainPanel" class="d-none">
         <div class="header">
             <h1>🛡️ Imdad ul Madaris | Admin Panel</h1>
             <button class="logout-btn" onclick="logout()">🚪 Logout</button>
@@ -81,8 +86,8 @@
             </div>
 
             <div class="section">
-                <h2>⏳ Pending Approvals <span id="pendingBadge" style="font-size:0.8rem;"></span></h2>
-                <div style="overflow-x:auto;">
+                <h2>⏳ Pending Approvals <span id="pendingBadge" class="badge-text"></span></h2>
+                <div class="table-responsive">
                     <table>
                         <thead><tr><th>Madrasa Name</th><th>Mohtamim</th><th>District</th><th>Phone</th><th>UPI</th><th>Status</th><th>Documents</th><th>Actions</th></tr></thead>
                         <tbody id="pendingList"></tbody>
@@ -108,8 +113,8 @@
 
             <!-- ✅ Ask Mufti Questions -->
             <div class="section">
-                <h2>📿 Ask Mufti Questions <span id="muftiBadge" style="font-size:0.8rem;"></span></h2>
-                <div style="overflow-x:auto;">
+                <h2>📿 Ask Mufti Questions <span id="muftiBadge" class="badge-text"></span></h2>
+                <div class="table-responsive">
                     <table>
                         <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Category</th><th>Question</th><th>Answer</th><th>Action</th></tr></thead>
                         <tbody id="muftiQuestionsList"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
@@ -119,8 +124,8 @@
 
             <!-- ✅ Contact Messages -->
             <div class="section">
-                <h2>📧 Contact Messages <span id="messagesBadge" style="font-size:0.8rem;"></span></h2>
-                <div style="overflow-x:auto;">
+                <h2>📧 Contact Messages <span id="messagesBadge" class="badge-text"></span></h2>
+                <div class="table-responsive">
                     <table>
                         <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Phone</th><th>Subject</th><th>Message</th><th>Action</th></tr></thead>
                         <tbody id="contactsList"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
