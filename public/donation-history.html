@@ -5,14 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donation History | Imdad ul Madaris</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #f8fafc; }
+
+        /* ---------- SIDE MENU ---------- */
+        #sideMenu {
+            position: fixed; top: 0; left: -280px; width: 280px; height: 100vh;
+            background: white; z-index: 2000; box-shadow: 8px 0 40px rgba(0,0,0,0.12);
+            overflow-y: auto; transition: left 0.3s ease; padding-top: 20px;
+        }
+        #sideMenu.open { left: 0; }
+        #sideMenu .menu-header {
+            background: linear-gradient(135deg,#0a5c2e,#0d7a3e); color: white;
+            padding: 20px; display: flex; justify-content: space-between; align-items: center;
+        }
+        #sideMenu .close-btn {
+            background: rgba(255,255,255,0.2); border: none; color: white; font-size: 1.5rem;
+            width: 35px; height: 35px; border-radius: 50%; cursor: pointer;
+        }
+        #sideMenu nav a {
+            display: flex; align-items: center; gap: 10px; padding: 12px 20px;
+            text-decoration: none; color: #334155; font-size: 0.95rem; border-bottom: 1px solid #f1f5f9;
+        }
+        #sideMenu nav a:hover { background: #f8fafc; color: #0a5c2e; }
+        #overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1500; }
+        #overlay.show { display: block; }
+
+        /* ---------- NAVBAR ---------- */
         .navbar { background: #0a5c2e; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
         .logo-icon { background: rgba(255,255,255,0.15); width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; }
         .logo-text { font-size: 1.1rem; font-weight: 700; color: white; }
+        .back-btn { color: white; text-decoration: none; font-size: 0.9rem; margin-right: 15px; font-weight: 500; }
         .menu-btn { background: none; border: none; cursor: pointer; padding: 4px; }
+
+        /* ---------- CONTENT ---------- */
         .container { max-width: 800px; margin: 0 auto; padding: 28px 20px; }
         h2 { color: #0a5c2e; margin-bottom: 20px; }
         .card { background: white; border-radius: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden; }
@@ -21,13 +50,51 @@
         td { padding: 12px 14px; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; }
         .empty { text-align: center; padding: 40px; color: #94a3b8; }
         footer { background: #064e1f; color: #a7f3d0; text-align: center; padding: 20px; font-size: 0.7rem; margin-top: 40px; }
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 2000; padding: 12px 24px; border-radius: 30px; font-weight: 600; color: white; display: none; }
+        @media (max-width: 600px) {
+            .container { padding: 16px 12px; }
+            td, th { padding: 8px; font-size: 0.75rem; }
+        }
     </style>
 </head>
 <body>
-<div class="navbar">
-    <a href="index.html" class="logo"><div class="logo-icon">IUM</div><div class="logo-text">Imdad ul Madaris</div></a>
-    <button class="menu-btn" id="menuBtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+
+<!-- OVERLAY -->
+<div id="overlay" onclick="closeMenu()"></div>
+
+<!-- SIDE MENU -->
+<div id="sideMenu">
+    <div class="menu-header">
+        <h2 style="font-size:1.1rem;">📚 Menu</h2>
+        <button class="close-btn" onclick="closeMenu()">&times;</button>
+    </div>
+    <nav>
+        <a href="index.html">🏠 Home</a>
+        <a href="blog.html">📝 Blog</a>
+        <a href="book.html">📚 Books</a>
+        <a href="askmufti.html">❓ Ask Mufti</a>
+        <a href="leaderboard.html">🏆 Leaderboard</a>
+        <a href="donor-dashboard.html">📊 My Dashboard</a>
+        <a href="donation-history.html">💰 Donation History</a>
+        <a href="profile.html">👤 Profile</a>
+    </nav>
 </div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div style="display:flex; align-items:center;">
+        <a href="index.html" class="back-btn">← Back</a>
+        <a href="index.html" class="logo">
+            <div class="logo-icon">IUM</div>
+            <div class="logo-text">Imdad ul Madaris</div>
+        </a>
+    </div>
+    <button class="menu-btn" id="menuBtn" onclick="openMenu()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+</div>
+
+<!-- MAIN CONTENT -->
 <div class="container">
     <h2>Donation History</h2>
     <div class="card">
@@ -35,8 +102,25 @@
         <tbody id="historyList"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody></table>
     </div>
 </div>
+
 <footer><p>&copy; 2026 Imdad ul Madaris</p></footer>
-<script src="index.js"></script>
+
+<div class="toast" id="toast"></div>
+
+<!-- MENU SCRIPTS -->
+<script>
+    function openMenu() {
+        document.getElementById('sideMenu').classList.add('open');
+        document.getElementById('overlay').classList.add('show');
+    }
+    function closeMenu() {
+        document.getElementById('sideMenu').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+    }
+</script>
+
+<script src="config.js"></script>
 <script src="donation-history.js"></script>
+
 </body>
 </html>

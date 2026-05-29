@@ -1,6 +1,21 @@
 {
+  "name": "imdad-ul-madaris",
+  "private": true,
+  "description": "Imdad ul Madaris — frontend (Firebase) + backend (Express/MongoDB)",
+  "scripts": {
+    "install:backend": "npm install --prefix backend",
+    "install:all": "npm install --prefix backend",
+    "start:backend": "npm start --prefix backend",
+    "dev:backend": "npm start --prefix backend",
+    "deploy:hosting": "firebase deploy --only hosting"
+  },
   "dependencies": {
+    "cloudinary": "^1.41.3",
     "firebase": "^11.9.0",
-    "mongodb": "^7.1.1"
+    "mongodb": "^7.1.1",
+    "multer-storage-cloudinary": "^4.0.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.3.0"
   }
 }

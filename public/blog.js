@@ -1,8 +1,9 @@
-// ==================== BLOG JS ====================
-const API_BASE = 'https://imdad-backend-1.onrender.com';
+// ==================== BLOG JS (FIXED & SAFE) ====================
+var API_BASE = window.IMDAD_API_BASE;
 
 function showToast(msg, err = false) {
   const t = document.getElementById('toast');
+  if (!t) return; // guard
   t.textContent = msg;
   t.style.cssText = `display:block;background:${err?'#dc2626':'#0a5c2e'};color:white;padding:12px 24px;border-radius:30px;font-weight:600;`;
   setTimeout(() => t.style.display = 'none', 3000);
@@ -15,7 +16,7 @@ async function fetchAPI(url, opts = {}) {
   return data;
 }
 
-// Blog data
+// Blog data (static)
 const blogPosts = [
   { id: 1, title: "Ramadan 2026: Double Your Rewards", excerpt: "This Ramadan, your donations can make twice the impact.", category: "islamic", date: "2026-03-15", readTime: "5 min read", image: "ramadan", author: "Imdad Team" },
   { id: 2, title: "New Madrasa Added in Patna", excerpt: "Jamia Islamia Darul Uloom has joined our platform.", category: "news", date: "2026-03-10", readTime: "3 min read", image: "madrasa", author: "Admin" },
@@ -37,6 +38,10 @@ function getImageUrl(cat) {
 }
 
 function renderBlog() {
+  const grid = document.getElementById('blogGrid');
+  const pagination = document.getElementById('pagination');
+  if (!grid || !pagination) return; // guards
+
   let filtered = [...blogPosts];
   if (currentCategory !== "all") filtered = filtered.filter(p => p.category === currentCategory);
   if (currentSearch) {
@@ -47,11 +52,10 @@ function renderBlog() {
   const totalPages = Math.ceil(filtered.length / postsPerPage);
   const start = (currentPage - 1) * postsPerPage;
   const posts = filtered.slice(start, start + postsPerPage);
-  const grid = document.getElementById('blogGrid');
 
   if (posts.length === 0) {
     grid.innerHTML = '<div style="text-align:center;padding:60px;color:#64748b;">No articles found.</div>';
-    document.getElementById('pagination').innerHTML = '';
+    pagination.innerHTML = '';
     return;
   }
 
@@ -69,40 +73,64 @@ function renderBlog() {
     </div>
   `).join('');
 
-  let pages = '';
+  let pagesHTML = '';
   for (let i = 1; i <= totalPages; i++) {
-    pages += `<button class="page-btn ${i===currentPage?'active':''}" data-page="${i}">${i}</button>`;
+    pagesHTML += `<button class="page-btn ${i===currentPage?'active':''}" data-page="${i}">${i}</button>`;
   }
-  document.getElementById('pagination').innerHTML = pages;
+  pagination.innerHTML = pagesHTML;
 
-  document.querySelectorAll('.page-btn').forEach(b => {
-    b.onclick = () => { currentPage = +b.dataset.page; renderBlog(); window.scrollTo({top:400,behavior:'smooth'}); };
+  // Attach events to new pagination buttons
+  pagination.querySelectorAll('.page-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      currentPage = +b.dataset.page;
+      renderBlog();
+      window.scrollTo({ top: 400, behavior: 'smooth' });
+    });
   });
 }
 
-// Events
+// Category filters
 document.querySelectorAll('.category-btn').forEach(b => {
-  b.onclick = () => {
+  b.addEventListener('click', () => {
     document.querySelectorAll('.category-btn').forEach(x => x.classList.remove('active'));
     b.classList.add('active');
     currentCategory = b.dataset.cat;
     currentPage = 1;
     renderBlog();
-  };
+  });
 });
 
-document.getElementById('searchBtn').onclick = () => { currentSearch = document.getElementById('searchInput').value.trim(); currentPage = 1; renderBlog(); };
-document.getElementById('searchInput').onkeypress = (e) => { if(e.key==='Enter'){ currentSearch = e.target.value.trim(); currentPage = 1; renderBlog(); } };
+// Search
+const searchBtn = document.getElementById('searchBtn');
+const searchInput = document.getElementById('searchInput');
+if (searchBtn && searchInput) {
+  searchBtn.addEventListener('click', () => {
+    currentSearch = searchInput.value.trim();
+    currentPage = 1;
+    renderBlog();
+  });
+  searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      currentSearch = searchInput.value.trim();
+      currentPage = 1;
+      renderBlog();
+    }
+  });
+}
 
 // Newsletter
-document.getElementById('subscribeBtn').onclick = async () => {
-  const email = document.getElementById('newsletterEmail').value.trim();
-  if (!email || !email.includes('@')) return showToast('Enter valid email', true);
-  try {
-    await fetchAPI('/api/subscribe', { method: 'POST', body: JSON.stringify({ email }) });
-    showToast('✅ Subscribed!');
-    document.getElementById('newsletterEmail').value = '';
-  } catch { showToast('Failed. Try again.', true); }
-};
+const subscribeBtn = document.getElementById('subscribeBtn');
+const newsletterEmail = document.getElementById('newsletterEmail');
+if (subscribeBtn && newsletterEmail) {
+  subscribeBtn.addEventListener('click', async () => {
+    const email = newsletterEmail.value.trim();
+    if (!email || !email.includes('@')) return showToast('Enter valid email', true);
+    try {
+      await fetchAPI('/api/subscribe', { method: 'POST', body: JSON.stringify({ email }) });
+      showToast('✅ Subscribed!');
+      newsletterEmail.value = '';
+    } catch { showToast('Failed. Try again.', true); }
+  });
+}
 
 renderBlog();

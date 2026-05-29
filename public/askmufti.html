@@ -5,109 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ask Mufti | Imdad ul Madaris</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; min-height: 100vh; }
 
         .navbar { background: #0a5c2e; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .logo-icon { background: rgba(255,255,255,0.15); width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; color: white; }
-        .logo-text { font-size: 1.1rem; font-weight: 700; color: white; }
+        .logo { color: white; font-weight: 700; text-decoration: none; font-size: 1rem; }
         .menu-btn { background: none; border: none; cursor: pointer; padding: 4px; }
 
-        .container { max-width: 700px; margin: 0 auto; padding: 32px 20px; }
+        .hero { background: linear-gradient(135deg, #0a5c2e, #064e1f); color: white; text-align: center; padding: 36px 20px; }
+        .hero h1 { font-size: 1.6rem; margin-bottom: 8px; }
+        .hero p { font-size: 0.9rem; opacity: 0.9; max-width: 520px; margin: 0 auto; }
 
-        .page-title { text-align: center; margin-bottom: 8px; }
-        .page-title h1 { font-size: 1.8rem; color: #0a5c2e; }
-        .page-title p { color: #64748b; font-size: 0.9rem; margin-top: 4px; }
+        .container { max-width: 720px; margin: 0 auto; padding: 28px 20px 48px; }
 
-        .card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 24px; }
-        .card h2 { font-size: 1.1rem; color: #0a5c2e; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 24px; }
+        .card h2 { font-size: 1.1rem; color: #0a5c2e; margin-bottom: 16px; }
 
-        input, textarea, select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none; transition: border 0.2s; margin-bottom: 12px; }
-        input:focus, textarea:focus, select:focus { border-color: #0a5c2e; }
-        textarea { resize: vertical; min-height: 100px; }
-
-        .submit-btn { background: #0a5c2e; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 600; font-size: 0.95rem; cursor: pointer; width: 100%; transition: 0.2s; }
-        .submit-btn:hover { background: #064e1f; }
-
-        .qa-item { background: #f8fafc; border-left: 4px solid #0a5c2e; padding: 14px 16px; border-radius: 10px; margin-bottom: 12px; }
-        .qa-item .q { font-weight: 600; color: #0f172a; margin-bottom: 6px; }
-        .qa-item .a { background: #f0fdf4; padding: 10px 14px; border-radius: 8px; color: #334155; font-size: 0.9rem; margin-top: 8px; }
-        .qa-item .pending { color: #f59e0b; font-size: 0.8rem; font-style: italic; margin-top: 6px; }
-        .qa-item .meta { font-size: 0.7rem; color: #94a3b8; margin-top: 4px; }
-
-        .info-box { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 14px 16px; border-radius: 10px; margin-bottom: 20px; font-size: 0.85rem; color: #92400e; }
-
-        footer { background: #064e1f; color: #a7f3d0; text-align: center; padding: 28px 20px; margin-top: 40px; font-size: 0.75rem; }
-        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 2000; padding: 12px 24px; border-radius: 30px; font-weight: 600; color: white; display: none; }
-
-        @media (max-width: 480px) {
-            .card { padding: 16px; }
-            .page-title h1 { font-size: 1.4rem; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 500; color: #475569; margin-bottom: 4px; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 11px 12px; border: 2px solid #e2e8f0; border-radius: 10px;
+            font-family: inherit; font-size: 0.9rem; outline: none;
         }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #0a5c2e; }
+        textarea { min-height: 110px; resize: vertical; }
+
+        .submit-btn {
+            background: #0a5c2e; color: white; border: none; width: 100%; padding: 13px;
+            border-radius: 12px; font-weight: 600; font-size: 0.95rem; cursor: pointer;
+        }
+        .submit-btn:hover { background: #064e1f; }
+        .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .qa-item { border-bottom: 1px solid #f1f5f9; padding: 16px 0; }
+        .qa-item:last-child { border-bottom: none; }
+        .qa-item .q { font-weight: 600; color: #0f172a; margin-bottom: 6px; }
+        .qa-item .meta { font-size: 0.75rem; color: #94a3b8; margin-bottom: 8px; }
+        .qa-item .a { background: #f0fdf4; padding: 10px 12px; border-radius: 8px; color: #166534; font-size: 0.9rem; }
+        .qa-item .pending { color: #b45309; font-size: 0.85rem; }
+
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: none; }
+
+        footer { text-align: center; padding: 20px; color: #94a3b8; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-<div class="navbar">
-    <a href="index.html" class="logo">
-        <div class="logo-icon">IUM</div>
-        <div class="logo-text">Imdad ul Madaris</div>
-    </a>
-    <button class="menu-btn" id="menuBtn">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+<nav class="navbar">
+    <a href="index.html" class="logo">🕌 Imdad ul Madaris</a>
+    <button type="button" class="menu-btn" id="menuBtn" aria-label="Open menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
     </button>
+</nav>
+
+<div class="hero">
+    <h1>❓ Ask a Mufti</h1>
+    <p>Submit your Islamic question. Our scholars will answer as soon as possible.</p>
 </div>
 
 <div class="container">
-    <div class="page-title">
-        <h1>Ask Mufti</h1>
-        <p>Get authentic Islamic guidance from qualified scholars</p>
-    </div>
-
-    <div class="info-box">
-        <strong>How it works:</strong> Submit your question, and a qualified Mufti will answer it. Answers are sent to your email.
-    </div>
-
-    <!-- Ask Form -->
     <div class="card">
-        <h2><i class="fas fa-question-circle"></i> Ask Your Question</h2>
+        <h2>Submit Your Question</h2>
         <form id="askForm">
-            <input type="text" id="askName" placeholder="Your Name *" required>
-            <input type="email" id="askEmail" placeholder="Your Email *" required>
-            <select id="askCategory">
-                <option value="Fiqh">Fiqh (Islamic Jurisprudence)</option>
-                <option value="Aqeedah">Aqeedah (Beliefs)</option>
-                <option value="Tafseer">Tafseer (Quran Explanation)</option>
-                <option value="Hadith">Hadith</option>
-                <option value="Family">Family & Marriage</option>
-                <option value="Finance">Islamic Finance</option>
-                <option value="General">General Question</option>
-            </select>
-            <textarea id="askQuestion" placeholder="Type your question in detail..." required></textarea>
-            <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> Submit Question</button>
+            <div class="form-group">
+                <label for="askName">Your Name *</label>
+                <input type="text" id="askName" required placeholder="Full name">
+            </div>
+            <div class="form-group">
+                <label for="askEmail">Email *</label>
+                <input type="email" id="askEmail" required placeholder="you@example.com">
+            </div>
+            <div class="form-group">
+                <label for="askCategory">Category</label>
+                <select id="askCategory">
+                    <option value="Fiqh">Fiqh</option>
+                    <option value="Zakat">Zakat</option>
+                    <option value="Prayer">Prayer</option>
+                    <option value="Family">Family</option>
+                    <option value="General">General</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="askQuestion">Your Question *</label>
+                <textarea id="askQuestion" required placeholder="Type your question here..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Submit Question</button>
         </form>
     </div>
 
-    <!-- Previous Questions -->
     <div class="card">
-        <h2><i class="fas fa-history"></i> Your Questions</h2>
+        <h2>Your Previous Questions</h2>
         <div id="questionsList">
-            <p style="text-align:center;color:#94a3b8;padding:20px;">Enter your email above and click to see your previous questions.</p>
+            <p style="text-align:center;color:#94a3b8;padding:20px;">Enter your email above to see your previous questions.</p>
         </div>
     </div>
 </div>
 
-<footer>
-    <p>&copy; 2026 Imdad ul Madaris &bull; Authentic Islamic Guidance</p>
-</footer>
-
+<footer><p>&copy; 2026 Imdad ul Madaris</p></footer>
 <div class="toast" id="toast"></div>
 
+<script src="config.js"></script>
 <script src="index.js"></script>
 <script src="askmufti.js"></script>
-
 </body>
 </html>

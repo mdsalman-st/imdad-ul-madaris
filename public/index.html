@@ -10,7 +10,9 @@
 
     .navbar { background: #0a5c2e; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
     .logo { background: rgba(255,255,255,0.12); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 700; color: white; }
+    .navbar-actions { display: flex; align-items: center; gap: 12px; }
     .menu-icon { background: none; border: none; color: white; font-size: 26px; cursor: pointer; }
+    .login-btn { background: white; color: #0a5c2e; padding: 8px 18px; border-radius: 30px; font-weight: 600; font-size: 0.85rem; text-decoration: none; }
 
     .stats-bar { display: flex; justify-content: space-around; background: white; margin: 16px 20px; padding: 16px; border-radius: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
     .stat-item { text-align: center; }
@@ -22,7 +24,11 @@
     @keyframes fadeInUp { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
     .hero-slider { position: relative; height: 35vh; min-height: 260px; overflow: hidden; }
-    .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 0.8s ease; }
+      /* Move inline background images to CSS classes to avoid inline styles */
+      .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 0.8s ease; }
+      .slide.bg1 { background-image: url('https://images.pexels.com/photos/5548049/pexels-photo-5548049.jpeg?auto=compress&cs=tinysrgb&w=1200'); }
+      .slide.bg2 { background-image: url('https://images.pexels.com/photos/6035989/pexels-photo-6035989.jpeg?auto=compress&cs=tinysrgb&w=1200'); }
+      .slide.bg3 { background-image: url('https://images.pexels.com/photos/258114/pexels-photo-258114.jpeg?auto=compress&cs=tinysrgb&w=1200'); }
     .slide.active { opacity: 1; }
     .slide-overlay { position: absolute; inset: 0; background: rgba(0, 30, 0, 0.6); display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; }
     .slide-overlay h1 { color: white; font-size: 1.3rem; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
@@ -59,10 +65,6 @@
     .modal-content { background: white; width: 90%; max-width: 380px; border-radius: 28px; padding: 24px; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
     .close-modal { font-size: 28px; cursor: pointer; color: #64748b; }
-    .amount-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
-    .amount-opt { padding: 12px; border: 1px solid #e2e8f0; border-radius: 14px; text-align: center; font-weight: 600; cursor: pointer; }
-    .amount-opt.active { border-color: #0a5c2e; background: #f0fdf4; }
-    #customAmount { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 14px; }
 
     @media (min-width: 550px) { .madrasa-grid { grid-template-columns: repeat(2, 1fr); } .books-grid { grid-template-columns: repeat(4, 1fr); } }
     @media (min-width: 900px) { .madrasa-grid { grid-template-columns: repeat(4, 1fr); } }
@@ -70,29 +72,38 @@
 </head>
 <body>
 
+<!-- NAVBAR -->
 <div class="navbar">
   <div class="logo">IUM</div>
-  <button class="menu-icon" id="menuBtn">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-  </button>
+  <div class="navbar-actions">
+    <a href="auth.html" class="login-btn" id="navbarLoginBtn">Login</a>
+    <button type="button" class="menu-icon" id="menuBtn" aria-label="Open menu" title="Open menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
 </div>
 
+<!-- HERO SLIDER -->
 <div class="hero-slider">
   <div class="slide active" style="background-image: url('https://images.pexels.com/photos/5548049/pexels-photo-5548049.jpeg?auto=compress&cs=tinysrgb&w=1200');"><div class="slide-overlay"><h1>الصَّدَقَةُ تُطْفِئُ الْخَطِيئَةَ</h1></div></div>
   <div class="slide" style="background-image: url('https://images.pexels.com/photos/6035989/pexels-photo-6035989.jpeg?auto=compress&cs=tinysrgb&w=1200');"><div class="slide-overlay"><h1>صدقہ گناہوں کو مٹاتا ہے</h1></div></div>
   <div class="slide" style="background-image: url('https://images.pexels.com/photos/258114/pexels-photo-258114.jpeg?auto=compress&cs=tinysrgb&w=1200');"><div class="slide-overlay"><h1>Charity extinguishes sins as water extinguishes fire</h1></div></div>
 </div>
 
+<!-- MARQUEE -->
 <div class="marquee"><span id="marqueeText">🕌 Direct UPI Donation • 0% Charges • 100% Transparent • Support Local Madrasas 🤲</span></div>
 
+<!-- STATS -->
 <div class="stats-bar">
   <div class="stat-item"><div class="stat-number" id="statMadrasas">...</div><div class="stat-label">Active Madrasas</div></div>
   <div class="stat-item"><div class="stat-number" id="statDonations">...</div><div class="stat-label">Donations</div></div>
   <div class="stat-item"><div class="stat-number" id="statAmount">...</div><div class="stat-label">Total Raised</div></div>
 </div>
 
+<!-- LOCATION -->
 <div class="location-status" id="locationStatus">📍 Detecting your location...</div>
 
+<!-- MAIN CONTENT -->
 <div class="container">
   <div class="section-header"><h2>Madrasas Near You</h2><button class="view-all-btn" id="viewAllBtn">View All →</button></div>
   <div id="madrasaGrid" class="madrasa-grid"></div>
@@ -100,7 +111,7 @@
   <div id="booksGrid" class="books-grid"></div>
 </div>
 
-<!-- Footer -->
+<!-- FOOTER -->
 <footer style="background: #064e1f; color: #a7f3d0; text-align: center; padding: 30px 20px 20px; margin-top: 40px;">
   <div style="max-width: 500px; margin: 0 auto;">
     <h3 style="color: white; font-size: 1rem; margin-bottom: 12px;">Stay Connected</h3>
@@ -111,7 +122,7 @@
     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 20px; text-align: left;">
       <a href="info.html?page=about" style="color: #a7f3d0; text-decoration: none; font-size: 0.8rem;">About Us</a>
       <a href="info.html?page=faq" style="color: #a7f3d0; text-decoration: none; font-size: 0.8rem;">FAQ</a>
-      <a href="contectus.html" style="color: #a7f3d0; text-decoration: none; font-size: 0.8rem;">Contact Us</a>
+      <a href="contact.html" style="color: #a7f3d0; text-decoration: none; font-size: 0.8rem;">Contact Us</a>
       <a href="info.html?page=privacy" style="color: #a7f3d0; text-decoration: none; font-size: 0.8rem;">Privacy Policy</a>
       <a href="info.html?page=terms" style="color: #a7f3d0; text-decoration: none; font-size: 0.8rem;">Terms</a>
       <a href="leaderboard.html" style="color: #a7f3d0; text-decoration: none; font-size: 0.8rem;">Leaderboard</a>
@@ -122,18 +133,7 @@
   </div>
 </footer>
 
-<!-- Donation Modal -->
-<div class="modal" id="donationModal">
-  <div class="modal-content">
-    <div class="modal-header"><h3 id="modalName">Madrasa Name</h3><span class="close-modal" id="closeModalBtn">&times;</span></div>
-    <p id="modalUpi" style="background:#f1f5f9; padding:10px; border-radius:12px; font-size:0.8rem;"></p>
-    <div class="amount-options" id="amountOptions"></div>
-    <input type="number" id="customAmount" placeholder="Enter custom amount (₹)">
-    <button class="donate-btn" id="proceedDonateBtn" style="margin-top: 16px;">Proceed to Pay</button>
-    <div id="qrContainer" style="text-align: center; margin-top: 16px;"></div>
-  </div>
-</div>
-
+<!-- All Madrasas Modal -->
 <div class="modal" id="allMadrasasModal">
   <div class="modal-content" style="max-width: 500px; max-height: 70vh; overflow-y: auto;">
     <div class="modal-header"><h3>All Madrasas</h3><span class="close-modal" id="closeAllModalBtn">&times;</span></div>
@@ -141,6 +141,7 @@
   </div>
 </div>
 
+<!-- All Books Modal -->
 <div class="modal" id="allBooksModal">
   <div class="modal-content" style="max-width: 500px; max-height: 70vh; overflow-y: auto;">
     <div class="modal-header"><h3>All Islamic Books</h3><span class="close-modal" id="closeBooksModalBtn">&times;</span></div>
@@ -148,10 +149,36 @@
   </div>
 </div>
 
+<!-- Toast -->
 <div class="toast" id="toast"></div>
 
+<!-- ========== SCRIPTS ========== -->
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="config.js"></script>
+<script src="donation.js"></script>
 <script src="index.js"></script>
+
+<!-- Smart Login Button -->
+<script>
+(function() {
+  const loginBtn = document.getElementById('navbarLoginBtn');
+  if (!loginBtn) return;
+  
+  function updateLoginBtn() {
+    const userData = localStorage.getItem('user') || localStorage.getItem('imdad_user');
+    loginBtn.style.display = userData ? 'none' : 'inline-block';
+  }
+  
+  updateLoginBtn();
+  window.addEventListener('storage', updateLoginBtn);
+  
+  const origLogout = window.logoutUser;
+  window.logoutUser = function() {
+    if (origLogout) origLogout();
+    setTimeout(updateLoginBtn, 300);
+  };
+})();
+</script>
 
 </body>
 </html>

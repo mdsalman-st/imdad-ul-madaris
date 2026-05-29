@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Imdad ul Madaris</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f1f5f9; min-height: 100vh; }
+
+        .navbar { background: #0a5c2e; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .logo { background: rgba(255,255,255,0.12); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700; color: white; }
+        .back-btn { color: white; text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; gap: 6px; }
+
+        .container { max-width: 600px; margin: 0 auto; padding: 24px 16px; }
+
+        .profile-header { background: white; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #0a5c2e, #0d7a3e); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; color: white; margin: 0 auto 16px; }
+        .profile-name { font-size: 1.3rem; font-weight: 700; color: #1e293b; }
+        .profile-role { font-size: 0.85rem; color: #64748b; margin-top: 4px; }
+        .profile-phone { font-size: 0.9rem; color: #0a5c2e; margin-top: 8px; font-weight: 500; }
+
+        .card { background: white; border-radius: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 16px; }
+        .card-header { padding: 16px 20px; border-bottom: 1px solid #e2e8f0; font-weight: 600; font-size: 0.95rem; color: #1e293b; display: flex; align-items: center; gap: 8px; }
+
+        .info-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid #f1f5f9; }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { font-size: 0.85rem; color: #64748b; }
+        .info-value { font-size: 0.9rem; color: #1e293b; font-weight: 500; }
+
+        .edit-input { width: 100%; padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.9rem; outline: none; transition: 0.3s; }
+        .edit-input:focus { border-color: #0a5c2e; }
+
+        .btn { padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; transition: 0.3s; }
+        .btn-primary { background: #0a5c2e; color: white; width: 100%; }
+        .btn-primary:hover { background: #0d7a3e; }
+        .btn-danger { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; width: 100%; }
+        .btn-danger:hover { background: #fee2e2; }
+
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: white; border-radius: 20px; padding: 24px; width: 90%; max-width: 380px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .close-modal { font-size: 24px; cursor: pointer; color: #64748b; }
+
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #0a5c2e; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 600; z-index: 2000; display: none; }
+        .toast.error { background: #dc2626; }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+    <div class="logo">IUM</div>
+    <div style="width:60px;"></div>
+</div>
+
+<div class="container">
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="avatar" id="profileAvatar">U</div>
+        <div class="profile-name" id="profileName">Loading...</div>
+        <div class="profile-role" id="profileRole"></div>
+        <div class="profile-phone" id="profilePhone"></div>
+    </div>
+
+    <!-- Personal Info Card -->
+    <div class="card">
+        <div class="card-header"><i class="fas fa-user text-green-700"></i> Personal Information</div>
+        <div class="info-row">
+            <span class="info-label">Name</span>
+            <span class="info-value" id="displayName">--</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Phone</span>
+            <span class="info-value" id="displayPhone">--</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Role</span>
+            <span class="info-value" id="displayRole">--</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Member Since</span>
+            <span class="info-value" id="displayDate">--</span>
+        </div>
+    </div>
+
+    <!-- Actions Card -->
+    <div class="card">
+        <div class="card-header"><i class="fas fa-cog text-green-700"></i> Account Actions</div>
+        <div style="padding: 16px 20px; display: flex; flex-direction: column; gap: 10px;">
+            <button class="btn btn-primary" onclick="openEditModal()">
+                <i class="fas fa-edit mr-2"></i> Edit Profile
+            </button>
+            <button class="btn btn-danger" onclick="openPasswordModal()">
+                <i class="fas fa-key mr-2"></i> Change Password
+            </button>
+            <button class="btn btn-danger" onclick="logoutUser()" style="margin-top: 8px;">
+                <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal" id="editModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Edit Profile</h3>
+            <span class="close-modal" onclick="closeEditModal()">&times;</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            <input type="text" id="editName" class="edit-input" placeholder="Full Name">
+            <input type="text" id="editPhone" class="edit-input" placeholder="Phone Number">
+            <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal" id="passwordModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Change Password</h3>
+            <span class="close-modal" onclick="closePasswordModal()">&times;</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            <input type="password" id="currentPassword" class="edit-input" placeholder="Current Password">
+            <input type="password" id="newPassword" class="edit-input" placeholder="New Password (min 8 chars)">
+            <input type="password" id="confirmPassword" class="edit-input" placeholder="Confirm New Password">
+            <button class="btn btn-primary" onclick="changePassword()">Update Password</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script src="profile.js"></script>
+</body>
+</html>

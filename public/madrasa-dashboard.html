@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Imdad ul Madaris</title>
+    <!-- ✅ Correct CDN Links -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#f1f5f9;min-height:100vh}
+        ::-webkit-scrollbar{width:5px}
+        ::-webkit-scrollbar-thumb{background:#94a3b8;border-radius:3px}
+        
+        .sidebar{background:linear-gradient(180deg,#0a4d24,#064e3b);height:100vh;color:#fff;position:fixed;left:0;top:0;z-index:50;overflow-y:auto;transition:.3s;width:260px;box-shadow:4px 0 20px rgba(0,0,0,.1)}
+        .nav-item{display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:10px;color:#a7f3d0;text-decoration:none;font-size:.85rem;font-weight:500;transition:.2s;margin-bottom:2px}
+        .nav-item:hover,.nav-item.active{background:rgba(255,255,255,.15);color:#fff}
+        
+        /* ✅ Fixed border-radius */
+        .card{background:#fff;border-radius:16px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,.04);border:1px solid #f1f5f9;transition:.3s}
+        .card:hover{box-shadow:0 4px 12px rgba(0,0,0,.06)}
+        
+        .stat-card{background:#fff;border-radius:16px;padding:22px;box-shadow:0 1px 3px rgba(0,0,0,.04);border:1px solid #f1f5f9;transition:.3s;position:relative;overflow:hidden}
+        .stat-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+        .stat-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%}
+        .stat-card.green::before{background:#10b981}
+        .stat-card.orange::before{background:#f59e0b}
+        .stat-card.blue::before{background:#3b82f6}
+        .stat-card.purple::before{background:#8b5cf6}
+        
+        .stat-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:12px}
+        .stat-icon.green{background:#d1fae5;color:#059669}
+        .stat-icon.orange{background:#fef3c7;color:#d97706}
+        .stat-icon.blue{background:#dbeafe;color:#2563eb}
+        .stat-icon.purple{background:#ede9fe;color:#7c3aed}
+        
+        .stat-number{font-size:1.8rem;font-weight:800;color:#1e293b}
+        .stat-label{font-size:.78rem;color:#64748b;margin-top:2px;font-weight:500}
+        
+        .btn-primary{background:#0a5c2e;color:#fff;padding:10px 20px;border-radius:10px;font-weight:600;font-size:.88rem;border:none;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px}
+        .btn-primary:hover{background:#0d7a3e;box-shadow:0 4px 12px rgba(10,92,46,.3)}
+        .btn-outline{background:#fff;color:#0a5c2e;padding:10px 20px;border-radius:10px;font-weight:600;font-size:.88rem;border:2px solid #0a5c2e;cursor:pointer;transition:.2s}
+        .btn-outline:hover{background:#f0fdf4}
+        
+        .input-field{width:100%;padding:10px 14px;border:2px solid #e2e8f0;border-radius:10px;font-size:.9rem;outline:none;transition:.2s;background:#f8fafc}
+        .input-field:focus{border-color:#0a5c2e;background:#fff;box-shadow:0 0 0 3px rgba(10,92,46,.1)}
+        
+        .tab-content{display:none;animation:fadeIn .3s}
+        .tab-content.active{display:block}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        
+        .modal{display:none;position:fixed;inset:0;background:rgba(15,23,42,.7);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center}
+        .modal.active{display:flex}
+        .modal-content{background:#fff;border-radius:20px;padding:32px;width:90%;max-width:500px;max-height:85vh;overflow-y:auto;animation:modalIn .3s}
+        @keyframes modalIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+        
+        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:2000;padding:14px 28px;border-radius:40px;font-weight:600;font-size:.9rem;box-shadow:0 10px 30px rgba(0,0,0,.2);display:none}
+        #mobileOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:40}
+        
+        @media(max-width:768px){.sidebar{transform:translateX(-100%);width:280px}.sidebar.open{transform:translateX(0)}.stat-number{font-size:1.4rem}}
+    </style>
+</head>
+<body>
+
+<nav class="bg-green-900 p-3 flex justify-between items-center sticky top-0 z-40 md:hidden">
+    <a href="index.html" class="text-white font-bold text-lg">Imdad ul Madaris</a>
+    <button type="button" id="mobileMenuBtn" class="bg-transparent border-none cursor-pointer" aria-label="Open menu"><i class="fas fa-bars text-white text-xl"></i></button>
+</nav>
+
+<aside class="sidebar p-5 flex flex-col" id="sidebar">
+    <div class="mb-8 mt-2">
+        <div class="flex items-center gap-3 mb-4 cursor-pointer hover:bg-white/10 p-2 rounded-xl transition" onclick="switchTab('profileTab')">
+            <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center font-bold text-lg" id="sidebarAvatar">M</div>
+            <div>
+                <h2 class="text-base font-bold text-white" id="sidebarName">Madrasa</h2>
+                <p class="text-green-300 text-xs" id="sidebarRole">Account</p>
+            </div>
+        </div>
+        <div class="bg-white/10 rounded-xl p-3">
+            <p class="text-xs text-green-300 mb-1">Status</p>
+            <span id="statusBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-green-400/20 text-green-300">✅ Active</span>
+        </div>
+    </div>
+    <nav class="space-y-1 flex-1" id="sidebarNav"></nav>
+    <div class="mt-auto pt-4 border-t border-white/10">
+        <button onclick="logoutUser()" class="w-full flex items-center gap-2 py-2.5 px-4 bg-red-500/20 hover:bg-red-500/30 rounded-xl text-red-300 text-sm font-medium transition">
+            <i class="fas fa-sign-out-alt"></i> Sign Out
+        </button>
+    </div>
+</aside>
+
+<div id="mobileOverlay" onclick="closeMobileSidebar()"></div>
+
+<main class="md:ml-[260px] p-4 md:p-8 min-h-screen">
+    <div class="flex justify-between items-center mb-8 flex-wrap gap-4">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-black text-gray-900" id="greeting">Welcome!</h1>
+            <p class="text-gray-500 text-sm mt-1" id="userInfo"></p>
+        </div>
+        <button onclick="switchTab('profileTab')" class="btn-outline"><i class="fas fa-cog"></i> Settings</button>
+    </div>
+
+    <div id="madrasaTabs">
+        <!-- Overview Tab -->
+        <div id="overviewTab" class="tab-content active">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="stat-card green"><div class="stat-icon green"><i class="fas fa-hand-holding-heart"></i></div><div class="stat-number text-emerald-700" id="totalDonations">₹0</div><div class="stat-label">Total Donations</div></div>
+                <div class="stat-card orange"><div class="stat-icon orange"><i class="fas fa-clipboard-list"></i></div><div class="stat-number text-orange-600" id="activeNeedsCount">0</div><div class="stat-label">Active Needs</div></div>
+                <div class="stat-card blue"><div class="stat-icon blue"><i class="fas fa-users"></i></div><div class="stat-number text-blue-700" id="totalStudents">--</div><div class="stat-label">Students</div></div>
+                <div class="stat-card purple"><div class="stat-icon purple"><i class="fas fa-chalkboard-teacher"></i></div><div class="stat-number text-purple-700" id="totalTeachers">--</div><div class="stat-label">Teachers</div></div>
+            </div>
+            <div class="card"><h3 class="font-bold text-lg mb-3">📋 Recent Needs</h3><div id="needsPreview"></div></div>
+        </div>
+
+        <!-- Needs Tab (with needsCount span) -->
+        <div id="needsTab" class="tab-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-900">📝 My Needs <span id="needsCount" class="text-sm font-normal text-gray-500 ml-2"></span></h3>
+                <button onclick="openAddNeedModal()" class="btn-primary">+ Add New Need</button>
+            </div>
+            <div id="needsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div class="card mt-4">
+                <div id="fullNeedsList" class="space-y-3">
+                    <p class="text-gray-400 text-sm italic">No needs listed yet...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Donations Tab -->
+        <div id="donationsTab" class="tab-content">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">💰 Donations Received</h3>
+            <div class="card">
+                <div id="donationsList" class="space-y-2">
+                    <p class="text-gray-400 text-sm italic">No donations data yet...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Tab (✅ Completely Fixed: Full form with all inputs) -->
+        <div id="profileTab" class="tab-content">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">⚙️ Edit Madrasa Profile</h3>
+            <form id="profileForm" class="card max-w-3xl space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-1">Madrasa Name *</label><input type="text" id="pName" required class="input-field"></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-1">Mohtamim Name *</label><input type="text" id="pMohtamim" required class="input-field"></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-1">Phone *</label><input type="text" id="pPhone" required class="input-field"></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-1">District *</label><input type="text" id="pDistrict" required class="input-field"></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-1">UPI ID *</label><input type="text" id="pUpi" required class="input-field"></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-1">Full Address</label><input type="text" id="pAddress" class="input-field" placeholder="Village, Post Office, Pin"></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-1">State</label><input type="text" id="pState" class="input-field"></div>
+                </div>
+                <div class="border-t pt-4"><h4 class="font-bold text-gray-900 mb-3">📊 Details</h4></div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-1">Students</label><input type="number" id="pStudents" class="input-field"></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-1">Teachers</label><input type="number" id="pTeachers" class="input-field"></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-1">Monthly Expense (₹)</label><input type="number" id="pMonthlyExpense" class="input-field"></div>
+                </div>
+                <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Save Profile</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<!-- Add Need Modal -->
+<div class="modal" id="addNeedModal">
+    <div class="modal-content">
+        <h3 class="text-xl font-bold mb-4">Add New Need</h3>
+        <form id="addNeedForm" class="space-y-3">
+            <input type="text" id="needTitle" class="input-field" placeholder="Title *" required>
+            <select id="needCategory" class="input-field">
+                <option value="Food">🍲 Food</option>
+                <option value="Clothes">👕 Clothes</option>
+                <option value="Books">📚 Books</option>
+                <option value="Building">🏗️ Building</option>
+                <option value="Salary">💼 Salary</option>
+                <option value="Medical">🏥 Medical</option>
+                <option value="Other">📦 Other</option>
+            </select>
+            <input type="number" id="needCost" class="input-field" placeholder="Cost (₹)" required>
+            <textarea id="needDescription" class="input-field" placeholder="Description (optional)" rows="3"></textarea>
+            <label class="text-sm">Urgency: <span id="urgencyValue">80%</span></label>
+            <input type="range" id="needUrgency" min="0" max="100" value="80" class="w-full">
+            <div class="flex gap-2">
+                <button type="submit" id="saveNeedBtn" class="btn-primary flex-1">✅ Save Need</button>
+                <button type="button" onclick="closeAddNeedModal()" class="btn-outline">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="config.js"></script>
+<script src="madrasa-dashboard.js"></script>
+</body>
+</html>

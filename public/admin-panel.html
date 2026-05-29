@@ -4,103 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel | Imdad ul Madaris</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #f1f5f9; min-height: 100vh; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f1f5f9; }
 
-        .header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 20px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-        .header-left { display: flex; align-items: center; gap: 12px; }
-        .header-logo { width: 44px; height: 44px; background: #10b981; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 800; color: white; }
-        .header h1 { color: white; font-size: 1.2rem; }
-        .header p { color: #94a3b8; font-size: 0.75rem; }
-        .logout-btn { background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+        .header { background: #0a5c2e; color: white; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 1.2rem; }
+        .logout-btn { background: #dc2626; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 28px 20px; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
-        .stat-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .stat-card .num { font-size: 1.8rem; font-weight: 700; color: #0f172a; }
-        .stat-card .lbl { font-size: 0.75rem; color: #64748b; margin-top: 2px; }
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; }
+        .stat-card h3 { font-size: 0.85rem; color: #6b7280; margin-bottom: 8px; }
+        .stat-card .value { font-size: 1.8rem; font-weight: 700; }
 
-        .card { background: white; border-radius: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 24px; }
-        .card-header { padding: 16px 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
-        .card-header h3 { font-size: 1rem; color: #0f172a; }
+        .section { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .section h2 { font-size: 1.1rem; margin-bottom: 16px; color: #111; }
 
         table { width: 100%; border-collapse: collapse; }
-        th { background: #f8fafc; padding: 12px 16px; text-align: left; font-size: 0.75rem; font-weight: 600; color: #64748b; text-transform: uppercase; }
-        td { padding: 14px 16px; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; }
-        tr:hover { background: #f8fafc; }
+        th { background: #f8fafc; padding: 12px; text-align: left; font-size: 0.8rem; color: #64748b; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; }
+        textarea { width: 100%; min-height: 40px; padding: 4px; font-size: 0.8rem; border: 1px solid #e2e8f0; border-radius: 6px; resize: vertical; }
 
-        .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
-        .badge-pending { background: #fef3c7; color: #b45309; }
+        .badge { padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        .badge-pending { background: #fef3c7; color: #92400e; }
         .badge-active { background: #d1fae5; color: #065f46; }
-        .badge-rejected { background: #fee2e2; color: #dc2626; }
+        .badge-rejected { background: #fee2e2; color: #991b1b; }
 
-        .btn { padding: 8px 16px; border-radius: 8px; border: none; font-weight: 600; font-size: 0.75rem; cursor: pointer; transition: 0.2s; }
+        .btn { padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.8rem; margin: 2px; }
         .btn-approve { background: #10b981; color: white; }
-        .btn-approve:hover { background: #059669; }
         .btn-reject { background: #ef4444; color: white; }
-        .btn-reject:hover { background: #dc2626; }
+        .btn-view { background: #3b82f6; color: white; }
 
-        .empty { text-align: center; padding: 40px; color: #94a3b8; }
+        .empty { text-align: center; padding: 30px; color: #9ca3af; }
 
-        .modal { display: flex; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
-        .modal-box { background: white; border-radius: 20px; padding: 32px; text-align: center; max-width: 380px; width: 90%; }
-        .modal-box input { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem; text-align: center; outline: none; margin: 16px 0; }
-        .modal-box input:focus { border-color: #0f172a; }
-        .modal-box button { background: #0f172a; color: white; border: none; padding: 12px 28px; border-radius: 10px; font-weight: 600; cursor: pointer; }
-        .error-msg { color: #ef4444; font-size: 0.8rem; margin-top: 8px; display: none; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: white; border-radius: 16px; padding: 24px; max-width: 95vw; max-height: 90vh; overflow: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .modal-close { background: #ef4444; color: white; border: none; padding: 8px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; }
 
-        @media (max-width: 768px) {
-            .header h1 { font-size: 1rem; }
-            th, td { padding: 10px 8px; font-size: 0.7rem; }
-        }
+        #passwordModal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 10000; display: flex; align-items: center; justify-content: center; }
+        .password-box { background: white; padding: 30px; border-radius: 16px; text-align: center; }
+        .password-box input { padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; width: 250px; margin: 10px 0; }
+        .password-box button { padding: 12px 30px; background: #0a5c2e; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600; }
     </style>
 </head>
 <body>
 
-<div class="modal" id="passwordModal">
-    <div class="modal-box">
-        <h2 style="color:#0f172a;">🔐 Admin Login</h2>
-        <p style="color:#64748b;font-size:0.85rem;">Enter password to access panel</p>
-        <input type="password" id="adminPassword" placeholder="Password" autofocus>
-        <button onclick="checkPassword()">Unlock</button>
-        <p class="error-msg" id="errorMsg">Wrong password!</p>
+    <!-- Password Modal -->
+    <div id="passwordModal">
+        <div class="password-box">
+            <h2>🔐 Admin Login</h2>
+            <input type="password" id="adminPassword" placeholder="Enter password">
+            <br>
+            <button onclick="checkPassword()">Login</button>
+            <p id="errorMsg" style="color:red; display:none; margin-top:10px;">❌ Wrong password!</p>
+        </div>
     </div>
-</div>
 
-<div id="mainPanel" style="display:none;">
-    <div class="header">
-        <div class="header-left">
-            <div class="header-logo">I</div>
-            <div><h1>Imdad ul Madaris</h1><p>Admin Control Panel</p></div>
+    <!-- Main Panel -->
+    <div id="mainPanel" style="display:none;">
+        <div class="header">
+            <h1>🛡️ Imdad ul Madaris | Admin Panel</h1>
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
         </div>
-        <button class="logout-btn" onclick="logout()">🚪 Logout</button>
-    </div>
-    <div class="container">
-        <div class="stats-grid">
-            <div class="stat-card"><div class="num" id="totalMadrasas">0</div><div class="lbl">Total Madrasas</div></div>
-            <div class="stat-card"><div class="num" id="pendingCount">0</div><div class="lbl">Pending Approval</div></div>
-            <div class="stat-card"><div class="num" id="activeCount">0</div><div class="lbl">Active</div></div>
-            <div class="stat-card"><div class="num" id="contactCount">0</div><div class="lbl">Contact Messages</div></div>
-        </div>
-        <div class="card">
-            <div class="card-header"><h3>⏳ Pending Madrasa Approvals</h3><span class="badge badge-pending" id="pendingBadge">0 Pending</span></div>
-            <div style="overflow-x:auto;"><table><thead><tr><th>Madrasa Name</th><th>Mohtamim</th><th>District</th><th>Phone</th><th>UPI</th><th>Status</th><th>Action</th></tr></thead><tbody id="pendingList"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody></table></div>
-        </div>
-        <div class="card">
-            <div class="card-header"><h3>🕌 All Registered Madrasas</h3></div>
-            <div style="overflow-x:auto;"><table><thead><tr><th>Madrasa</th><th>District</th><th>Phone</th><th>Status</th></tr></thead><tbody id="allMadrasasList"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody></table></div>
-        </div>
-        <div class="card">
-            <div class="card-header"><h3>📧 Contact Messages</h3></div>
-            <div style="overflow-x:auto;"><table><thead><tr><th>Name</th><th>Email</th><th>Subject</th><th>Date</th></tr></thead><tbody id="contactList"><tr><td colspan="4" class="empty">No messages</td></tr></tbody></table></div>
-        </div>
-    </div>
-</div>
 
-<script src="admin-panel.js"></script>
+        <div class="container">
+            <div class="stats">
+                <div class="stat-card"><h3>Total Madrasas</h3><div class="value" id="totalMadrasas">0</div></div>
+                <div class="stat-card"><h3>Active</h3><div class="value" id="activeCount">0</div></div>
+                <div class="stat-card"><h3>Total Donations</h3><div class="value" id="totalDonations">0</div></div>
+                <div class="stat-card"><h3>Total Amount</h3><div class="value" id="totalAmount">₹0</div></div>
+            </div>
+
+            <div class="section">
+                <h2>⏳ Pending Approvals <span id="pendingBadge" style="font-size:0.8rem;"></span></h2>
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead><tr><th>Madrasa Name</th><th>Mohtamim</th><th>District</th><th>Phone</th><th>UPI</th><th>Status</th><th>Documents</th><th>Actions</th></tr></thead>
+                        <tbody id="pendingList"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📋 All Madrasas</h2>
+                <table>
+                    <thead><tr><th>Name</th><th>District</th><th>Phone</th><th>Status</th><th>Docs</th></tr></thead>
+                    <tbody id="allMadrasasList"></tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>💰 Recent Donations</h2>
+                <table>
+                    <thead><tr><th>Receipt</th><th>Donor</th><th>Madrasa</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead>
+                    <tbody id="donationsList"></tbody>
+                </table>
+            </div>
+
+            <!-- ✅ Ask Mufti Questions -->
+            <div class="section">
+                <h2>📿 Ask Mufti Questions <span id="muftiBadge" style="font-size:0.8rem;"></span></h2>
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Category</th><th>Question</th><th>Answer</th><th>Action</th></tr></thead>
+                        <tbody id="muftiQuestionsList"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ✅ Contact Messages -->
+            <div class="section">
+                <h2>📧 Contact Messages <span id="messagesBadge" style="font-size:0.8rem;"></span></h2>
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Phone</th><th>Subject</th><th>Message</th><th>Action</th></tr></thead>
+                        <tbody id="contactsList"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-panel.js"></script>
 </body>
 </html>

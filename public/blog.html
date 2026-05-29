@@ -2,120 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog | Imdad ul Madaris</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #0f172a; line-height: 1.5; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8fafc; color: #1e293b; }
 
-        .navbar { background: #0a5c2e; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .logo-icon { background: rgba(255,255,255,0.15); width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; color: white; }
-        .logo-text { font-size: 1.1rem; font-weight: 700; color: white; }
-        .menu-btn { background: none; border: none; cursor: pointer; padding: 4px; }
+        .navbar { background: #0a5c2e; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; color: white; }
+        .navbar h1 { font-size: 1.3rem; font-weight: 700; }
+        .navbar a { color: white; text-decoration: none; font-size: 0.9rem; }
 
-        .page-header { background: linear-gradient(135deg, #0a5c2e 0%, #064e1f 100%); color: white; padding: 40px 20px; text-align: center; }
-        .page-header h1 { font-size: 1.8rem; margin-bottom: 6px; }
-        .page-header p { font-size: 0.9rem; opacity: 0.9; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 30px 20px; }
 
-        .container { max-width: 1140px; margin: 0 auto; padding: 40px 24px; }
+        .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; align-items: center; }
+        .category-btn { background: #e2e8f0; padding: 8px 16px; border-radius: 20px; cursor: pointer; border: none; font-weight: 500; transition: 0.2s; font-size: 0.85rem; }
+        .category-btn.active, .category-btn:hover { background: #0a5c2e; color: white; }
 
-        .blog-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 32px; }
-        .search-box { display: flex; background: white; border-radius: 50px; border: 1px solid #e2e8f0; overflow: hidden; }
-        .search-box input { padding: 10px 16px; border: none; width: 220px; outline: none; }
-        .search-box button { background: #0a5c2e; color: white; border: none; padding: 0 16px; cursor: pointer; }
+        .search-box { display: flex; gap: 8px; margin-left: auto; }
+        .search-box input { padding: 8px 14px; border: 2px solid #e2e8f0; border-radius: 20px; font-size: 0.9rem; outline: none; }
+        .search-box button { background: #0a5c2e; color: white; border: none; border-radius: 20px; padding: 8px 16px; cursor: pointer; }
 
-        .category-filter { display: flex; gap: 8px; flex-wrap: wrap; }
-        .category-btn { background: white; border: 1px solid #e2e8f0; padding: 7px 16px; border-radius: 40px; font-size: 0.8rem; cursor: pointer; transition: 0.2s; }
-        .category-btn.active, .category-btn:hover { background: #0a5c2e; color: white; border-color: #0a5c2e; }
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
 
-        .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-bottom: 40px; }
-        .blog-card { background: white; border-radius: 18px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: transform 0.2s; cursor: pointer; }
-        .blog-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,0.1); }
-        .blog-image { height: 180px; background-size: cover; background-position: center; position: relative; }
-        .blog-category { position: absolute; top: 12px; left: 12px; background: #0a5c2e; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.65rem; }
+        .blog-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); cursor: pointer; transition: transform 0.2s; }
+        .blog-card:hover { transform: translateY(-4px); }
+        .blog-image { height: 160px; background-size: cover; background-position: center; position: relative; }
+        .blog-category { position: absolute; top: 10px; left: 10px; background: #0a5c2e; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; }
         .blog-content { padding: 16px; }
-        .blog-meta { display: flex; gap: 12px; margin-bottom: 8px; font-size: 0.7rem; color: #64748b; }
-        .blog-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
-        .blog-excerpt { color: #475569; font-size: 0.8rem; line-height: 1.5; margin-bottom: 12px; }
-        .read-more { color: #0a5c2e; text-decoration: none; font-weight: 600; font-size: 0.8rem; }
+        .blog-meta { display: flex; justify-content: space-between; font-size: 0.7rem; color: #64748b; margin-bottom: 8px; }
+        .blog-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+        .blog-excerpt { font-size: 0.85rem; color: #475569; margin-bottom: 12px; }
+        .read-more { color: #0a5c2e; font-weight: 600; font-size: 0.8rem; }
 
-        .newsletter { background: #0a5c2e; border-radius: 20px; padding: 32px; text-align: center; color: white; margin-top: 32px; }
-        .newsletter h3 { font-size: 1.1rem; margin-bottom: 6px; }
-        .newsletter p { opacity: 0.9; margin-bottom: 16px; font-size: 0.85rem; }
-        .newsletter-form { display: flex; max-width: 400px; margin: 0 auto; gap: 8px; }
-        .newsletter-form input { flex: 1; padding: 10px 16px; border: none; border-radius: 50px; outline: none; }
-        .newsletter-form button { background: #fbbf24; color: #0a5c2e; border: none; padding: 10px 20px; border-radius: 50px; font-weight: 600; cursor: pointer; }
+        .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 30px; }
+        .page-btn { background: #e2e8f0; padding: 8px 14px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
+        .page-btn.active { background: #0a5c2e; color: white; }
 
-        .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 32px; }
-        .page-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
-        .page-btn.active { background: #0a5c2e; color: white; border-color: #0a5c2e; }
+        .newsletter { background: white; border-radius: 16px; padding: 30px; margin-top: 40px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+        .newsletter input { padding: 12px 20px; border: 2px solid #e2e8f0; border-radius: 30px; font-size: 0.9rem; width: 250px; max-width: 100%; }
+        .newsletter button { background: #0a5c2e; color: white; border: none; border-radius: 30px; padding: 12px 24px; cursor: pointer; font-weight: 600; margin-top: 10px; }
 
-        footer { background: #064e1f; color: #a7f3d0; text-align: center; padding: 28px 20px; margin-top: 32px; font-size: 0.7rem; }
-        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 2000; padding: 12px 24px; border-radius: 30px; font-weight: 600; color: white; display: none; }
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 999; padding: 12px 24px; border-radius: 30px; font-weight: 600; color: white; display: none; }
 
-        @media (max-width: 768px) {
-            .page-header h1 { font-size: 1.4rem; }
-            .blog-grid { grid-template-columns: 1fr; }
-            .blog-header { flex-direction: column; }
+        @media (max-width: 600px) {
+            .filters { flex-direction: column; align-items: flex-start; }
+            .search-box { margin-left: 0; width: 100%; }
         }
     </style>
 </head>
 <body>
 
 <div class="navbar">
-    <a href="index.html" class="logo">
-        <div class="logo-icon">IUM</div>
-        <div class="logo-text">Imdad ul Madaris</div>
-    </a>
-    <button class="menu-btn" id="menuBtn">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
-</div>
-
-<div class="page-header">
-    <h1>Blog & News</h1>
-    <p>Stories, updates, and knowledge from Imdad ul Madaris</p>
+    <h1>Imdad ul Madaris Blog</h1>
+    <a href="index.html">← Home</a>
 </div>
 
 <div class="container">
-    <div class="blog-header">
+    <!-- Category Filters -->
+    <div class="filters">
+        <button class="category-btn active" data-cat="all">All</button>
+        <button class="category-btn" data-cat="islamic">Islamic</button>
+        <button class="category-btn" data-cat="news">News</button>
+        <button class="category-btn" data-cat="stories">Stories</button>
+        <button class="category-btn" data-cat="updates">Updates</button>
+
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="Search articles...">
-            <button id="searchBtn"><i class="fas fa-search"></i></button>
-        </div>
-        <div class="category-filter">
-            <button class="category-btn active" data-cat="all">All</button>
-            <button class="category-btn" data-cat="news">News</button>
-            <button class="category-btn" data-cat="stories">Stories</button>
-            <button class="category-btn" data-cat="updates">Updates</button>
-            <button class="category-btn" data-cat="islamic">Islamic</button>
+            <button id="searchBtn">🔍</button>
         </div>
     </div>
 
+    <!-- Blog Grid -->
     <div class="blog-grid" id="blogGrid"></div>
+
+    <!-- Pagination -->
     <div class="pagination" id="pagination"></div>
 
+    <!-- Newsletter -->
     <div class="newsletter">
-        <h3>Subscribe to Newsletter</h3>
-        <p>Get the latest updates and stories in your inbox</p>
-        <div class="newsletter-form">
-            <input type="email" id="newsletterEmail" placeholder="Enter your email">
-            <button id="subscribeBtn">Subscribe</button>
-        </div>
+        <h2>📬 Stay Updated</h2>
+        <p style="margin-bottom:12px; color:#64748b;">Get the latest articles and updates directly in your inbox.</p>
+        <input type="email" id="newsletterEmail" placeholder="Enter your email">
+        <button id="subscribeBtn">Subscribe</button>
     </div>
 </div>
 
-<footer>
-    <p>&copy; 2026 Imdad ul Madaris &bull; Direct Donation &bull; 0% Charges</p>
-</footer>
-
 <div class="toast" id="toast"></div>
 
-<script src="index.js"></script>
-<script src="blog.js"></script>
-
+    <script src="config.js"></script>
+    <script src="blog.js"></script>
 </body>
 </html>

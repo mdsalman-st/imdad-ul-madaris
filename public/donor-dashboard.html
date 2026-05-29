@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Dashboard | Imdad ul Madaris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* FLICKER FIX — JS will set visibility:visible after auth check */
+        body { 
+            visibility: hidden; 
+            font-family: 'Inter', sans-serif;
+            background: #f1f5f9;
+            min-height: 100vh;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        .navbar { background: #0a5c2e; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .nav-left { display: flex; align-items: center; gap: 12px; }
+        .nav-logo { background: rgba(255,255,255,0.15); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1rem; }
+        .nav-title { color: white; font-weight: 600; font-size: 1rem; }
+        .nav-right { display: flex; align-items: center; gap: 12px; }
+        .nav-icon { color: white; font-size: 1.2rem; cursor: pointer; text-decoration: none; }
+
+        .container { max-width: 600px; margin: 0 auto; padding: 20px 16px; }
+
+        .profile-card { background: linear-gradient(135deg, #0a5c2e, #0d7a3e); border-radius: 20px; padding: 24px; color: white; margin-bottom: 20px; }
+        .profile-top { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+        .avatar { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; }
+        .profile-name { font-size: 1.2rem; font-weight: 700; }
+        .profile-role { font-size: 0.75rem; opacity: 0.8; }
+
+        .tracker-section { background: white; border-radius: 18px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .section-title { font-size: 0.95rem; font-weight: 700; color: #1e293b; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+        .stat-box { background: #f8fafc; border-radius: 14px; padding: 14px; text-align: center; }
+        .stat-value { font-size: 1.2rem; font-weight: 700; color: #0a5c2e; }
+        .stat-label { font-size: 0.7rem; color: #64748b; margin-top: 2px; }
+        .progress-bar { height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; margin-bottom: 6px; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #0a5c2e, #10b981); border-radius: 10px; transition: width 0.5s; }
+        .progress-text { font-size: 0.7rem; color: #64748b; text-align: right; }
+
+        .donations-section { background: white; border-radius: 18px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .donation-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+        .donation-item:last-child { border-bottom: none; }
+        .donation-icon { width: 40px; height: 40px; border-radius: 12px; background: #f0fdf4; display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #0a5c2e; }
+        .donation-info { flex: 1; }
+        .donation-madrasa { font-weight: 600; font-size: 0.9rem; color: #1e293b; }
+        .donation-date { font-size: 0.7rem; color: #94a3b8; }
+        .donation-amount { font-weight: 700; color: #0a5c2e; font-size: 0.95rem; }
+        .view-all-link { display: block; text-align: center; margin-top: 12px; color: #0a5c2e; font-weight: 600; font-size: 0.85rem; text-decoration: none; }
+
+        .actions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+        .action-card { background: white; border-radius: 16px; padding: 18px; text-align: center; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: 0.2s; cursor: pointer; }
+        .action-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+        .action-icon { font-size: 1.5rem; margin-bottom: 8px; }
+        .action-title { font-weight: 600; font-size: 0.85rem; color: #1e293b; }
+        .action-sub { font-size: 0.7rem; color: #94a3b8; margin-top: 2px; }
+
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #0a5c2e; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 600; z-index: 2000; display: none; }
+        .toast.error { background: #dc2626; }
+
+        @media (max-width: 400px) {
+            .stats-row { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+            .stat-value { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="nav-left">
+        <a href="index.html" style="color:white; text-decoration:none;">←</a>
+        <div class="nav-logo">IUM</div>
+        <span class="nav-title">My Dashboard</span>
+    </div>
+    <div class="nav-right">
+        <a href="profile.html" class="nav-icon"><i class="fas fa-user-circle"></i></a>
+        <span class="nav-icon" onclick="logoutUser()" style="cursor:pointer;"><i class="fas fa-sign-out-alt"></i></span>
+    </div>
+</div>
+
+<div class="container">
+    <div class="profile-card">
+        <div class="profile-top">
+            <div class="avatar" id="userAvatar">S</div>
+            <div>
+                <div class="profile-name" id="userName">Salman</div>
+                <div class="profile-role">Donor Account</div>
+            </div>
+        </div>
+        <div style="font-size: 0.8rem; opacity: 0.9;" id="userPhone">📱 +91 9876543210</div>
+    </div>
+
+    <div class="tracker-section">
+        <div class="section-title"><i class="fas fa-chart-pie"></i> Zakat Tracker 2026</div>
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-value" id="zakatGiven">---</div>
+                <div class="stat-label">Given</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="zakatRemaining">---</div>
+                <div class="stat-label">Remaining</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="zakatTarget">---</div>
+                <div class="stat-label">Target</div>
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+        </div>
+        <div class="progress-text" id="progressText">0% Complete</div>
+    </div>
+
+    <div class="donations-section">
+        <div class="section-title"><i class="fas fa-clock"></i> Recent Donations</div>
+        <div id="recentDonations">
+            <p style="text-align:center; color:#94a3b8; padding:20px;">Loading...</p>
+        </div>
+        <a href="donation-history.html" class="view-all-link">View All History →</a>
+    </div>
+
+    <div class="actions-grid">
+        <a href="index.html#madrasas" class="action-card">
+            <div class="action-icon">💝</div>
+            <div class="action-title">Donate Now</div>
+            <div class="action-sub">Support a Madrasa</div>
+        </a>
+        <a href="donation-history.html" class="action-card">
+            <div class="action-icon">📜</div>
+            <div class="action-title">Full History</div>
+            <div class="action-sub">All donations</div>
+        </a>
+        <a href="leaderboard.html" class="action-card">
+            <div class="action-icon">🏆</div>
+            <div class="action-title">Leaderboard</div>
+            <div class="action-sub">Top donors</div>
+        </a>
+        <a href="profile.html" class="action-card">
+            <div class="action-icon">👤</div>
+            <div class="action-title">Edit Profile</div>
+            <div class="action-sub">Update info</div>
+        </a>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script src="donor-madrasa-dashboard.js"></script>
+</body>
+</html>
