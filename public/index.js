@@ -296,6 +296,7 @@ function openMenu() {
         <a href="book.html" class="nv">📚 Books</a>
         <a href="askmufti.html" class="nv">❓ Ask Mufti</a>
         <a href="leaderboard.html" class="nv">🏆 Leaderboard</a>
+        <a href="receipt.html" class="nv">🧾 Get Receipt</a>
         ${loggedIn ? `
           <hr style="margin:8px 0;border:none;border-top:1px solid #e2e8f0;">
           <a href="profile.html" class="nv">👤 Profile</a>

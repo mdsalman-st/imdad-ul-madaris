@@ -14,7 +14,15 @@ function escapeHTML(str) {
 
 document.addEventListener('DOMContentLoaded', () => {
   const searchBtn = document.getElementById('searchBtn');
-  if (!searchBtn) return;
+  const searchInput = document.getElementById('searchInput');
+  if (!searchBtn || !searchInput) return;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const autoQuery = urlParams.get('q');
+  if (autoQuery) {
+    searchInput.value = autoQuery;
+    setTimeout(() => searchBtn.click(), 100);
+  }
 
   searchBtn.onclick = async () => {
     const query = document.getElementById('searchInput')?.value.trim();

@@ -86,7 +86,12 @@
         </div>
         <input type="number" id="customAmount" placeholder="Custom amount ₹" min="1" style="margin-top:8px;">
       </div>
-      <button type="submit" class="submit-btn">Proceed to Pay via UPI</button>
+      <button type="submit" class="submit-btn" id="submitBtn">Proceed to Pay via UPI</button>
+      
+      <div id="postSubmitActions" style="display: none; text-align: center; margin-top: 20px;">
+        <p style="margin-bottom: 12px; font-size: 0.9rem; color: #475569;">If your UPI app didn't open automatically, <a href="#" id="upiFallbackLink" style="color: #0a5c2e; font-weight: 600;">click here</a>.</p>
+        <button type="button" class="submit-btn" id="paymentDoneBtn" style="background: #10b981;">I have completed the payment</button>
+      </div>
     </form>
   </div>
 </div>
