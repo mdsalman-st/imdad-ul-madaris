@@ -118,14 +118,21 @@ async function renderBooks() {
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;">
         ${category.books.map(book => `
           <div class="book-item" style="background:#f8fafc;padding:14px 16px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;border-left:4px solid #0a5c2e;">
-            <span style="font-weight:500;flex:1;">${escapeHTML(book.title)}</span>
-            ${book.file && book.file !== '#' ? `
-              <a href="${book.file}" download onclick="incrementDownload('${book._id}')" style="background:#0a5c2e;color:white;padding:8px 16px;border-radius:6px;text-decoration:none;font-size:0.8rem;white-space:nowrap;">
+            <div style="flex:1;">
+              <span style="font-weight:500;display:block;">${escapeHTML(book.title)}</span>
+              ${book.uploaderName && book.uploadedBy !== 'Admin' ? `<span style="font-size:0.7rem;color:#0a5c2e;background:#dcfce7;padding:2px 6px;border-radius:4px;margin-top:4px;display:inline-block;">Uploaded by: ${escapeHTML(book.uploaderName)}</span>` : ''}
+            </div>
+            ${book.fileUrl && book.fileUrl !== '#' ? `
+              <a href="${book.fileUrl}" target="_blank" onclick="incrementDownload('${book._id}')" style="background:#0a5c2e;color:white;padding:8px 16px;border-radius:6px;text-decoration:none;font-size:0.8rem;white-space:nowrap;margin-left:10px;">
+                📥 Download
+              </a>
+            ` : (book.file && book.file !== '#' ? `
+              <a href="${book.file}" target="_blank" style="background:#0a5c2e;color:white;padding:8px 16px;border-radius:6px;text-decoration:none;font-size:0.8rem;white-space:nowrap;margin-left:10px;">
                 📥 Download
               </a>
             ` : `
-              <span style="background:#e2e8f0;color:#64748b;padding:8px 16px;border-radius:6px;font-size:0.8rem;white-space:nowrap;">Coming Soon</span>
-            `}
+              <span style="background:#e2e8f0;color:#64748b;padding:8px 16px;border-radius:6px;font-size:0.8rem;white-space:nowrap;margin-left:10px;">Coming Soon</span>
+            `)}
           </div>
         `).join('')}
       </div>

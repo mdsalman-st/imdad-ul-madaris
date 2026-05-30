@@ -121,12 +121,14 @@ document.addEventListener('DOMContentLoaded', () => {
     <a href="#" onclick="switchTab('overviewTab')" class="nav-item active">📊 Overview</a>
     <a href="#" onclick="switchTab('needsTab')" class="nav-item">📝 My Needs</a>
     <a href="#" onclick="switchTab('donationsTab')" class="nav-item">💰 Donations</a>
+    <a href="#" onclick="switchTab('booksTab')" class="nav-item">📚 Upload Books</a>
     <a href="#" onclick="switchTab('profileTab')" class="nav-item">⚙️ Profile</a>`;
 
   switchTab('overviewTab');
   loadDashboard(userId);
   setupProfileForm();
   setupAddNeedModal();
+  setupBookForm();
 });
 
 window.switchTab = function(id) {
@@ -134,7 +136,7 @@ window.switchTab = function(id) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   const tab = document.getElementById(id);
   if (tab) tab.classList.add('active');
-  const idx = { overviewTab:0, needsTab:1, donationsTab:2, profileTab:3 };
+  const idx = { overviewTab:0, needsTab:1, donationsTab:2, booksTab:3, profileTab:4 };
   const navs = document.querySelectorAll('.nav-item');
   if (navs[idx[id]]) navs[idx[id]].classList.add('active');
 };
@@ -176,6 +178,7 @@ async function loadDashboard(userId) {
 
     if (data.upiId) loadDonations(data.upiId);
     loadNeeds(userId);
+    loadMyBooks();
     fillProfile(data);
   } catch (e) {
     console.error('Dashboard load failed:', e);
@@ -321,6 +324,74 @@ function setupProfileForm() {
       await fetchMutation(`${API_BASE}/api/madrasas/${window.getImdadUserId(getUser())}`, 'PUT', JSON.stringify(data));
       showToast('✅ Profile saved!');
     } catch (err) { showToast(err.message, true); }
+  });
+}
+
+// ==================== BOOKS ====================
+async function loadMyBooks() {
+  const list = document.getElementById('myBooksList');
+  if (!list) return;
+  list.innerHTML = '<p style="text-align:center;padding:20px;">Loading...</p>';
+  try {
+    const books = await fetchGET(`${API_BASE}/api/madrasa/books`);
+    if (!books || !books.length) {
+      list.innerHTML = '<p style="text-align:center;padding:20px;">No books uploaded yet.</p>';
+      return;
+    }
+    list.innerHTML = books.map(b => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid #f1f5f9;background:#fff;border-radius:8px;margin-bottom:8px;">
+        <div>
+          <span style="font-size:1.2rem;margin-right:8px;">${b.categoryIcon || '📚'}</span>
+          <strong style="color:#0a5c2e;">${escapeHTML(b.title)}</strong>
+          <p style="font-size:0.75rem;color:#64748b;">${escapeHTML(b.categoryTitle)} • Downloads: ${b.downloads}</p>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <a href="${b.fileUrl}" target="_blank" style="background:#f0fdf4;color:#0a5c2e;padding:6px 12px;border-radius:6px;text-decoration:none;font-size:0.8rem;font-weight:600;">View</a>
+          <button onclick="deleteMyBook('${b._id}')" style="background:#fef2f2;color:#ef4444;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.8rem;">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  } catch (e) {
+    list.innerHTML = '<p style="text-align:center;color:#ef4444;">Failed to load books</p>';
+  }
+}
+
+window.deleteMyBook = async (id) => {
+  if (!confirm('Are you sure you want to delete this book?')) return;
+  try {
+    await fetchMutation(`${API_BASE}/api/madrasa/books/${id}`, 'DELETE');
+    showToast('✅ Book deleted!');
+    loadMyBooks();
+  } catch (err) {
+    showToast(err.message, true);
+  }
+};
+
+function setupBookForm() {
+  document.getElementById('madrasaAddBookForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.textContent = 'Uploading...';
+    btn.disabled = true;
+    
+    const formData = new FormData();
+    formData.append('title', document.getElementById('mBookTitle').value);
+    formData.append('author', document.getElementById('mBookAuthor').value);
+    formData.append('categoryKey', document.getElementById('mBookCatKey').value);
+    formData.append('categoryTitle', document.getElementById('mBookCatTitle').value);
+    formData.append('bookPdf', document.getElementById('mBookPdf').files[0]);
+    
+    try {
+      await fetchMutation(`${API_BASE}/api/madrasa/books`, 'POST', formData);
+      showToast('✅ Book uploaded to Library!');
+      e.target.reset();
+      loadMyBooks();
+    } catch (err) {
+      showToast(err.message, true);
+    } finally {
+      btn.textContent = 'Upload to Library';
+      btn.disabled = false;
+    }
   });
 }
 
