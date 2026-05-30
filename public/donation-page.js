@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     amount,
     donationType: type,
     intention,
-    status: 'Pending'
+    status: 'Pending Verification'
   };
 
   // POST request – no retry, taaki duplicate donation na ho
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (doneBtn) {
     doneBtn.style.display = 'inline-block';
     doneBtn.onclick = () => {
-      window.location.href = `ThankYouPage.html?madrasa=${encodeURIComponent(madrasaName)}&amount=${amount}&type=${type}&receipt=${timestamp}`;
+      window.location.href = `ThankYouPage.html?madrasa=${encodeURIComponent(madrasaName)}&amount=${amount}&type=${type}&receipt=${timestamp}&status=pending`;
     };
   }
 

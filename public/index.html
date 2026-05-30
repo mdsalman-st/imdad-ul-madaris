@@ -19,6 +19,10 @@
     .stat-number { font-size: 1.4rem; font-weight: 700; color: #0a5c2e; }
     .stat-label { font-size: 0.7rem; color: #64748b; }
 
+    .disclaimer-bar { background: #fffbeb; border: 1px solid #f59e0b; border-radius: 14px; margin: 0 20px 4px; padding: 10px 14px; display: flex; align-items: flex-start; gap: 8px; }
+    .disclaimer-bar .disc-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .disclaimer-bar p { font-size: 0.72rem; color: #92400e; line-height: 1.5; }
+
     .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #0a5c2e; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 600; z-index: 2000; display: none; animation: fadeInUp 0.3s ease; }
     .toast.error { background: #dc2626; }
     @keyframes fadeInUp { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
@@ -98,6 +102,12 @@
   <div class="stat-item"><div class="stat-number" id="statMadrasas">...</div><div class="stat-label">Active Madrasas</div></div>
   <div class="stat-item"><div class="stat-number" id="statDonations">...</div><div class="stat-label">Donations</div></div>
   <div class="stat-item"><div class="stat-number" id="statAmount">...</div><div class="stat-label">Total Raised</div></div>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer-bar">
+  <span class="disc-icon">⚠️</span>
+  <p>Ye figures donor-reported hain aur automatically record hoti hain. Actual received amount alag ho sakta hai. Har donation <strong>directly Madrasa ke UPI</strong> par jata hai — platform koi commission nahi leta (0% charges).</p>
 </div>
 
 <!-- LOCATION -->

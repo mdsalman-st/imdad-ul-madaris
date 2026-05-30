@@ -23,6 +23,8 @@
         .details div { display: flex; justify-content: space-between; padding: 6px 0; }
         .btn { display: inline-block; background: #0a5c2e; color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-weight: 600; margin: 4px; }
         .btn-outline { background: white; color: #0a5c2e; border: 2px solid #0a5c2e; }
+        .status-pending { background: #fef3c7; color: #92400e; border: 2px solid #f59e0b; padding: 10px 16px; border-radius: 10px; font-size: 0.85rem; margin: 12px 0; }
+        .status-received { background: #d1fae5; color: #065f46; border: 2px solid #10b981; padding: 10px 16px; border-radius: 10px; font-size: 0.85rem; margin: 12px 0; }
         footer { background: #064e1f; color: #a7f3d0; text-align: center; padding: 20px; font-size: 0.7rem; margin-top: auto; }
     </style>
 </head>
@@ -42,6 +44,7 @@
             <div><span>Amount</span><strong id="amount">--</strong></div>
             <div><span>Type</span><strong id="type">--</strong></div>
         </div>
+        <div id="statusBox"></div>
         <a href="index.html" class="btn">Back to Home</a>
         <a href="madrasa-list.html" class="btn btn-outline">Donate Again</a>
     </div>
@@ -53,6 +56,14 @@
     document.getElementById('madrasa').textContent = p.get('madrasa') || 'Madrasa';
     document.getElementById('amount').textContent = '₹'+(p.get('amount')||'0');
     document.getElementById('type').textContent = p.get('type')||'General';
+    
+    const statusBox = document.getElementById('statusBox');
+    if (p.get('status') === 'pending') {
+        statusBox.innerHTML = '<div class="status-pending">⏳ <strong>Payment Pending Verification</strong><br>Aapka donation record kar liya gaya hai. Admin 24-48 ghante mein UPI screenshot verify karke confirm kar denge.</div>';
+        document.querySelector('p').textContent = 'Aapka donation form submit ho gaya. Payment complete karne ke baad screenshot admin ko bhejein.';
+    } else {
+        statusBox.innerHTML = '<div class="status-received">✅ <strong>Payment Verified!</strong></div>';
+    }
 </script>
 </body>
 </html>

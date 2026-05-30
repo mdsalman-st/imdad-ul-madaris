@@ -178,12 +178,37 @@ async function loadDonations() {
     try {
         const res = await fetch(`${API_BASE}/api/donations/admin`, { headers: getAuthHeaders() });
         const donations = await res.json();
-        if (!donations.length) { tbody.innerHTML = '<tr><td colspan="6" class="empty">No donations yet.</td></tr>'; return; }
-        tbody.innerHTML = donations.map(d => `<tr><td style="font-size:0.75rem;">${escapeHTML(d.receiptNo||'--')}</td><td>${escapeHTML(d.donorName||'--')}</td><td>${escapeHTML(d.madrasaName||'--')}</td><td style="font-weight:700;color:#0a5c2e;">₹${(d.amount||0).toLocaleString('en-IN')}</td><td>${new Date(d.date).toLocaleDateString('en-IN')}</td><td><span class="badge ${d.status==='Received'?'badge-active':'badge-pending'}">${escapeHTML(d.status)}</span></td></tr>`).join('');
-    } catch (err) { tbody.innerHTML = '<tr><td colspan="6" class="empty">❌ Failed</td></tr>'; }
+        if (!donations.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">No donations yet.</td></tr>'; return; }
+        tbody.innerHTML = donations.map(d => `<tr>
+            <td style="font-size:0.75rem;">${escapeHTML(d.receiptNo||'--')}</td>
+            <td>${escapeHTML(d.donorName||'--')}</td>
+            <td>${escapeHTML(d.madrasaName||'--')}</td>
+            <td style="font-weight:700;color:#0a5c2e;">₹${(d.amount||0).toLocaleString('en-IN')}</td>
+            <td>${new Date(d.date).toLocaleDateString('en-IN')}</td>
+            <td><span class="badge ${d.status==='Received'?'badge-active':d.status==='Rejected'?'badge-rejected':'badge-pending'}">${escapeHTML(d.status)}</span></td>
+            <td>
+                ${d.status !== 'Received' ? `<button class="btn btn-approve" style="font-size:0.7rem;padding:5px 10px;" onclick="verifyDonation('${d._id}','Received')">✅ Verify</button>` : ''}
+                ${d.status !== 'Rejected' ? `<button class="btn btn-reject" style="font-size:0.7rem;padding:5px 10px;" onclick="verifyDonation('${d._id}','Rejected')">❌ Reject</button>` : ''}
+            </td>
+        </tr>`).join('');
+    } catch (err) { tbody.innerHTML = '<tr><td colspan="7" class="empty">❌ Failed</td></tr>'; }
 }
 
-// ✅ ASK MUFTI SECTION
+async function verifyDonation(id, status) {
+    if (!confirm(`Are you sure you want to mark this donation as "${status}"?`)) return;
+    try {
+        const res = await fetch(`${API_BASE}/api/donations/${id}/status`, {
+            method: 'PUT',
+            headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status })
+        });
+        if (!res.ok) throw new Error('Failed');
+        showToast(`✅ Donation marked as ${status}`);
+        await loadDonations();
+    } catch (err) {
+        showToast('❌ Failed to update status', true);
+    }
+}
 async function loadMuftiQuestions() {
     const tbody = document.getElementById('muftiQuestionsList');
     if (!tbody) return;
