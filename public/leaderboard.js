@@ -43,19 +43,6 @@ function getBadge(rank) {
   return '';
 }
 
-const sampleDonations = [
-  { donor: "Muhammad Ali", total: 15000, count: 3 },
-  { donor: "Fatima Khan", total: 12000, count: 5 },
-  { donor: "Ahmed Raza", total: 10000, count: 2 },
-  { donor: "Ayesha Begum", total: 8500, count: 4 },
-  { donor: "Omar Farooq", total: 7500, count: 3 },
-  { donor: "Zainab Siddiqui", total: 6000, count: 2 },
-  { donor: "Bilal Ahmed", total: 5500, count: 1 },
-  { donor: "Khadija Hasan", total: 5000, count: 2 },
-  { donor: "Usman Ghani", total: 4500, count: 1 },
-  { donor: "Amina Tariq", total: 4000, count: 3 }
-];
-
 async function loadLeaderboard() {
   try {
     const stats = await fetchAPI('/api/stats');
@@ -63,17 +50,18 @@ async function loadLeaderboard() {
     set('totalMadrasas', stats.madrasas || 0);
     set('totalAmount', '\u20b9' + (stats.totalAmount || 0).toLocaleString('en-IN'));
     set('totalCount', stats.donations || 0);
-    set('totalDonors', sampleDonations.length);
-    renderTable(sampleDonations);
+    
+    const realDonors = await fetchAPI('/api/leaderboard');
+    set('totalDonors', realDonors.length);
+    renderTable(realDonors);
   } catch (err) {
     console.error('Leaderboard load failed:', err.message);
-    // Stats fail hone par bhi table dikhao
     const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
     set('totalMadrasas', '--');
     set('totalAmount', '--');
     set('totalCount', '--');
-    set('totalDonors', sampleDonations.length);
-    renderTable(sampleDonations);
+    set('totalDonors', '--');
+    renderTable([]);
   }
 }
 
