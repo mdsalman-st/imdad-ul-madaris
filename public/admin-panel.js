@@ -84,6 +84,7 @@ async function loadAllData() {
     await loadDonations();
     await loadMuftiQuestions();
     await loadContacts();
+    await loadBooks();
 }
 
 async function loadStats() {
@@ -254,6 +255,77 @@ window.viewMessage = function(message, name, subject) {
     const safeName = escapeHTML(name), safeSubject = escapeHTML(subject), safeMessage = escapeHTML(message);
     createModal(`<div class="modal-content" style="max-width:500px;"><div class="modal-header"><h3>📧 ${safeSubject||'Message'}</h3><button class="modal-close">✕ Close</button></div><p style="font-weight:600;color:#0a5c2e;">From: ${safeName||'Unknown'}</p><hr style="margin:12px 0;"><p style="color:#334155;line-height:1.6;">${safeMessage||'No content.'}</p></div>`);
 };
+
+// ✅ BOOKS SECTION
+async function loadBooks() {
+    const tbody = document.getElementById('booksList');
+    if (!tbody) return;
+    try {
+        const res = await fetch(`${API_BASE}/api/books`);
+        const grouped = await res.json();
+        let rows = '';
+        for (const catKey in grouped) {
+            const cat = grouped[catKey];
+            for (const b of cat.books) {
+                rows += `<tr>
+                    <td>${escapeHTML(b.title)}</td>
+                    <td>${escapeHTML(cat.icon)} ${escapeHTML(cat.title)}</td>
+                    <td>${escapeHTML(b.author)}</td>
+                    <td>${b.downloads}</td>
+                    <td>
+                        <a href="${b.fileUrl}" target="_blank" class="btn btn-view">View</a>
+                        <button class="btn btn-reject" onclick="deleteBook('${b._id}')">Delete</button>
+                    </td>
+                </tr>`;
+            }
+        }
+        if (!rows) tbody.innerHTML = '<tr><td colspan="5" class="empty">No books found.</td></tr>';
+        else tbody.innerHTML = rows;
+    } catch (err) { tbody.innerHTML = '<tr><td colspan="5" class="empty">❌ Failed to load books</td></tr>'; }
+}
+
+window.deleteBook = async function(id) {
+    if (!confirm('Delete this book?')) return;
+    try {
+        const res = await fetch(`${API_BASE}/api/admin/books/${id}`, { method: 'DELETE', headers: getAuthHeaders() });
+        if (res.ok) { alert('Deleted!'); loadBooks(); } else alert('Failed to delete');
+    } catch (err) { alert('Error deleting book'); }
+};
+
+document.getElementById('addBookForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.textContent = 'Uploading...';
+    btn.disabled = true;
+    
+    const formData = new FormData();
+    formData.append('title', document.getElementById('bookTitle').value);
+    formData.append('author', document.getElementById('bookAuthor').value);
+    formData.append('categoryKey', document.getElementById('bookCatKey').value);
+    formData.append('categoryTitle', document.getElementById('bookCatTitle').value);
+    formData.append('categoryIcon', document.getElementById('bookCatIcon').value);
+    formData.append('bookPdf', document.getElementById('bookPdf').files[0]);
+    
+    try {
+        const res = await fetch(`${API_BASE}/api/admin/books`, {
+            method: 'POST',
+            headers: { 'Authorization': getAuthHeaders().Authorization },
+            body: formData
+        });
+        if (res.ok) {
+            alert('Book uploaded successfully!');
+            e.target.reset();
+            loadBooks();
+        } else {
+            alert('Failed to upload book');
+        }
+    } catch (err) {
+        alert('Error uploading book');
+    } finally {
+        btn.textContent = 'Upload Book';
+        btn.disabled = false;
+    }
+});
 
 async function approveMadrasa(id) {
     if (!confirm('✅ APPROVE this madrasa?')) return;

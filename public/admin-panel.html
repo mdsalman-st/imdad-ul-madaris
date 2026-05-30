@@ -117,6 +117,68 @@
                 <h2>📿 Ask Mufti Questions <span id="muftiBadge" class="badge-text"></span></h2>
                 <div class="table-responsive">
                     <table>
+</head>
+<body>
+
+      <!-- Password Modal -->
+      <div id="passwordModal">
+          <div class="password-box">
+              <h2>🛡️ Admin Login</h2>
+              <input type="text" id="adminUsername" placeholder="Enter username" class="mt-20">
+              <br>
+              <input type="password" id="adminPassword" placeholder="Enter password">
+              <br>
+              <button onclick="checkPassword()">Login</button>
+              <p id="errorMsg" class="error-msg"></p>
+          </div>
+      </div>
+
+    <!-- Main Panel -->
+    <div id="mainPanel" class="d-none">
+        <div class="header">
+            <h1>🛡️ Imdad ul Madaris | Admin Panel</h1>
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+        </div>
+
+        <div class="container">
+            <div class="stats">
+                <div class="stat-card"><h3>Total Madrasas</h3><div class="value" id="totalMadrasas">0</div></div>
+                <div class="stat-card"><h3>Active</h3><div class="value" id="activeCount">0</div></div>
+                <div class="stat-card"><h3>Total Donations</h3><div class="value" id="totalDonations">0</div></div>
+                <div class="stat-card"><h3>Total Amount</h3><div class="value" id="totalAmount">₹0</div></div>
+            </div>
+
+            <div class="section">
+                <h2>⏳ Pending Approvals <span id="pendingBadge" class="badge-text"></span></h2>
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>Madrasa Name</th><th>Mohtamim</th><th>District</th><th>Phone</th><th>UPI</th><th>Status</th><th>Documents</th><th>Actions</th></tr></thead>
+                        <tbody id="pendingList"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📋 All Madrasas</h2>
+                <table>
+                    <thead><tr><th>Name</th><th>District</th><th>Phone</th><th>Status</th><th>Docs</th></tr></thead>
+                    <tbody id="allMadrasasList"></tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>💰 Recent Donations</h2>
+                <table>
+                    <thead><tr><th>Receipt</th><th>Donor</th><th>Madrasa</th><th>Amount</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+                    <tbody id="donationsList"></tbody>
+                </table>
+            </div>
+
+            <!-- ✅ Ask Mufti Questions -->
+            <div class="section">
+                <h2>📿 Ask Mufti Questions <span id="muftiBadge" class="badge-text"></span></h2>
+                <div class="table-responsive">
+                    <table>
                         <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Category</th><th>Question</th><th>Answer</th><th>Action</th></tr></thead>
                         <tbody id="muftiQuestionsList"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
                     </table>
@@ -130,6 +192,51 @@
                     <table>
                         <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Phone</th><th>Subject</th><th>Message</th><th>Action</th></tr></thead>
                         <tbody id="contactsList"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ✅ Manage Books -->
+            <div class="section">
+                <h2>📚 Manage Islamic Books</h2>
+                
+                <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #0a5c2e;">
+                    <h3 style="margin-bottom: 15px; color: #0a5c2e;">Upload New Book (PDF)</h3>
+                    <form id="addBookForm" style="display: grid; gap: 12px; grid-template-columns: 1fr 1fr; align-items: end;">
+                        <div>
+                            <label>Book Title *</label>
+                            <input type="text" id="bookTitle" required style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1;">
+                        </div>
+                        <div>
+                            <label>Author</label>
+                            <input type="text" id="bookAuthor" placeholder="Unknown" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1;">
+                        </div>
+                        <div>
+                            <label>Category Key (e.g., arabic, quran) *</label>
+                            <input type="text" id="bookCatKey" required style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1;">
+                        </div>
+                        <div>
+                            <label>Category Title (e.g., Arabic Learning) *</label>
+                            <input type="text" id="bookCatTitle" required style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1;">
+                        </div>
+                        <div>
+                            <label>Category Icon (Emoji)</label>
+                            <input type="text" id="bookCatIcon" value="📚" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1;">
+                        </div>
+                        <div>
+                            <label>Upload PDF File *</label>
+                            <input type="file" id="bookPdf" accept="application/pdf" required style="width: 100%; padding: 6px;">
+                        </div>
+                        <div style="grid-column: span 2;">
+                            <button type="submit" class="btn" style="background: #0a5c2e; width: 100%;">Upload Book</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>Title</th><th>Category</th><th>Author</th><th>Downloads</th><th>Actions</th></tr></thead>
+                        <tbody id="booksList"><tr><td colspan="5" class="empty">Loading...</td></tr></tbody>
                     </table>
                 </div>
             </div>
