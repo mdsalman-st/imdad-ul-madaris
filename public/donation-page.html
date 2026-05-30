@@ -94,7 +94,8 @@
       <button type="submit" class="submit-btn" id="submitBtn">Proceed to Pay via UPI</button>
       
       <div id="postSubmitActions" style="display: none; text-align: center; margin-top: 20px;">
-        <p style="margin-bottom: 12px; font-size: 0.9rem; color: #475569;">If your UPI app didn't open automatically, <a href="#" id="upiFallbackLink" style="color: #0a5c2e; font-weight: 600;">click here</a>.</p>
+        <div id="qrcode" style="display:flex; justify-content:center; margin: 16px 0;"></div>
+        <p style="margin-bottom: 12px; font-size: 0.9rem; color: #475569;">Scan the QR code above with any UPI app to pay, or if you are on mobile, <a href="#" id="upiFallbackLink" style="color: #0a5c2e; font-weight: 600;">click here</a> to open UPI app directly.</p>
         <button type="button" class="submit-btn" id="paymentDoneBtn" style="background: #10b981;">I have completed the payment</button>
       </div>
     </form>
@@ -104,6 +105,7 @@
 <footer><p>&copy; 2026 Imdad ul Madaris &bull; 0% Platform Charges</p></footer>
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script src="config.js"></script>
 <script src="index.js"></script>
 <script src="donation-page.js"></script>

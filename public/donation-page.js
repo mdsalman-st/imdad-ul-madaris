@@ -152,6 +152,20 @@ document.addEventListener('DOMContentLoaded', () => {
   if (postSubmitDiv) postSubmitDiv.style.display = 'block';
   if (submitBtn) submitBtn.style.display = 'none';
 
+  // Generate QR Code
+  const qrContainer = document.getElementById('qrcode');
+  if (qrContainer && typeof QRCode !== 'undefined') {
+    qrContainer.innerHTML = '';
+    new QRCode(qrContainer, {
+      text: upiLink,
+      width: 180,
+      height: 180,
+      colorDark : "#0a5c2e",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H
+    });
+  }
+
   const doneBtn = document.getElementById('paymentDoneBtn');
   if (doneBtn) {
     doneBtn.style.display = 'inline-block';
@@ -166,9 +180,12 @@ document.addEventListener('DOMContentLoaded', () => {
     fallbackLink.style.display = 'inline-block';
   }
 
-  // UPI app ko open karo – 500ms delay taaki UI update ho jaye
-  setTimeout(() => {
-    window.location.href = upiLink;
-  }, 500);
+  // UPI app ko open karo sirf agar mobile device ho – 500ms delay taaki UI update ho jaye
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  if (isMobile) {
+    setTimeout(() => {
+      window.location.href = upiLink;
+    }, 500);
+  }
   });
 });
