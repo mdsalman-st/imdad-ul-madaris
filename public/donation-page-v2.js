@@ -144,14 +144,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const qrContainer = document.getElementById('qrcode');
   if (qrContainer && typeof QRCode !== 'undefined') {
     qrContainer.innerHTML = '';
-    new QRCode(qrContainer, {
-      text: upiLink,
-      width: 180,
-      height: 180,
-      colorDark : "#0a5c2e",
-      colorLight : "#ffffff",
-      correctLevel : QRCode.CorrectLevel.H
-    });
+    setTimeout(() => {
+      new QRCode(qrContainer, {
+        text: upiLink,
+        width: 180,
+        height: 180,
+        colorDark : "#0a5c2e",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
+    }, 100);
   }
 
   const doneBtn = document.getElementById('paymentDoneBtn');

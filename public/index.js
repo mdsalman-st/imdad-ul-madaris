@@ -232,7 +232,7 @@ function renderMadrasas() {
         window.openDonationModal(upi, name);
       } else {
         // ✅ Fixed security: redirect to donation form instead of raw UPI intent
-        location.href = `donation-page.html?name=${encodeURIComponent(name)}&upi=${encodeURIComponent(upi)}`;
+        location.href = `donation-page.html?v=${Date.now()}&name=${encodeURIComponent(name)}&upi=${encodeURIComponent(upi)}`;
       }
     };
   });
