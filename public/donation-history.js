@@ -60,7 +60,7 @@ function renderHistory(donations) {
   const userId = user ? (user.userId || user._id) : null;
 
   if (!user || !userId) {
-    tbody.innerHTML = '<tr><td colspan="4" class="empty">Please login to view history. <a href="auth.html">Login</a></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="5" class="empty">Please login to view history. <a href="auth.html">Login</a></td></tr>';
     return;
   }
 
@@ -72,8 +72,8 @@ function renderHistory(donations) {
     if (!res.ok) throw new Error(`Server error (${res.status})`);
 
     const data = await res.json();
-    renderDonations(tbody, data.donations || data || []);
+    renderHistory(data.donations || data || []);
   } catch (err) {
-    renderDonations(tbody, getLocalDonations(userId));
+    renderHistory(getLocalDonations(userId));
   }
 })();
