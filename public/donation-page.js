@@ -132,20 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
     status: 'Pending Verification'
   };
 
-  // POST request – no retry, taaki duplicate donation na ho
-  try {
-    await fetchAPI('/api/donations', {
-      method: 'POST',
-      body: JSON.stringify(donationData)
-    });
-    showToast('✅ Donation recorded! Opening UPI...');
-  } catch (err) {
-    // Offline fallback
-    const pending = JSON.parse(localStorage.getItem('imdad_pending_donations') || '[]');
-    pending.push(donationData);
-    localStorage.setItem('imdad_pending_donations', JSON.stringify(pending));
-    showToast('Network issue. Saved offline. Opening UPI...', true);
-  }
+  // We do NOT save to database here. We wait for user to click "I have completed payment"
+  showToast('Opening UPI for payment...');
 
   // UI update: hide submit button, show post-submit actions
   const postSubmitDiv = document.getElementById('postSubmitActions');
@@ -167,10 +155,37 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const doneBtn = document.getElementById('paymentDoneBtn');
+  const cancelBtn = document.getElementById('paymentCancelBtn');
+
+  if (cancelBtn) {
+    cancelBtn.onclick = () => {
+      showToast('Payment cancelled.');
+      setTimeout(() => location.reload(), 1000);
+    };
+  }
+
   if (doneBtn) {
     doneBtn.style.display = 'inline-block';
-    doneBtn.onclick = () => {
-      window.location.href = `ThankYouPage.html?madrasa=${encodeURIComponent(madrasaName)}&amount=${amount}&type=${type}&receipt=${timestamp}&status=pending`;
+    doneBtn.onclick = async () => {
+      doneBtn.disabled = true;
+      doneBtn.textContent = 'Verifying...';
+      if (cancelBtn) cancelBtn.style.display = 'none';
+      
+      let realReceiptNo = timestamp;
+      try {
+        const res = await fetchAPI('/api/donations', {
+          method: 'POST',
+          body: JSON.stringify(donationData)
+        });
+        if (res && res.receiptNo) realReceiptNo = res.receiptNo;
+      } catch (err) {
+        // Offline fallback
+        const pending = JSON.parse(localStorage.getItem('imdad_pending_donations') || '[]');
+        pending.push(donationData);
+        localStorage.setItem('imdad_pending_donations', JSON.stringify(pending));
+      }
+
+      window.location.href = `ThankYouPage.html?madrasa=${encodeURIComponent(madrasaName)}&amount=${amount}&type=${type}&receipt=${realReceiptNo}&status=pending`;
     };
   }
 
