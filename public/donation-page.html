@@ -38,6 +38,16 @@
 
     footer { text-align: center; padding: 24px 20px; color: #64748b; font-size: 0.8rem; margin-top: 32px; }
     .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 2000; padding: 12px 24px; border-radius: 30px; font-weight: 600; color: white; display: none; }
+    
+    .disclaimer-banner { background: #fffbeb; border: 1px solid #f59e0b; border-radius: 12px; padding: 10px 14px; margin-bottom: 18px; font-size: 0.72rem; color: #92400e; display: flex; gap: 8px; align-items: flex-start; }
+    .disclaimer-icon { flex-shrink: 0; }
+    .custom-amount-input { margin-top: 8px; }
+    .post-submit-actions { display: none; text-align: center; margin-top: 20px; }
+    .qr-container { display: flex; justify-content: center; margin: 16px 0; }
+    .fallback-text { margin-bottom: 12px; font-size: 0.9rem; color: #475569; }
+    .fallback-link { color: #0a5c2e; font-weight: 600; }
+    .btn-success { background: #10b981; }
+    .btn-danger { background: #ef4444; margin-top: 10px; }
   </style>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕌</text></svg>">
 </head>
@@ -46,7 +56,7 @@
 <div class="navbar">
   <a href="index.html" class="back-btn">← Back</a>
   <div class="logo">Imdad ul Madaris</div>
-  <button class="menu-btn" id="menuBtn">
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" title="Open menu">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
 </div>
@@ -58,8 +68,8 @@
     <p id="madrasaNeed">Need: loading...</p>
   </div>
 
-  <div style="background:#fffbeb;border:1px solid #f59e0b;border-radius:12px;padding:10px 14px;margin-bottom:18px;font-size:0.72rem;color:#92400e;display:flex;gap:8px;align-items:flex-start;">
-    <span style="flex-shrink:0;">⚠️</span>
+  <div class="disclaimer-banner">
+    <span class="disclaimer-icon">⚠️</span>
     <span>Donation directly Madrasa ke UPI par jati hai. Platform 0% commission leta hai. Ye ek self-reported system hai — aapki niyat (intention) par depend karta hai.</span>
   </div>
 
@@ -90,15 +100,15 @@
           <div class="amount-btn" data-amount="1001">₹1,001</div>
           <div class="amount-btn" data-amount="5001">₹5,001</div>
         </div>
-        <input type="number" id="customAmount" placeholder="Custom amount ₹" min="1" style="margin-top:8px;">
+        <input type="number" id="customAmount" placeholder="Custom amount ₹" min="1" class="custom-amount-input">
       </div>
       <button type="submit" class="submit-btn" id="submitBtn">Proceed to Pay via UPI</button>
       
-      <div id="postSubmitActions" style="display: none; text-align: center; margin-top: 20px;">
-        <div id="qrcode" style="display:flex; justify-content:center; margin: 16px 0;"></div>
-        <p style="margin-bottom: 12px; font-size: 0.9rem; color: #475569;">Scan the QR code above with any UPI app to pay, or if you are on mobile, <a href="#" id="upiFallbackLink" style="color: #0a5c2e; font-weight: 600;">click here</a> to open UPI app directly.</p>
-        <button type="button" class="submit-btn" id="paymentDoneBtn" style="background: #10b981;">I have completed the payment</button>
-        <button type="button" class="submit-btn" id="paymentCancelBtn" style="background: #ef4444; margin-top: 10px;">I did not complete payment</button>
+      <div id="postSubmitActions" class="post-submit-actions">
+        <div id="qrcode" class="qr-container"></div>
+        <p class="fallback-text">Scan the QR code above with any UPI app to pay, or if you are on mobile, <a href="#" id="upiFallbackLink" class="fallback-link">click here</a> to open UPI app directly.</p>
+        <button type="button" class="submit-btn btn-success" id="paymentDoneBtn">I have completed the payment</button>
+        <button type="button" class="submit-btn btn-danger" id="paymentCancelBtn">I did not complete payment</button>
       </div>
     </form>
   </div>
