@@ -47,6 +47,14 @@ async function checkPassword() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
         });
+
+        if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            document.getElementById('errorMsg').textContent = '❌ ' + (errorData.error || errorData.message || 'Invalid credentials');
+            document.getElementById('errorMsg').style.display = 'block';
+            return;
+        }
+
         const data = await res.json();
         if (data.success && data.token) {
             sessionStorage.setItem('admin_token', data.token);
