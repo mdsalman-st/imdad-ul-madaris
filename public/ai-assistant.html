@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IUM Logo - Imdadul Madaris & AI Brand Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Custom scrollbar for the AI response area */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(16, 185, 129, 0.3);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(16, 185, 129, 0.6);
+        }
+    </style>
+</head>
+
+<body class="bg-[#0a0a0a] min-h-screen flex flex-col items-center justify-start pt-12 pb-20 px-4 antialiased selection:bg-emerald-500 selection:text-white font-sans relative overflow-x-hidden">
+
+    <!-- Subtle background glows for that premium UI feel -->
+    <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-emerald-900/20 blur-[120px] pointer-events-none"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-cyan-900/20 blur-[120px] pointer-events-none"></div>
+
+    <!-- Logo Container -->
+    <div class="float-animation relative group cursor-pointer mb-12 z-10 w-full max-w-[500px]">
+        <!-- Subtle gradient glow behind the logo -->
+        <div class="absolute -inset-1.5 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-2xl blur-xl opacity-20 group-hover:opacity-50 transition duration-1000 group-hover:duration-300"></div>
+        
+        <div class="relative flex items-center justify-center bg-[#111827]/90 backdrop-blur-sm border border-gray-800 rounded-2xl shadow-2xl w-full overflow-hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 150" class="w-full h-auto block drop-shadow-xl">
+              <!-- Background Box is transparent here to let the CSS container show -->
+              <rect width="400" height="150" fill="transparent"/>
+            
+              <!-- Main IUM Logo -->
+              <text x="50%" y="55%" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="75" fill="#10B981" text-anchor="middle" dominant-baseline="middle" letter-spacing="8">
+                IUM
+              </text>
+            
+              <!-- Full Name Subtext -->
+              <text x="50%" y="82%" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="500" font-size="14" fill="#9CA3AF" text-anchor="middle" dominant-baseline="middle" letter-spacing="5">
+                IMDADUL MADARIS
+              </text>
+            </svg>
+        </div>
+    </div>
+
+    <!-- AI Brand Assistant Section (Glassmorphism) -->
+    <div class="w-full max-w-[700px] z-10 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-2xl flex flex-col gap-6">
+        
+        <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            </div>
+            <div>
+                <h3 class="text-white font-semibold tracking-wide">IUM AI Brand Strategist</h3>
+                <p class="text-gray-400 text-xs">Powered by Gemini API</p>
+            </div>
+        </div>
+
+        <!-- AI Output Area -->
+        <div id="ai-response-container" class="bg-black/40 rounded-2xl p-5 min-h-[120px] max-h-[300px] overflow-y-auto border border-white/5">
+            <p id="ai-response" class="text-gray-300 text-sm leading-relaxed">
+                Hello. I am the AI Brand Strategist for <span class="text-emerald-400 font-semibold">Imdadul Madaris (IUM)</span>. 
+                <br><br>
+                How can I assist you in developing our brand identity today? You can ask me to write a brand story, generate taglines, or define our visual aesthetics.
+            </p>
+        </div>
+
+        <!-- Quick Prompts -->
+        <div class="flex flex-wrap gap-2">
+            <button onclick="setPromptAndSubmit('Generate 3 premium, luxurious taglines for IUM.')" class="px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs text-gray-300 transition-all hover:text-emerald-400">✨ Suggest Taglines</button>
+            <button onclick="setPromptAndSubmit('Write a short, inspiring brand story for Imdadul Madaris.')" class="px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs text-gray-300 transition-all hover:text-emerald-400">📖 Brand Story</button>
+            <button onclick="setPromptAndSubmit('Describe a social media post showcasing our new emerald green and matte black logo.')" class="px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs text-gray-300 transition-all hover:text-emerald-400">📱 Social Media Idea</button>
+        </div>
+
+        <!-- Input Area -->
+        <div class="flex gap-3 relative">
+            <input type="text" id="ai-prompt" placeholder="Ask the AI about the brand..." 
+                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 transition-all"
+                onkeypress="handleKeyPress(event)">
+            
+            <button id="generate-btn" onclick="generateAIContent()" class="bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white px-6 py-3 rounded-xl text-sm font-semibold shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center min-w-[120px]">
+                <span>Generate</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const apiKey = ""; // PLEASE ADD YOUR GEMINI API KEY HERE
+        const apiUrl = \`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=\${apiKey}\`;
+
+        // System instructions to guide the AI's persona
+        const systemPrompt = \`You are an elite, premium brand strategist for 'IUM - Imdadul Madaris'. 
+        Your tone is luxurious, professional, sophisticated, and deeply respectful (especially given 'Madaris' refers to educational/Islamic institutions). 
+        Format your responses beautifully using HTML tags like <strong>, <em>, <ul>, <li>, and <br>. 
+        Keep your responses concise and impactful.\`;
+
+        const responseBox = document.getElementById('ai-response');
+        const promptInput = document.getElementById('ai-prompt');
+        const generateBtn = document.getElementById('generate-btn');
+
+        function setPromptAndSubmit(text) {
+            promptInput.value = text;
+            generateAIContent();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                generateAIContent();
+            }
+        }
+
+        async function generateAIContent() {
+            const query = promptInput.value.trim();
+            if (!query) return;
+            
+            if (!apiKey) {
+                responseBox.innerHTML = \`<div class="text-yellow-400 text-sm"><p><strong>API Key Missing.</strong> Please add your Gemini API Key in the code (line ~92) to make this work.</p></div>\`;
+                return;
+            }
+
+            // Set loading state
+            promptInput.disabled = true;
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = \`
+                <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            \`;
+            
+            responseBox.innerHTML = \`
+                <div class="flex items-center gap-2 text-emerald-400">
+                    <div class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></div>
+                    <span class="text-sm">Synthesizing brand strategy...</span>
+                </div>
+            \`;
+
+            const payload = {
+                contents: [{ parts: [{ text: query }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates[0] && result.candidates[0].content) {
+                    let aiText = result.candidates[0].content.parts[0].text;
+                    
+                    // Display the generated text
+                    responseBox.innerHTML = \`<div class="text-gray-200 text-sm leading-relaxed space-y-3">\${aiText}</div>\`;
+                } else {
+                    throw new Error(result.error?.message || "Unexpected response structure");
+                }
+            } catch (error) {
+                console.error("API Error:", error);
+                responseBox.innerHTML = \`
+                    <div class="text-red-400 text-sm">
+                        <p><strong>Connection Interrupted.</strong> Unable to reach the AI engine.</p>
+                        <p class="text-xs mt-1 text-gray-500">\${error.message}</p>
+                    </div>\`;
+            } finally {
+                // Reset UI state
+                promptInput.disabled = false;
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = \`<span>Generate</span>\`;
+                promptInput.value = ''; // Clear input
+                promptInput.focus();
+            }
+        }
+    </script>
+</body>
+</html>
