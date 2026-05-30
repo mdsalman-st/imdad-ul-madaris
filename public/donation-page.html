@@ -105,8 +105,15 @@
       <button type="submit" class="submit-btn" id="submitBtn">Proceed to Pay via UPI</button>
       
       <div id="postSubmitActions" class="post-submit-actions">
+        <h4 style="color:#0a5c2e; margin-bottom:10px;">Payment Options</h4>
         <div id="qrcode" class="qr-container"></div>
-        <p class="fallback-text">Scan the QR code above with any UPI app to pay, or if you are on mobile, <a href="#" id="upiFallbackLink" class="fallback-link">click here</a> to open UPI app directly.</p>
+        <p class="fallback-text" style="margin-bottom: 16px;">Scan the QR code with any UPI app.</p>
+        
+        <a href="#" id="upiFallbackLink" class="submit-btn" style="background: #0a5c2e; text-decoration: none; display: none; margin-bottom: 20px;">📱 Open UPI App on this phone</a>
+        
+        <hr style="border-top: 1px dashed #cbd5e1; border-bottom: none; border-left: none; border-right: none; margin: 16px 0;">
+        
+        <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 8px;">After payment is successful:</p>
         <button type="button" class="submit-btn btn-success" id="paymentDoneBtn">I have completed the payment</button>
         <button type="button" class="submit-btn btn-danger" id="paymentCancelBtn">I did not complete payment</button>
       </div>

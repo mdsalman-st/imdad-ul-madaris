@@ -195,12 +195,10 @@ document.addEventListener('DOMContentLoaded', () => {
     fallbackLink.style.display = 'inline-block';
   }
 
-  // UPI app ko open karo sirf agar mobile device ho – 500ms delay taaki UI update ho jaye
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   if (isMobile) {
-    setTimeout(() => {
-      window.location.href = upiLink;
-    }, 500);
+    const fallbackLink = document.getElementById('upiFallbackLink');
+    if (fallbackLink) fallbackLink.style.display = 'inline-block';
   }
   });
 });
