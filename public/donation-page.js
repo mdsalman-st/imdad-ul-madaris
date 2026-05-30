@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Validation
   if (!name) return showToast('Enter your name', true);
-  if (!/^\d{10,15}$/.test(phone)) return showToast('Enter valid phone number (10-15 digits)', true);
+  if (phone && !/^\+?[\d\s\-]{10,15}$/.test(phone.replace(/\s+/g, ''))) return showToast('Enter valid phone number', true);
   if (!type) return showToast('Select donation type', true);
   if (!amount || amount <= 0) return showToast('Enter valid amount', true);
   if (!madrasaUpi || !/^[\w.\-]{2,}@[\w]{2,}$/.test(madrasaUpi)) return showToast('Invalid UPI ID format', true);
@@ -192,12 +192,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const fallbackLink = document.getElementById('upiFallbackLink');
   if (fallbackLink) {
     fallbackLink.href = upiLink;
-    fallbackLink.style.display = 'inline-block';
   }
 
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   if (isMobile) {
-    const fallbackLink = document.getElementById('upiFallbackLink');
     if (fallbackLink) fallbackLink.style.display = 'inline-block';
   }
   });
