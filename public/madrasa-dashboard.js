@@ -176,7 +176,12 @@ async function loadDashboard(userId) {
         : 'px-3 py-1 rounded-full text-xs font-bold bg-yellow-400/20 text-yellow-300';
     }
 
-    if (data.upiId) loadDonations(data.upiId);
+    if (data.upiId) {
+      loadDonations(data.upiId);
+    } else {
+      const list = document.getElementById('donationsList');
+      if (list) list.innerHTML = '<p style="text-align:center;padding:30px;color:#ea580c;font-weight:600;">⚠️ Please update your UPI ID in the Profile tab to receive and view donations.</p>';
+    }
     loadNeeds(userId);
     loadMyBooks();
     fillProfile(data);
@@ -197,7 +202,7 @@ async function loadDonations(upiId) {
     if (el) el.textContent = '₹' + total.toLocaleString('en-IN');
 
     if (!donations.length) {
-      list.innerHTML = '<p style="text-align:center;padding:20px;">No donations yet</p>';
+      list.innerHTML = '<p style="text-align:center;padding:20px;">No donations yet.</p>';
       return;
     }
 
@@ -228,12 +233,17 @@ async function loadNeeds(userId) {
     const needs = await fetchGET(`${API_BASE}/api/needs/madrasa/${userId}`);
     if (countEl) countEl.textContent = needs.length;
     if (needsCountSpan) needsCountSpan.textContent = needs.length + ' needs listed';
+    
+    window.cachedNeeds = needs; // Cache for edit modal
+
     if (!needs.length) {
       grid.innerHTML = '<p style="text-align:center;padding:40px;">📝 No needs yet.</p>';
+      const preview = document.getElementById('needsPreview');
+      if (preview) preview.innerHTML = '<p class="text-gray-500 text-sm">No needs added yet.</p>';
       return;
     }
 
-    grid.innerHTML = needs.map(n => {
+    const html = needs.map(n => {
       const cls = n.urgencyLevel >= 80 ? 'critical' : n.urgencyLevel >= 50 ? 'high' : 'normal';
       const statusColor = n.status === 'Fulfilled' ? '#16a34a' : '#ea580c';
       return `<div class="need-card ${cls}" style="position:relative;">
@@ -243,40 +253,86 @@ async function loadNeeds(userId) {
         </div>
         <span class="badge">${getEmoji(n.category)} ${escapeHTML(n.category)}</span>
         <span style="font-size:0.75rem;margin-left:8px;color:${statusColor};">• ${n.status}</span>
-        <h4 style="font-weight:700;">${escapeHTML(n.title)}</h4>
-        <p style="font-size:0.85rem;">${escapeHTML(n.description || '')}</p>
+        <h4 style="font-weight:700;margin-top:6px;">${escapeHTML(n.title)}</h4>
+        <p style="font-size:0.85rem;color:#475569;">${escapeHTML(n.description || '')}</p>
         <div class="urgency-bar"><div class="urgency-fill ${cls}" style="width:${n.urgencyLevel}%"></div></div>
-        <div style="display:flex;justify-content:space-between;">
+        <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-top:4px;">
           <span>Urgency: ${n.urgencyLevel}%</span>
           <span style="font-weight:700;color:#0a5c2e;">₹${n.cost || 0}</span>
         </div>
-        <button onclick="toggleNeedStatus('${n._id}', '${n.status}')" style="margin-top:8px;font-size:0.75rem;">
-          ${n.status === 'Fulfilled' ? 'Mark Active' : 'Mark Fulfilled'}
+        <button onclick="toggleNeedStatus('${n._id}', '${n.status}')" style="margin-top:12px;font-size:0.75rem;padding:6px 12px;border-radius:6px;background:${n.status==='Fulfilled'?'#fef2f2':'#f0fdf4'};color:${n.status==='Fulfilled'?'#ef4444':'#16a34a'};border:none;cursor:pointer;font-weight:600;width:100%;">
+          ${n.status === 'Fulfilled' ? 'Mark as Active' : 'Mark as Fulfilled'}
         </button>
       </div>`;
     }).join('');
+    
+    grid.innerHTML = html;
+    
+    const preview = document.getElementById('needsPreview');
+    if (preview) {
+      preview.innerHTML = `<div class="grid grid-cols-1 gap-3">${
+        needs.slice(0, 3).map(n => `
+          <div class="flex justify-between items-center p-3 border rounded-lg bg-gray-50">
+            <div>
+              <p class="font-bold text-sm text-gray-800">${getEmoji(n.category)} ${escapeHTML(n.title)}</p>
+              <p class="text-xs text-gray-500">${n.status}</p>
+            </div>
+            <p class="font-bold text-green-700">₹${n.cost}</p>
+          </div>
+        `).join('')
+      }</div>
+      ${needs.length > 3 ? `<button onclick="switchTab('needsTab')" class="text-sm text-green-700 font-bold mt-3 hover:underline">View all ${needs.length} needs &rarr;</button>` : ''}`;
+    }
   } catch (e) {
     grid.innerHTML = '<p style="text-align:center;color:#ef4444;">Failed to load needs</p>';
   }
 }
 
 function getEmoji(c) {
-  const e = { Food:'🍲', Clothes:'👕', Books:'📚', Building:'🏗️', Salary:'💼', Medical:'🏥' };
+  const e = { Food:'🍲', Clothes:'👕', Books:'📚', Building:'🏗️', Salary:'💼', Medical:'🏥', Water:'💧', Electricity:'⚡', Bedding:'🛏️', Ramzan:'🌙' };
   return e[c] || '📦';
 }
 
-window.editNeed = async (needId) => {
-  const newTitle = prompt("New title:"); if (!newTitle) return;
-  const newDesc = prompt("New description:");
-  const newCost = prompt("New cost ₹:");
+window.closeEditNeedModal = () => {
+  document.getElementById('editNeedModal')?.classList.remove('active');
+};
+
+window.editNeed = (needId) => {
+  if (!window.cachedNeeds) return;
+  const need = window.cachedNeeds.find(n => n._id === needId);
+  if (!need) return;
+  
+  document.getElementById('editNeedId').value = need._id;
+  document.getElementById('editNeedTitle').value = need.title || '';
+  document.getElementById('editNeedCost').value = need.cost || 0;
+  document.getElementById('editNeedDescription').value = need.description || '';
+  
+  document.getElementById('editNeedModal').classList.add('active');
+};
+
+document.getElementById('editNeedForm')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const needId = document.getElementById('editNeedId').value;
+  const newTitle = document.getElementById('editNeedTitle').value;
+  const newCost = document.getElementById('editNeedCost').value;
+  const newDesc = document.getElementById('editNeedDescription').value;
+  
+  const btn = document.getElementById('updateNeedBtn');
+  btn.textContent = 'Updating...'; btn.disabled = true;
+  
   try {
     await fetchMutation(`${API_BASE}/api/needs/${needId}`, 'PUT', JSON.stringify({
       title: newTitle, description: newDesc || '', cost: parseInt(newCost) || 0
     }));
     showToast('✅ Need updated!');
+    closeEditNeedModal();
     loadNeeds(window.getImdadUserId(getUser()));
-  } catch (err) { showToast(err.message, true); }
-};
+  } catch (err) { 
+    showToast(err.message, true); 
+  } finally {
+    btn.textContent = '✅ Update'; btn.disabled = false;
+  }
+});
 
 window.deleteNeed = async (needId) => {
   if (!confirm('Delete this need?')) return;

@@ -59,6 +59,18 @@
         .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:2000;padding:14px 28px;border-radius:40px;font-weight:600;font-size:.9rem;box-shadow:0 10px 30px rgba(0,0,0,.2);display:none}
         #mobileOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:40}
         
+        .need-card{background:#fff;border-radius:16px;padding:20px;border:1px solid #f1f5f9;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:.2s}
+        .need-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px)}
+        .need-card.critical{border-left:4px solid #ef4444}
+        .need-card.high{border-left:4px solid #f59e0b}
+        .need-card.normal{border-left:4px solid #3b82f6}
+        .badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:700;background:#f1f5f9;color:#475569}
+        .urgency-bar{height:6px;background:#e2e8f0;border-radius:3px;margin:12px 0 6px;overflow:hidden}
+        .urgency-fill{height:100%;border-radius:3px;transition:width .5s ease}
+        .urgency-fill.critical{background:#ef4444}
+        .urgency-fill.high{background:#f59e0b}
+        .urgency-fill.normal{background:#3b82f6}
+
         @media(max-width:768px){.sidebar{transform:translateX(-100%);width:280px}.sidebar.open{transform:translateX(0)}.stat-number{font-size:1.4rem}}
     </style>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕌</text></svg>">
@@ -144,11 +156,6 @@
                 <button onclick="openAddNeedModal()" class="btn-primary">+ Add New Need</button>
             </div>
             <div id="needsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            <div class="card mt-4">
-                <div id="fullNeedsList" class="space-y-3">
-                    <p class="text-gray-400 text-sm italic">No needs listed yet...</p>
-                </div>
-            </div>
         </div>
 
         <!-- Donations Tab -->
@@ -232,13 +239,17 @@
         <form id="addNeedForm" class="space-y-3">
             <input type="text" id="needTitle" class="input-field" placeholder="Title *" required>
             <select id="needCategory" class="input-field">
-                <option value="Food">🍲 Food</option>
+                <option value="Food">🍲 Food & Ration</option>
                 <option value="Clothes">👕 Clothes</option>
-                <option value="Books">📚 Books</option>
-                <option value="Building">🏗️ Building</option>
-                <option value="Salary">💼 Salary</option>
-                <option value="Medical">🏥 Medical</option>
-                <option value="Other">📦 Other</option>
+                <option value="Books">📚 Books & Stationaries</option>
+                <option value="Building">🏗️ Building / Construction</option>
+                <option value="Salary">💼 Teachers Salary</option>
+                <option value="Medical">🏥 Medical / Emergency</option>
+                <option value="Water">💧 Water / Handpump</option>
+                <option value="Electricity">⚡ Electricity Bill</option>
+                <option value="Bedding">🛏️ Bedding / Chatai</option>
+                <option value="Ramzan">🌙 Ramzan Iftar / Sehri</option>
+                <option value="Other">📦 Other Needs</option>
             </select>
             <input type="number" id="needCost" class="input-field" placeholder="Cost (₹)" required>
             <textarea id="needDescription" class="input-field" placeholder="Description (optional)" rows="3"></textarea>
@@ -247,6 +258,23 @@
             <div class="flex gap-2">
                 <button type="submit" id="saveNeedBtn" class="btn-primary flex-1">✅ Save Need</button>
                 <button type="button" onclick="closeAddNeedModal()" class="btn-outline">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Need Modal -->
+<div class="modal" id="editNeedModal">
+    <div class="modal-content">
+        <h3 class="text-xl font-bold mb-4">Edit Need</h3>
+        <form id="editNeedForm" class="space-y-3">
+            <input type="hidden" id="editNeedId">
+            <input type="text" id="editNeedTitle" class="input-field" placeholder="Title *" required>
+            <input type="number" id="editNeedCost" class="input-field" placeholder="Cost (₹)" required>
+            <textarea id="editNeedDescription" class="input-field" placeholder="Description" rows="3"></textarea>
+            <div class="flex gap-2">
+                <button type="submit" id="updateNeedBtn" class="btn-primary flex-1">✅ Update</button>
+                <button type="button" onclick="closeEditNeedModal()" class="btn-outline">Cancel</button>
             </div>
         </form>
     </div>

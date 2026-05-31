@@ -265,13 +265,28 @@ async function loadContacts() {
         const contacts = await res.json();
         document.getElementById('messagesBadge').textContent = contacts.length + ' Messages';
         if (!contacts.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">📭 No messages yet.</td></tr>'; return; }
-        tbody.innerHTML = contacts.map(c => `<tr><td style="font-size:0.75rem;">${new Date(c.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</td><td>${escapeHTML(c.name||'--')}</td><td>${escapeHTML(c.email||'--')}</td><td>${escapeHTML(c.phone||'--')}</td><td>${escapeHTML(c.subject||'--')}</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">${escapeHTML(c.message||'--')}</td><td><button class="btn btn-view" onclick="viewMessage('${escapeAttr(c.message||'')}','${escapeAttr(c.name||'')}','${escapeAttr(c.subject||'')}')">👁 View</button></td></tr>`).join('');
+        tbody.innerHTML = contacts.map(c => `<tr><td style="font-size:0.75rem;">${new Date(c.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</td><td>${escapeHTML(c.name||'--')}</td><td>${escapeHTML(c.email||'--')}</td><td>${escapeHTML(c.phone||'--')}</td><td>${escapeHTML(c.subject||'--')}</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">${escapeHTML(c.message||'--')}</td><td><button class="btn btn-view" onclick="viewMessage('${escapeAttr(c.message||'')}','${escapeAttr(c.name||'')}','${escapeAttr(c.subject||'')}','${escapeAttr(c.email||'')}','${escapeAttr(c.phone||'')}')">👁 View</button></td></tr>`).join('');
     } catch (err) { tbody.innerHTML = '<tr><td colspan="7" class="empty">❌ Failed</td></tr>'; }
 }
 
-window.viewMessage = function(message, name, subject) {
+window.viewMessage = function(message, name, subject, email, phone) {
     const safeName = escapeHTML(name), safeSubject = escapeHTML(subject), safeMessage = escapeHTML(message);
-    createModal(`<div class="modal-content" style="max-width:500px;"><div class="modal-header"><h3>📧 ${safeSubject||'Message'}</h3><button class="modal-close">✕ Close</button></div><p style="font-weight:600;color:#0a5c2e;">From: ${safeName||'Unknown'}</p><hr style="margin:12px 0;"><p style="color:#334155;line-height:1.6;">${safeMessage||'No content.'}</p></div>`);
+    let html = `<div class="modal-content" style="max-width:500px;"><div class="modal-header"><h3>📧 ${safeSubject||'Message'}</h3><button class="modal-close">✕ Close</button></div><p style="font-weight:600;color:#0a5c2e;">From: ${safeName||'Unknown'}</p><hr style="margin:12px 0;"><p style="color:#334155;line-height:1.6;white-space:pre-wrap;">${safeMessage||'No content.'}</p><hr style="margin:12px 0;"><div style="display:flex;gap:10px;margin-top:15px;">`;
+    
+    if (phone && phone !== '--') {
+        const waMsg = encodeURIComponent("Hello " + safeName + ", regarding your message about: " + safeSubject + "...\n\n");
+        let num = phone.replace(/[^\d+]/g, '');
+        if (num.startsWith('0')) num = '91' + num.substring(1);
+        if (!num.startsWith('+')) num = '+' + num;
+        html += `<a href="https://wa.me/${num.replace('+','')}?text=${waMsg}" target="_blank" style="flex:1;text-align:center;background:#25D366;color:white;padding:10px;border-radius:8px;text-decoration:none;font-weight:bold;">💬 WhatsApp</a>`;
+    }
+    
+    if (email && email !== '--') {
+        html += `<a href="mailto:${email}?subject=Re: ${encodeURIComponent(safeSubject)}" style="flex:1;text-align:center;background:#ea4335;color:white;padding:10px;border-radius:8px;text-decoration:none;font-weight:bold;">✉️ Email</a>`;
+    }
+    
+    html += `</div></div>`;
+    createModal(html);
 };
 
 // ✅ BOOKS SECTION
