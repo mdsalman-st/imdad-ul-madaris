@@ -48,7 +48,28 @@
         .error-msg { color: red; display: none; margin-top: 10px; font-weight: bold; }
         .d-none { display: none; }
         .badge-text { font-size: 0.8rem; }
-        .table-responsive { overflow-x: auto; }
+        .table-responsive { overflow-x: auto; width: 100%; }
+        
+        /* Toast Notification */
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #0a5c2e; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 2000; opacity: 0; visibility: hidden; transition: 0.3s; }
+        .toast.show { opacity: 1; visibility: visible; }
+        .toast.error { background: #ef4444; }
+
+        /* Modal Styles */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 2000; padding: 20px; }
+        .modal-content { background: white; padding: 24px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; }
+        .modal-close { background: #f1f5f9; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; color: #475569; }
+        .modal-close:hover { background: #e2e8f0; }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            .header { flex-direction: column; gap: 15px; text-align: center; }
+            .header > div { flex-direction: column; }
+            #addBookForm { grid-template-columns: 1fr !important; }
+            .stat-card { padding: 15px; }
+            .section { padding: 15px; }
+        }
     </style>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕌</text></svg>">
 </head>
@@ -119,18 +140,22 @@
 
             <div class="section">
                 <h2>📋 All Madrasas</h2>
-                <table>
-                    <thead><tr><th>Name</th><th>District</th><th>Phone</th><th>Status</th><th>Docs</th></tr></thead>
-                    <tbody id="allMadrasasList"></tbody>
-                </table>
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>Name</th><th>District</th><th>Phone</th><th>Status</th><th>Docs</th></tr></thead>
+                        <tbody id="allMadrasasList"></tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="section">
                 <h2>💰 Recent Donations</h2>
-                <table>
-                    <thead><tr><th>Receipt</th><th>Donor</th><th>Madrasa</th><th>Amount</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
-                    <tbody id="donationsList"></tbody>
-                </table>
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>Receipt</th><th>Donor</th><th>Madrasa</th><th>Amount</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+                        <tbody id="donationsList"></tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- ✅ Ask Mufti Questions -->
@@ -201,6 +226,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Toast Container -->
+    <div id="toast" class="toast"></div>
 
     <script src="admin-panel.js"></script>
 </body>

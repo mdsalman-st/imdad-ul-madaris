@@ -11,6 +11,16 @@ function escapeAttr(str) {
     return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+function showToast(msg, isError = false) {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = msg;
+    if (isError) toast.classList.add('error');
+    else toast.classList.remove('error');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
 function createModal(innerHTML) {
     const modal = document.createElement('div');
     modal.className = 'modal';
@@ -342,5 +352,5 @@ async function approveMadrasa(id) {
 async function rejectMadrasa(id) {
     const reason = prompt('❌ Reason:');
     if (!reason) return;
-    try { await fetch(`${API_BASE}/api/admin/reject/${id}`,{method:'PUT', headers: getAuthHeaders()}); alert('❌ Rejected.'); loadAllData(); } catch (err) { alert('❌ Error'); }
+    try { await fetch(`${API_BASE}/api/admin/reject/${id}`,{method:'PUT', headers: getAuthHeaders(), body: JSON.stringify({ reason })}); alert('❌ Rejected.'); loadAllData(); } catch (err) { alert('❌ Error'); }
 }
